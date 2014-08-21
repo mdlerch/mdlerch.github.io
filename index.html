@@ -36,8 +36,6 @@
 	<ul class="nav nav-pills pull-right">
             <li><a href="http://mdlerch.com/pages/about.html">About</a></li>
             <li><a href="http://mdlerch.com/pages/projects.html">Projects</a></li>
-	    <li >
-	      <a href="http://mdlerch.com/category/vim.html ">vim</a>
 	</ul>
       </div>
     </div> <!-- End of fluid row-->
@@ -51,106 +49,7 @@
         <div class="span10">
         
 
-        
-
-    <div class='row-fluid''>
-        <div class="article-title span9">
-            <a href="http://mdlerch.com/increment-or-decrement-visual-selection-in-vim.html"><h1>Increment or decrement visual selection in vim</h1></a>
-        </div>
-    </div>
-    <div class="row-fluid">
-      <div class="span2">
-<p>21 August 2014 </p>
-
-<p style="text-align: left;">
-Filed under <a href="http://mdlerch.com/category/vim.html">vim</a>
-</p>
-<p style="text-align: left;">
  
-    Tags <a href="http://mdlerch.com/tag/vim.html">vim</a> </p>
-<p>
-<a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="mdlerch">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-</p>
-      </div>
-      <div class="article-content span8">
-	<p>vim can increment and decrement digits under the cursor with the <code>&lt;C-A&gt;</code>
-<code>&lt;C-X&gt;</code> bindings, respectively.  Go try it out and then come back.</p>
-<p>Now that you are back, let's extend this functionality to visual
-selections.  First let's learn a command you can find in <code>:help submatch</code>.</p>
-<div class="highlight"><pre><span class="p">:</span><span class="k">s</span><span class="sr">/\d+/</span>\<span class="p">=</span>submatch<span class="p">(</span><span class="m">0</span><span class="p">)+</span><span class="m">1</span>/
-</pre></div>
-
-
-<p>This is a type of substitution called sub-replace-expression.  A normal
-substitution looks like <code>:s/{pattern}/{string}/</code> and replaces <code>{pattern}</code>
-with <code>{string}</code>.  Here we have the <code>\=</code> changes the <code>{string}</code> part to an
-expression to be evaluated.  Our pattern in this case is <code>\d+</code>.  The <code>\d</code>
-matches a digit and the <code>+</code> says to match one or more digit so something like
-<code>555</code> is matched once and not 3 times.</p>
-<p>So what our sub-replace-expression is going to do is find a number and then
-substitute it with the evaluation of <code>submatch(0)+1</code>.  <code>submatch(0)</code> simply
-returns the matched text (ie the <code>\d+</code>).  The <code>+1</code> adds one to it!</p>
-<p>Of course, this only operates on the first occurrence of <code>\d+</code> in the current
-line.  We can make this operate on every <code>\d+</code> on a line with the <code>g</code> flag for
-<code>:s</code></p>
-<div class="highlight"><pre><span class="p">:</span><span class="k">s</span><span class="sr">/\d+/</span>\<span class="p">=</span>submatch<span class="p">(</span><span class="m">0</span><span class="p">)+</span><span class="m">1</span>/<span class="k">g</span>
-</pre></div>
-
-
-<p>Go ahead and give that a try.</p>
-<p>It feels like we are close now.  This won't work quite right, but at this
-point you might be tempted to add this mapping to your vimrc</p>
-<div class="highlight"><pre><span class="nb">vnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">a</span><span class="p">&gt;</span> :<span class="k">s</span><span class="sr">/\d+/</span>\<span class="p">=</span>submatch<span class="p">(</span><span class="m">0</span><span class="p">)+</span><span class="m">1</span>/<span class="k">g</span>
-</pre></div>
-
-
-<p>What we <em>want</em> this to do is to increment all numbers in a visual selection.
-It does do that, but it does something else as well.  Can you figure out
-what's going wrong?</p>
-<p>The problem is that the way substitute works on visual selections (ie
-<code>:'&lt;,'&gt;s</code> is to operate on the whole line that contains the visual selection
-so if you select only some of the numbers on a line, the numbers on the line
-that are not selected will also be incremented.  We can fix this by adding
-something to the <code>{pattern}</code>.  We want to match not just digits but digits
-that are in the visual selection.  We can do that with <code>\%V</code></p>
-<div class="highlight"><pre><span class="nb">vnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">a</span><span class="p">&gt;</span> :<span class="k">s</span><span class="sr">/\%V\d+/</span>\<span class="p">=</span>submatch<span class="p">(</span><span class="m">0</span><span class="p">)+</span><span class="m">1</span>/<span class="k">g</span>
-</pre></div>
-
-
-<p>Now we are getting pretty close.  There's one problem here depending on the
-exact behavior that you want.  What about negative values?  Do you want -6 to
-increment to -5 or to increment to -7?  Personally, I want it to increment to
--5.  If you do, too, we have to add even more to our <code>{pattern}</code> to include
-negative signs along with our digit.  What we need to do is add, in front of
-the <code>\d+</code> either 0 or 1 <code>-</code>'s.  To say 0 or 1, we use <code>\=</code> in our pattern.  In
-the pattern, <code>\=</code> means 0 or 1.  In the replacement string, <code>\=</code> means
-evaluate an expression.</p>
-<p>So here's our final mapping:</p>
-<div class="highlight"><pre><span class="nb">vnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">a</span><span class="p">&gt;</span> :<span class="k">s</span><span class="sr">/\%V-\=\d+/</span>\<span class="p">=</span>submatch<span class="p">(</span><span class="m">0</span><span class="p">)+</span><span class="m">1</span>/<span class="k">g</span>
-</pre></div>
-
-
-<p>To decrement, just subtract 1 instead of adding.  How's this mapping working
-for you?</p> 
-	<a class="btn btn-mini xsmall" href="http://mdlerch.com/increment-or-decrement-visual-selection-in-vim.html">
-          <i class="icon-comment"></i> Comment </a>
-	<hr />
-      </div>
-      
-    </div>
-    
-<div class="pagination">
-<ul>
-    <li class="prev disabled"><a href="#">&larr; Previous</a></li>
-
-    <li class="active"><a href="http://mdlerch.com/index.html">1</a></li>
-
-    <li class="next disabled"><a href="#">&rarr; Next</a></li>
-
-</ul>
-</div>
- 
-  
         </div>
         
         
