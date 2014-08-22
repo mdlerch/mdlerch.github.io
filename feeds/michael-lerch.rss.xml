@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>mdlerch</title><link>http://mdlerch.com/</link><description></description><atom:link href="http://mdlerch.com/feeds/michael-lerch.rss.xml" rel="self"></atom:link><lastBuildDate>Thu, 21 Aug 2014 09:16:07 -0600</lastBuildDate><item><title>Increment or decrement visual selection in vim</title><link>http://mdlerch.com/increment-or-decrement-visual-selection-in-vim.html</link><description>&lt;p&gt;vim can increment and decrement digits under the cursor with the &lt;code&gt;&amp;lt;C-A&amp;gt;&lt;/code&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>mdlerch</title><link>http://mdlerch.com/</link><description></description><atom:link href="http://mdlerch.com/feeds/michael-lerch.rss.xml" rel="self"></atom:link><lastBuildDate>Thu, 21 Aug 2014 19:44:08 -0600</lastBuildDate><item><title>Increment or decrement visual selection in vim</title><link>http://mdlerch.com/increment-or-decrement-visual-selection-in-vim.html</link><description>&lt;p&gt;vim can increment and decrement digits under the cursor with the &lt;code&gt;&amp;lt;C-A&amp;gt;&lt;/code&gt;
 &lt;code&gt;&amp;lt;C-X&amp;gt;&lt;/code&gt; bindings, respectively.  Go try it out and then come back.&lt;/p&gt;
 &lt;p&gt;Now that you are back, let's extend this functionality to visual
 selections.  First let's learn a command you can find in &lt;code&gt;:help submatch&lt;/code&gt;.&lt;/p&gt;
@@ -56,5 +56,5 @@ evaluate an expression.&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;To decrement, just subtract 1 instead of adding.  How's this mapping working
-for you?&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Michael Lerch</dc:creator><pubDate>Thu, 21 Aug 2014 09:16:07 -0600</pubDate><guid>tag:mdlerch.com,2014-08-21:increment-or-decrement-visual-selection-in-vim.html</guid><category>vim</category></item></channel></rss>
+&lt;p&gt;To decrement, just subtract 1 instead of adding.  Have you added this mapping
+to your vimrc?  Have you made it better?&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Michael Lerch</dc:creator><pubDate>Thu, 21 Aug 2014 19:44:08 -0600</pubDate><guid>tag:mdlerch.com,2014-08-21:increment-or-decrement-visual-selection-in-vim.html</guid><category>vim</category></item></channel></rss>

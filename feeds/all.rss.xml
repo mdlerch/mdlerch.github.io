@@ -1,2 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>mdlerch</title><link>http://mdlerch.com/</link><description></description><atom:link href="http://mdlerch.com/feeds/all.rss.xml" rel="self"></atom:link><lastBuildDate>Thu, 21 Aug 2014 17:33:49 -0000</lastBuildDate></channel></rss>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>mdlerch</title><link>http://mdlerch.com/</link><description></description><atom:link href="http://mdlerch.com/feeds/all.rss.xml" rel="self"></atom:link><lastBuildDate>Thu, 21 Aug 2014 19:44:08 -0600</lastBuildDate><item><title>Increment or decrement visual selection in vim</title><link>http://mdlerch.com/increment-or-decrement-visual-selection-in-vim.html</link><description>&lt;p&gt;vim can increment and decrement digits under the cursor with the &lt;code&gt;&amp;lt;C-A&amp;gt;&lt;/code&gt;
+&lt;code&gt;&amp;lt;C-X&amp;gt;&lt;/code&gt; bindings, respectively.  Go try it out and then come back.&lt;/p&gt;
+&lt;p&gt;Now that you are back, let's extend this functionality to visual
+selections.  First let's learn a command you can find in &lt;code&gt;:help submatch&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/\d+/&lt;/span&gt;\&lt;span class="p"&gt;=&lt;/span&gt;submatch&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)+&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;/
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This is a type of substitution called sub-replace-expression.  A normal
+substitution looks like &lt;code&gt;:s/{pattern}/{string}/&lt;/code&gt; and replaces &lt;code&gt;{pattern}&lt;/code&gt;
+with &lt;code&gt;{string}&lt;/code&gt;.  Here we have the &lt;code&gt;\=&lt;/code&gt; changes the &lt;code&gt;{string}&lt;/code&gt; part to an
+expression to be evaluated.  Our pattern in this case is &lt;code&gt;\d+&lt;/code&gt;.  The &lt;code&gt;\d&lt;/code&gt;
+matches a digit and the &lt;code&gt;+&lt;/code&gt; says to match one or more digit so something like
+&lt;code&gt;555&lt;/code&gt; is matched once and not 3 times.&lt;/p&gt;
+&lt;p&gt;So what our sub-replace-expression is going to do is find a number and then
+substitute it with the evaluation of &lt;code&gt;submatch(0)+1&lt;/code&gt;.  &lt;code&gt;submatch(0)&lt;/code&gt; simply
+returns the matched text (ie the &lt;code&gt;\d+&lt;/code&gt;).  The &lt;code&gt;+1&lt;/code&gt; adds one to it!&lt;/p&gt;
+&lt;p&gt;Of course, this only operates on the first occurrence of &lt;code&gt;\d+&lt;/code&gt; in the current
+line.  We can make this operate on every &lt;code&gt;\d+&lt;/code&gt; on a line with the &lt;code&gt;g&lt;/code&gt; flag for
+&lt;code&gt;:s&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/\d+/&lt;/span&gt;\&lt;span class="p"&gt;=&lt;/span&gt;submatch&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)+&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;/&lt;span class="k"&gt;g&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Go ahead and give that a try.&lt;/p&gt;
+&lt;p&gt;It feels like we are close now.  This won't work quite right, but at this
+point you might be tempted to add this mapping to your vimrc&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;vnoremap&lt;/span&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;C&lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="k"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt; :&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/\d+/&lt;/span&gt;\&lt;span class="p"&gt;=&lt;/span&gt;submatch&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)+&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;/&lt;span class="k"&gt;g&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;What we &lt;em&gt;want&lt;/em&gt; this to do is to increment all numbers in a visual selection.
+It does do that, but it does something else as well.  Can you figure out
+what's going wrong?&lt;/p&gt;
+&lt;p&gt;The problem is that the way substitute works on visual selections (ie
+&lt;code&gt;:'&amp;lt;,'&amp;gt;s&lt;/code&gt; is to operate on the whole line that contains the visual selection
+so if you select only some of the numbers on a line, the numbers on the line
+that are not selected will also be incremented.  We can fix this by adding
+something to the &lt;code&gt;{pattern}&lt;/code&gt;.  We want to match not just digits but digits
+that are in the visual selection.  We can do that with &lt;code&gt;\%V&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;vnoremap&lt;/span&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;C&lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="k"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt; :&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/\%V\d+/&lt;/span&gt;\&lt;span class="p"&gt;=&lt;/span&gt;submatch&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)+&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;/&lt;span class="k"&gt;g&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now we are getting pretty close.  There's one problem here depending on the
+exact behavior that you want.  What about negative values?  Do you want -6 to
+increment to -5 or to increment to -7?  Personally, I want it to increment to
+-5.  If you do, too, we have to add even more to our &lt;code&gt;{pattern}&lt;/code&gt; to include
+negative signs along with our digit.  What we need to do is add, in front of
+the &lt;code&gt;\d+&lt;/code&gt; either 0 or 1 &lt;code&gt;-&lt;/code&gt;'s.  To say 0 or 1, we use &lt;code&gt;\=&lt;/code&gt; in our pattern.  In
+the pattern, &lt;code&gt;\=&lt;/code&gt; means 0 or 1.  In the replacement string, &lt;code&gt;\=&lt;/code&gt; means
+evaluate an expression.&lt;/p&gt;
+&lt;p&gt;So here's our final mapping:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;vnoremap&lt;/span&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;C&lt;span class="p"&gt;-&lt;/span&gt;&lt;span class="k"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt; :&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/\%V-\=\d+/&lt;/span&gt;\&lt;span class="p"&gt;=&lt;/span&gt;submatch&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)+&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;/&lt;span class="k"&gt;g&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;To decrement, just subtract 1 instead of adding.  Have you added this mapping
+to your vimrc?  Have you made it better?&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Michael Lerch</dc:creator><pubDate>Thu, 21 Aug 2014 19:44:08 -0600</pubDate><guid>tag:mdlerch.com,2014-08-21:increment-or-decrement-visual-selection-in-vim.html</guid><category>vim</category></item></channel></rss>
