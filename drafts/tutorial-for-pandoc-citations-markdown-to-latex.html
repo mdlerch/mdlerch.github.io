@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <title>Tutorial for pandoc citations: markdown to latex - mdlerch</title>
+    <meta name="description" content="">
+    <meta name="author" content="Michael Lerch">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="http://mdlerch.com/theme/html5.js"></script>
+    <![endif]-->
+
+    <link href="http://mdlerch.com/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="mdlerch RSS Feed" />
+    <link href="http://mdlerch.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="mdlerch Atom Feed" />
+
+    <!-- google plus authorship -->
+    <link rel="author" href="https://plus.google.com/115559038551588800365/posts" />
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
+    <link href="http://mdlerch.com/theme/local.css" rel="stylesheet">
+    <link href="http://mdlerch.com/theme/pygments.css" rel="stylesheet">
+    <link href="http://mdlerch.com/theme/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Gudea:400,400italic|Alegreya+SC' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body>
+<header class="blog-header">
+  <div class="container">
+    <div class="row-fluid">
+      <div class="span9">
+	<a href="http://mdlerch.com" class="brand">mdlerch</a>
+      </div>
+
+      <div class="span3" id="blog-nav">
+	<ul class="nav nav-pills pull-right">
+            <li><a href="http://mdlerch.com/pages/about.html">About</a></li>
+            <li><a href="http://mdlerch.com/pages/projects.html">Projects</a></li>
+	    <li >
+	      <a href="http://mdlerch.com/category/vim.html ">vim</a>
+	</ul>
+      </div>
+    </div> <!-- End of fluid row-->
+  </div>   <!-- End of Container-->
+</header>
+    
+<div class="container">
+    <div class="content">
+    <div class="row-fluid">
+
+        <div class="span10">
+    <div class='article'>
+      <div class="row-fluid">
+           <div class="content-title span9">
+             <h1>Tutorial for pandoc citations: markdown to latex</h1>
+           </div>
+      </div>
+    <div class="row-fluid">
+      <div class="span2">
+<p>26 August 2014 </p>
+
+<p style="text-align: left;">
+Filed under <a href="http://mdlerch.com/category/drafts.html">drafts</a>
+</p>
+<p style="text-align: left;">
+ 
+    Tags <a href="http://mdlerch.com/tag/pandoc.html">pandoc</a> <a href="http://mdlerch.com/tag/bibtex.html">bibtex</a> <a href="http://mdlerch.com/tag/markdown.html">markdown</a> <a href="http://mdlerch.com/tag/latex.html">latex</a> <a href="http://mdlerch.com/tag/natbib.html">natbib</a> <a href="http://mdlerch.com/tag/tutorial.html">tutorial</a> <a href="http://mdlerch.com/tag/example.html">example</a> </p>
+<p style="text-align: left;">
+by <a class="url fn" href="http://mdlerch.com/author/michael-lerch.html">Michael Lerch</a>
+</p>
+<p>
+<a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="mdlerch">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+</p>
+      </div>
+      
+      <div class="span8">
+	<p>Today's objective will be to write a markdown document and use pandoc to
+compile the markdown to latex and to handle citations.</p>
+<p>One thing we could do is to just write the markdown, compile to .tex, and edit
+the .tex file by hand.  </p>
+	<hr />
+      </div>
+    </div>
+    <div class="span10">
+      <h3>Comments</h3>
+    
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'mdlerch'; 
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>  
+    </div>
+        </div>
+        
+        
+    </div>     </div> </div>
+
+<!--footer-->
+<div class="container">
+  <div class="well" style="background-color: #E9EFF6">
+    <div id="blog-footer">
+      <div class="row-fluid">
+	<div class="social span2" align="center" id="socialist">
+	  <ul class="nav nav-list">
+	    <li class="nav-header">
+	      Social
+	    </li>
+	    <li><a href="https://www.github.com/mdlerch"><i class="icon-github" style="color: #1f334b"></i>github</a></li>
+	    <li><a href="http://www.twitter.com/mdlerch"><i class="icon-twitter" style="color: #1f334b"></i>twitter</a></li>
+	    <li><a href="http://www.linkedin.com/in/mdlerch"><i class="icon-linkedin" style="color: #1f334b"></i>linkedin</a></li>
+	    <li><a href="http://plus.google.com/115559038551588800365?rel=author"><i class="icon-Google" style="color: #1f334b"></i>Google</a></li>
+
+	  </ul>
+	</div>
+<div class="span8" id="colophon">
+  <h2 align="center"></h2>
+  <p align="justify"> <br/> </p>
+</div>
+	<div class="site-nav span2" align="center">
+          <ul class="nav nav-list" id="site-links">
+            <li class="nav-header"> 
+              Site
+            </li>
+            <li><a href="http://mdlerch.com"><i class="icon-home" style="color: #1f334b">
+                </i>Home</a></li>
+            <li><a href="http://mdlerch.com/archives.html"><i class="icon-list" style="color: #1f334b">
+                </i>Archives</a></li>
+	    <li><a href="http://mdlerch.com/tags.html"><i class="icon-tags" style="color: #1f334b">
+                </i>Tags</a></li>
+	    
+	    <li> <a href="http://mdlerch.com/feeds/all.rss.xml" rel="alternate">
+                <i class="icon-rss" style="color: #1f334b"></i>
+                RSS Feed</a></li>
+	    <li> <a href="http://mdlerch.com/feeds/all.atom.xml" rel="alternate">
+                <i class="icon-rss" style="color: #1f334b"></i>
+                Atom Feed</a></li>
+	  </ul>
+
+        </div>
+
+      </div> <!--end of fluid row-->
+    </div> <!--end of blog-footer-->
+    <hr />
+    <p align="center"><a href="http://mdlerch.com">mdlerch</a>
+      &copy; Michael Lerch
+    Powered by <a href="github.com/getpelican/pelican">Pelican</a> and
+        <a href="https://twitter.github.com/bootstrap">Twitter Bootstrap</a>. 
+        Icons by <a href="http://fortawesome.github.com/Font-Awesome">Font Awesome</a> and 
+        <a href="http://gregoryloucas.github.com/Font-Awesome-More">Font Awesome More</a></p>
+
+  </div> <!--end of well -->
+</div> <!--end of container -->
+
+<!--/footer-->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
+
+
+<script>var _gaq=[['_setAccount','UA-54051300-1'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>
+
+</body>
+</html>
