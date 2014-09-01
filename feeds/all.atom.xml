@@ -1,5 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>mdlerch</title><link href="http://mdlerch.com/" rel="alternate"></link><link href="http://mdlerch.com/feeds/all.atom.xml" rel="self"></link><id>http://mdlerch.com/</id><updated>2014-08-25T00:00:00-06:00</updated><entry><title>Increment or decrement visual selection in vim</title><link href="http://mdlerch.com/increment-or-decrement-visual-selection-in-vim.html" rel="alternate"></link><updated>2014-08-25T00:00:00-06:00</updated><author><name>Michael Lerch</name></author><id>tag:mdlerch.com,2014-08-25:increment-or-decrement-visual-selection-in-vim.html</id><summary type="html">&lt;p&gt;vim can increment and decrement digits under the cursor with the &lt;code&gt;&amp;lt;C-A&amp;gt;&lt;/code&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>mdlerch</title><link href="http://mdlerch.com/" rel="alternate"></link><link href="http://mdlerch.com/feeds/all.atom.xml" rel="self"></link><id>http://mdlerch.com/</id><updated>2014-08-31T00:00:00-06:00</updated><entry><title>Tutorial for pandoc citations: markdown to latex</title><link href="http://mdlerch.com/tutorial-for-pandoc-citations-markdown-to-latex.html" rel="alternate"></link><updated>2014-08-31T00:00:00-06:00</updated><author><name>Michael Lerch</name></author><id>tag:mdlerch.com,2014-08-31:tutorial-for-pandoc-citations-markdown-to-latex.html</id><summary type="html">&lt;p&gt;I am trying to move &lt;em&gt;all&lt;/em&gt; of my writing over to markdown, and then using
+pandoc to produce the true target format.  Often that is latex, and often
+there are citations involved.  This post will be an example (or two) of
+dealing with citations in markdown so that pandoc can handle things
+appropriately.&lt;/p&gt;
+&lt;p&gt;I use mendeley to organize my academic papers and it happily produces .bib
+files for different collections.  So, my assumption is that you already have
+your references specified in a .bib file.  You should also have pandoc and a
+latex installation.  You should also install &lt;code&gt;pandoc-citeproc&lt;/code&gt; which is
+separate from pandoc.  If you have pandoc through RStudio, it probably also
+came with pandoc-citeproc.  Otherwise, you should be able to install it the
+same way that you installed pandoc (perhaps &lt;code&gt;cabal install --global
+pandoc-citeproc&lt;/code&gt;).  As you'll see in this post, pandoc-citeproc is not
+strictly necessary.&lt;/p&gt;
+&lt;p&gt;I'll talk about two scenarios for generating latex output.  The first is you
+go straight from markdown to a pdf with no intermediate steps.  The pandoc
+latex default template (or your own latex pandoc template) is good enough.
+The second scenario will be that we want to generate a .tex file from our
+markdown and then possibly tweak the .tex file and finally compile it to pdf.&lt;/p&gt;
+&lt;p&gt;For the first scenario, we want to take &lt;code&gt;input.md&lt;/code&gt; convert it to &lt;code&gt;output.pdf&lt;/code&gt;
+while linking in &lt;code&gt;ref.bib&lt;/code&gt;.  Here's the pandoc call to do that&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;pandoc&lt;/span&gt; &lt;span class="n"&gt;input&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;md&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="n"&gt;latex&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;filter&lt;/span&gt; &lt;span class="n"&gt;pandoc&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;citeproc&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;bibliography&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ref&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;bib&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;o&lt;/span&gt; &lt;span class="n"&gt;output&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pdf&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The &lt;code&gt;--bibliography&lt;/code&gt; flag is not necessary, we could specify this in the YAML
+at the top of the markdown file:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;---&lt;/span&gt;
+&lt;span class="nl"&gt;title:&lt;/span&gt; &lt;span class="n"&gt;My&lt;/span&gt; &lt;span class="n"&gt;Title&lt;/span&gt;
+&lt;span class="nl"&gt;author:&lt;/span&gt; &lt;span class="n"&gt;ME&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;
+&lt;span class="nl"&gt;bibliography:&lt;/span&gt; &lt;span class="n"&gt;ref&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;bib&lt;/span&gt;
+&lt;span class="o"&gt;---&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;You might also add in some flags like &lt;code&gt;-S&lt;/code&gt; to make sure quotes and such are
+handled intelligently.  To cite a reference in &lt;code&gt;ref.bib&lt;/code&gt; that has a reference
+key of RefKey, just type &lt;code&gt;[@RefKey]&lt;/code&gt; in your markdown source.  If you don't
+want parentheses around the citation, drop the square brackets &lt;code&gt;@RefKey&lt;/code&gt;, if
+you don't want to say something like "Heinz and Huntz say blah (Heinz and
+Huntz, 1992)" and would rather get "Heinz and Huntz say blah (1992)" do this:
+&lt;code&gt;[-@RefKey]&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;If you have cls file, you can give pandoc the flag &lt;code&gt;--csl=FILE&lt;/code&gt;.  I don't know
+much about this, I'm used to .bst files for natbib.&lt;/p&gt;
+&lt;p&gt;You might be thinking that if you wanted to go .tex instead .pdf, you would
+just change the output to &lt;code&gt;-o output.tex&lt;/code&gt;.  However, this is probably not what
+you want.  The &lt;code&gt;pandoc-citeproc&lt;/code&gt; is going through and evaluating all of your
+citations, so you won't see, in your .tex file, things like
+"\citep{HeinzHuntz1992}".  Instead, the citation will be expanded to it's
+actual text.  To get the "raw" latex source, you should not use
+&lt;code&gt;pandoc-citeproc&lt;/code&gt;.  Instead, we'll let latex use natbib/bibtex to actually
+expand the citations.  To generate the .tex, run a line like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;pandoc&lt;/span&gt; &lt;span class="n"&gt;input&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;md&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="n"&gt;latex&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;S&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;natbib&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;bibliography&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;ref&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;bib&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;o&lt;/span&gt; &lt;span class="n"&gt;output&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tex&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;I have found that I must specify the &lt;code&gt;--bibliography&lt;/code&gt; flag even if it is
+stated in the YAML of the markdown source.  Now, you can go into the .tex
+file, tweak things, set the bibliography style to your .bst, etc.  Citation is
+done the same way as above (using the &lt;code&gt;@&lt;/code&gt; sign) which is translated to the
+latex &lt;code&gt;\cite&lt;/code&gt; family as appropriate.&lt;/p&gt;
+&lt;p&gt;Do you have any additional tricks for dealing with pandoc, markdown, latex and
+citations&lt;/p&gt;</summary><category term="pandoc"></category><category term="bibtex"></category><category term="natbib"></category><category term="tutorial"></category><category term="example"></category></entry><entry><title>Increment or decrement visual selection in vim</title><link href="http://mdlerch.com/increment-or-decrement-visual-selection-in-vim.html" rel="alternate"></link><updated>2014-08-25T00:00:00-06:00</updated><author><name>Michael Lerch</name></author><id>tag:mdlerch.com,2014-08-25:increment-or-decrement-visual-selection-in-vim.html</id><summary type="html">&lt;p&gt;vim can increment and decrement digits under the cursor with the &lt;code&gt;&amp;lt;C-A&amp;gt;&lt;/code&gt;
 &lt;code&gt;&amp;lt;C-X&amp;gt;&lt;/code&gt; bindings, respectively.  Go try it out and then come back.&lt;/p&gt;
 &lt;p&gt;Now that you are back, let's extend this functionality to visual
 selections.  First let's learn a command you can find in &lt;code&gt;:help submatch&lt;/code&gt;.&lt;/p&gt;
