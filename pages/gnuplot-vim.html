@@ -1,62 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Michael Lerch" />
+        <meta name="copyright" content="Michael Lerch" />
 
-    <meta charset="utf-8">
-    <title>gnuplot.vim- mdlerch</title>
-    <meta name="description" content="">
-    <meta name="author" content="Michael Lerch">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
-    <!--[if lt IE 9]>
-    <script src="http://mdlerch.com/theme/html5.js"></script>
-    <![endif]-->
+        <title>gnuplot.vim - mdlerch
+</title>
+        <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://mdlerch.com/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://mdlerch.com/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://mdlerch.com/theme/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://mdlerch.com/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://mdlerch.com/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://mdlerch.com/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://mdlerch.com/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://mdlerch.com/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://mdlerch.com/theme/images/apple-touch-icon-144x144.png" />
+    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-54051300-1']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+    </script>
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://mdlerch.com/"><span class=site-name>mdlerch</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://mdlerch.com">Home</a></li>
+                            <li ><a href="http://mdlerch.com/pages/about.html">About</a></li>
+                            <li ><a href="http://mdlerch.com/pages/projects.html">Projects</a></li>
+                            <li ><a href="http://mdlerch.com/categories.html">Categories</a></li>
+                            <li ><a href="http://mdlerch.com/tags.html">Tags</a></li>
+                            <li ><a href="http://mdlerch.com/archives.html">Archives</a></li>
+                            <li><form class="navbar-search" action="http://mdlerch.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://mdlerch.com/pages/gnuplot-vim.html"> gnuplot.vim  </a></h1>
+    </header>
+</div>
 
-    <link href="http://mdlerch.com/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="mdlerch RSS Feed" />
-    <link href="http://mdlerch.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="mdlerch Atom Feed" />
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
 
-    <!-- google plus authorship -->
-    <link rel="author" href="https://plus.google.com/115559038551588800365/posts" />
-
-    <!-- Le styles -->
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
-    <link href="http://mdlerch.com/theme/local.css" rel="stylesheet">
-    <link href="http://mdlerch.com/theme/pygments.css" rel="stylesheet">
-    <link href="http://mdlerch.com/theme/font-awesome.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Gudea:400,400italic|Alegreya+SC' rel='stylesheet' type='text/css'>
-
-</head>
-
-<body>
-<header class="blog-header">
-  <div class="container">
-    <div class="row-fluid">
-      <div class="span9">
-	<a href="http://mdlerch.com" class="brand">mdlerch</a>
-      </div>
-
-      <div class="span3" id="blog-nav">
-	<ul class="nav nav-pills pull-right">
-            <li><a href="http://mdlerch.com/pages/about.html">About</a></li>
-            <li><a href="http://mdlerch.com/pages/projects.html">Projects</a></li>
-	    <li >
-	      <a href="http://mdlerch.com/category/pandoc.html ">pandoc</a>
-	    <li >
-	      <a href="http://mdlerch.com/category/vim.html ">vim</a>
-	</ul>
-      </div>
-    </div> <!-- End of fluid row-->
-  </div>   <!-- End of Container-->
-</header>
-    
-<div class="container">
-    <div class="content">
-    <div class="row-fluid">
-
-        <div class="span10">
-<section id="content" class="body span10">    
-    <h2 class="content-title">gnuplot.vim</h2>
-    <p>A vim plugin for gnuplot</p>
+            <p>A vim plugin for gnuplot</p>
 <h4>Features</h4>
 <ul>
 <li>
@@ -66,74 +79,36 @@
 <p>keybindings to preview plot</p>
 </li>
 </ul>
-</section>
         </div>
-        
-        
-    </div>     </div> </div>
-
-<!--footer-->
-<div class="container">
-  <div class="well" style="background-color: #E9EFF6">
-    <div id="blog-footer">
-      <div class="row-fluid">
-	<div class="social span2" align="center" id="socialist">
-	  <ul class="nav nav-list">
-	    <li class="nav-header">
-	      Social
-	    </li>
-	    <li><a href="https://www.github.com/mdlerch"><i class="icon-github" style="color: #1f334b"></i>github</a></li>
-	    <li><a href="http://www.twitter.com/mdlerch"><i class="icon-twitter" style="color: #1f334b"></i>twitter</a></li>
-	    <li><a href="http://www.linkedin.com/in/mdlerch"><i class="icon-linkedin" style="color: #1f334b"></i>linkedin</a></li>
-	    <li><a href="http://plus.google.com/115559038551588800365?rel=author"><i class="icon-Google" style="color: #1f334b"></i>Google</a></li>
-
-	  </ul>
-	</div>
-<div class="span8" id="colophon">
-  <h2 align="center"></h2>
-  <p align="justify"> <br/> </p>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2013-11-02T23:48:00">Nov 2, 2013</time>
+      
+        </div>
+        </section>
+    </div>
+    </article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
 </div>
-	<div class="site-nav span2" align="center">
-          <ul class="nav nav-list" id="site-links">
-            <li class="nav-header"> 
-              Site
-            </li>
-            <li><a href="http://mdlerch.com"><i class="icon-home" style="color: #1f334b">
-                </i>Home</a></li>
-            <li><a href="http://mdlerch.com/archives.html"><i class="icon-list" style="color: #1f334b">
-                </i>Archives</a></li>
-	    <li><a href="http://mdlerch.com/tags.html"><i class="icon-tags" style="color: #1f334b">
-                </i>Tags</a></li>
-	    
-	    <li> <a href="http://mdlerch.com/feeds/all.rss.xml" rel="alternate">
-                <i class="icon-rss" style="color: #1f334b"></i>
-                RSS Feed</a></li>
-	    <li> <a href="http://mdlerch.com/feeds/all.atom.xml" rel="alternate">
-                <i class="icon-rss" style="color: #1f334b"></i>
-                Atom Feed</a></li>
-	  </ul>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
 
-        </div>
-
-      </div> <!--end of fluid row-->
-    </div> <!--end of blog-footer-->
-    <hr />
-    <p align="center"><a href="http://mdlerch.com">mdlerch</a>
-      &copy; Michael Lerch
-    Powered by <a href="github.com/getpelican/pelican">Pelican</a> and
-        <a href="https://twitter.github.com/bootstrap">Twitter Bootstrap</a>. 
-        Icons by <a href="http://fortawesome.github.com/Font-Awesome">Font Awesome</a> and 
-        <a href="http://gregoryloucas.github.com/Font-Awesome-More">Font Awesome More</a></p>
-
-  </div> <!--end of well -->
-</div> <!--end of container -->
-
-<!--/footer-->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
-
-
-<script>var _gaq=[['_setAccount','UA-54051300-1'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>
-
-</body>
+    </body>
 </html>

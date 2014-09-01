@@ -1,276 +1,107 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Michael Lerch" />
+        <meta name="copyright" content="Michael Lerch" />
 
-    <meta charset="utf-8">
-    <title>mdlerch <small>Michael Lerch</small></title>
-    <meta name="description" content="">
-    <meta name="author" content="Michael Lerch">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
-    <!--[if lt IE 9]>
-    <script src="http://mdlerch.com/theme/html5.js"></script>
-    <![endif]-->
+        <title>mdlerch - Articles by Michael Lerch</title>
+        <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://mdlerch.com/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://mdlerch.com/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://mdlerch.com/theme/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://mdlerch.com/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://mdlerch.com/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://mdlerch.com/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://mdlerch.com/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://mdlerch.com/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://mdlerch.com/theme/images/apple-touch-icon-144x144.png" />
+    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-54051300-1']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+    </script>
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://mdlerch.com/"><span class=site-name>mdlerch</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://mdlerch.com">Home</a></li>
+                            <li ><a href="http://mdlerch.com/pages/about.html">About</a></li>
+                            <li ><a href="http://mdlerch.com/pages/projects.html">Projects</a></li>
+                            <li ><a href="http://mdlerch.com/categories.html">Categories</a></li>
+                            <li ><a href="http://mdlerch.com/tags.html">Tags</a></li>
+                            <li ><a href="http://mdlerch.com/archives.html">Archives</a></li>
+                            <li><form class="navbar-search" action="http://mdlerch.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<div class="row-fluid">
 
-    <link href="http://mdlerch.com/feeds/all.rss.xml" type="application/rss+xml" rel="alternate" title="mdlerch RSS Feed" />
-    <link href="http://mdlerch.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="mdlerch Atom Feed" />
-
-    <!-- google plus authorship -->
-    <link rel="author" href="https://plus.google.com/115559038551588800365/posts" />
-
-    <!-- Le styles -->
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
-    <link href="http://mdlerch.com/theme/local.css" rel="stylesheet">
-    <link href="http://mdlerch.com/theme/pygments.css" rel="stylesheet">
-    <link href="http://mdlerch.com/theme/font-awesome.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Gudea:400,400italic|Alegreya+SC' rel='stylesheet' type='text/css'>
-
-</head>
-
-<body>
-<header class="blog-header">
-  <div class="container">
     <div class="row-fluid">
-      <div class="span9">
-	<a href="http://mdlerch.com" class="brand">mdlerch</a>
-      </div>
 
-      <div class="span3" id="blog-nav">
-	<ul class="nav nav-pills pull-right">
-            <li><a href="http://mdlerch.com/pages/about.html">About</a></li>
-            <li><a href="http://mdlerch.com/pages/projects.html">Projects</a></li>
-	    <li >
-	      <a href="http://mdlerch.com/category/pandoc.html ">pandoc</a>
-	    <li >
-	      <a href="http://mdlerch.com/category/vim.html ">vim</a>
-	</ul>
-      </div>
-    </div> <!-- End of fluid row-->
-  </div>   <!-- End of Container-->
-</header>
-    
-<div class="container">
-    <div class="content">
+    </div>
+
     <div class="row-fluid">
-
-        <div class="span10">
-        
-
-        
-
-    <div class='row-fluid''>
-        <div class="article-title span9">
-            <a href="http://mdlerch.com/tutorial-for-pandoc-citations-markdown-to-latex.html"><h1>Tutorial for pandoc citations: markdown to latex</h1></a>
+        <div class="span12">
+            <header>
+            <h1 id="recent-posts">Recent Posts <a id="allposts" href="http://mdlerch.com/archives.html">all posts</a></h1>
+            </header>
+            <ul class="list-all-articles">
+                <li>
+                <a href="http://mdlerch.com/tutorial-for-pandoc-citations-markdown-to-latex.html">Tutorial for pandoc citations: markdown to latex  </a> 
+                <time pubdate="pubdate" datetime="2014-08-31T00:00:00">31 August 2014</time>
+                </li>
+            </ul>
+            <ul class="list-all-articles">
+                <li>
+                <a href="http://mdlerch.com/increment-or-decrement-visual-selection-in-vim.html">Increment or decrement visual selection in vim  </a> 
+                <time pubdate="pubdate" datetime="2014-08-25T00:00:00">25 August 2014</time>
+                </li>
+            </ul>
         </div>
     </div>
-    <div class="row-fluid">
-      <div class="span2">
-<p>31 August 2014 </p>
-
-<p style="text-align: left;">
-Filed under <a href="http://mdlerch.com/category/pandoc.html">pandoc</a>
-</p>
-<p style="text-align: left;">
- 
-    Tags <a href="http://mdlerch.com/tag/pandoc.html">pandoc</a> <a href="http://mdlerch.com/tag/bibtex.html">bibtex</a> <a href="http://mdlerch.com/tag/natbib.html">natbib</a> <a href="http://mdlerch.com/tag/tutorial.html">tutorial</a> <a href="http://mdlerch.com/tag/example.html">example</a> </p>
-<p style="text-align: left;">
-by <a class="url fn" href="http://mdlerch.com/author/michael-lerch.html">Michael Lerch</a>
-</p>
-<p>
-<a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="mdlerch">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-</p>
-      </div>
-      <div class="article-content span8">
-	<p>I am trying to move <em>all</em> of my writing over to markdown, and then using
-pandoc to produce the true target format.  Often that is latex, and often
-there are citations involved.  This post will be an example (or two) of
-dealing with citations in markdown so that pandoc can handle things
-appropriately.</p>
-<p>I use mendeley to organize my academic papers and it happily produces .bib
-files for different collections.  So, my assumption is that you already have
-your references specified in a .bib file.  You should also have pandoc and a
-latex installation.  You should also install <code>pandoc-citeproc</code> which is
-separate from pandoc.  If you have pandoc through RStudio, it probably also
-came with pandoc-citeproc.  Otherwise, you should be able to install it the
-same way that you installed pandoc (perhaps <code>cabal install --global
-pandoc-citeproc</code>).  As you'll see in this post, pandoc-citeproc is not
-strictly necessary.</p>
-<p>I'll talk about two scenarios for generating latex output.  The first is you
-go straight from markdown to a pdf with no intermediate steps.  The pandoc
-latex default template (or your own latex pandoc template) is good enough.
-The second scenario will be that we want to generate a .tex file from our
-markdown and then possibly tweak the .tex file and finally compile it to pdf.</p>
-<p>For the first scenario, we want to take <code>input.md</code> convert it to <code>output.pdf</code>
-while linking in <code>ref.bib</code>.  Here's the pandoc call to do that</p>
-<div class="highlight"><pre><span class="n">pandoc</span> <span class="n">input</span><span class="p">.</span><span class="n">md</span> <span class="o">-</span><span class="n">t</span> <span class="n">latex</span> <span class="o">--</span><span class="n">filter</span> <span class="n">pandoc</span><span class="o">-</span><span class="n">citeproc</span> <span class="o">--</span><span class="n">bibliography</span><span class="o">=</span><span class="n">ref</span><span class="p">.</span><span class="n">bib</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="p">.</span><span class="n">pdf</span>
-</pre></div>
-
-
-<p>The <code>--bibliography</code> flag is not necessary, we could specify this in the YAML
-at the top of the markdown file:</p>
-<div class="highlight"><pre><span class="o">---</span>
-<span class="nl">title:</span> <span class="n">My</span> <span class="n">Title</span>
-<span class="nl">author:</span> <span class="n">ME</span><span class="o">!</span>
-<span class="nl">bibliography:</span> <span class="n">ref</span><span class="p">.</span><span class="n">bib</span>
-<span class="o">---</span>
-</pre></div>
-
-
-<p>You might also add in some flags like <code>-S</code> to make sure quotes and such are
-handled intelligently.  To cite a reference in <code>ref.bib</code> that has a reference
-key of RefKey, just type <code>[@RefKey]</code> in your markdown source.  If you don't
-want parentheses around the citation, drop the square brackets <code>@RefKey</code>, if
-you don't want to say something like "Heinz and Huntz say blah (Heinz and
-Huntz, 1992)" and would rather get "Heinz and Huntz say blah (1992)" do this:
-<code>[-@RefKey]</code>.</p>
-<p>If you have cls file, you can give pandoc the flag <code>--csl=FILE</code>.  I don't know
-much about this, I'm used to .bst files for natbib.</p>
-<p>You might be thinking that if you wanted to go .tex instead .pdf, you would
-just change the output to <code>-o output.tex</code>.  However, this is probably not what
-you want.  The <code>pandoc-citeproc</code> is going through and evaluating all of your
-citations, so you won't see, in your .tex file, things like
-"\citep{HeinzHuntz1992}".  Instead, the citation will be expanded to it's
-actual text.  To get the "raw" latex source, you should not use
-<code>pandoc-citeproc</code>.  Instead, we'll let latex use natbib/bibtex to actually
-expand the citations.  To generate the .tex, run a line like this:</p>
-<div class="highlight"><pre><span class="n">pandoc</span> <span class="n">input</span><span class="p">.</span><span class="n">md</span> <span class="o">-</span><span class="n">t</span> <span class="n">latex</span> <span class="o">-</span><span class="n">s</span> <span class="o">-</span><span class="n">S</span> <span class="o">--</span><span class="n">natbib</span> <span class="o">--</span><span class="n">bibliography</span><span class="o">=</span><span class="n">ref</span><span class="p">.</span><span class="n">bib</span> <span class="o">-</span><span class="n">o</span> <span class="n">output</span><span class="p">.</span><span class="n">tex</span>
-</pre></div>
-
-
-<p>I have found that I must specify the <code>--bibliography</code> flag even if it is
-stated in the YAML of the markdown source.  Now, you can go into the .tex
-file, tweak things, set the bibliography style to your .bst, etc.  Citation is
-done the same way as above (using the <code>@</code> sign) which is translated to the
-latex <code>\cite</code> family as appropriate.</p>
-<p>Do you have any additional tricks for dealing with pandoc, markdown, latex and
-citations</p> 
-	<a class="btn btn-mini xsmall" href="http://mdlerch.com/tutorial-for-pandoc-citations-markdown-to-latex.html">
-          <i class="icon-comment"></i> Comment </a>
-	<hr />
-      </div>
-      
-    </div>
-    
-
- 
-        
-
-
-
-    <div class='row-fluid'>
-      <div class='article-title span9'> 
-        <a href="http://mdlerch.com/increment-or-decrement-visual-selection-in-vim.html"><h1>Increment or decrement visual selection in vim</h1></a>
-      </div>
-    </div>
-    <div class="row-fluid">
-      <div class="span2">
-<p>25 August 2014 </p>
-
-<p style="text-align: left;">
-Filed under <a href="http://mdlerch.com/category/vim.html">vim</a>
-</p>
-<p style="text-align: left;">
- 
-    Tags <a href="http://mdlerch.com/tag/vim.html">vim</a> </p>
-<p style="text-align: left;">
-by <a class="url fn" href="http://mdlerch.com/author/michael-lerch.html">Michael Lerch</a>
-</p>
-<p>
-<a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="mdlerch">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-</p>
-      </div>
-      <div class="summary span8">
-	<p>vim can increment and decrement digits under the cursor with the <code>&lt;C-A&gt;</code>
-<code>&lt;C-X&gt;</code> bindings, respectively.  Go try it out and then come back.</p>
-<p>Now that you are back, let's extend this functionality to visual
-selections.  First let's learn a command you can find in <code>:help submatch</code>.</p>
-<div class="highlight"><pre><span class="p">:</span><span class="k">s</span><span class="sr">/\d ...</span></pre></div> 
-	<a class="btn btn-mini xsmall" href="http://mdlerch.com/increment-or-decrement-visual-selection-in-vim.html">
-          <i class="icon-plus-sign"></i> Read More </a>
-	<hr />
-      </div>
-      
-    </div>
-      
-<div class="pagination">
-<ul>
-    <li class="prev disabled"><a href="#">&larr; Previous</a></li>
-
-    <li class="active"><a href="http://mdlerch.com/author/michael-lerch.html">1</a></li>
-
-    <li class="next disabled"><a href="#">&rarr; Next</a></li>
-
-</ul>
 </div>
- 
-  
+                </div>
+                <div class="span1"></div>
+            </div>
         </div>
-        
-        
-    </div>     </div> </div>
-
-<!--footer-->
-<div class="container">
-  <div class="well" style="background-color: #E9EFF6">
-    <div id="blog-footer">
-      <div class="row-fluid">
-	<div class="social span2" align="center" id="socialist">
-	  <ul class="nav nav-list">
-	    <li class="nav-header">
-	      Social
-	    </li>
-	    <li><a href="https://www.github.com/mdlerch"><i class="icon-github" style="color: #1f334b"></i>github</a></li>
-	    <li><a href="http://www.twitter.com/mdlerch"><i class="icon-twitter" style="color: #1f334b"></i>twitter</a></li>
-	    <li><a href="http://www.linkedin.com/in/mdlerch"><i class="icon-linkedin" style="color: #1f334b"></i>linkedin</a></li>
-	    <li><a href="http://plus.google.com/115559038551588800365?rel=author"><i class="icon-Google" style="color: #1f334b"></i>Google</a></li>
-
-	  </ul>
-	</div>
-<div class="span8" id="colophon">
-  <h2 align="center"></h2>
-  <p align="justify"> <br/> </p>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
 </div>
-	<div class="site-nav span2" align="center">
-          <ul class="nav nav-list" id="site-links">
-            <li class="nav-header"> 
-              Site
-            </li>
-            <li><a href="http://mdlerch.com"><i class="icon-home" style="color: #1f334b">
-                </i>Home</a></li>
-            <li><a href="http://mdlerch.com/archives.html"><i class="icon-list" style="color: #1f334b">
-                </i>Archives</a></li>
-	    <li><a href="http://mdlerch.com/tags.html"><i class="icon-tags" style="color: #1f334b">
-                </i>Tags</a></li>
-	    
-	    <li> <a href="http://mdlerch.com/feeds/all.rss.xml" rel="alternate">
-                <i class="icon-rss" style="color: #1f334b"></i>
-                RSS Feed</a></li>
-	    <li> <a href="http://mdlerch.com/feeds/all.atom.xml" rel="alternate">
-                <i class="icon-rss" style="color: #1f334b"></i>
-                Atom Feed</a></li>
-	  </ul>
-
-        </div>
-
-      </div> <!--end of fluid row-->
-    </div> <!--end of blog-footer-->
-    <hr />
-    <p align="center"><a href="http://mdlerch.com">mdlerch</a>
-      &copy; Michael Lerch
-    Powered by <a href="github.com/getpelican/pelican">Pelican</a> and
-        <a href="https://twitter.github.com/bootstrap">Twitter Bootstrap</a>. 
-        Icons by <a href="http://fortawesome.github.com/Font-Awesome">Font Awesome</a> and 
-        <a href="http://gregoryloucas.github.com/Font-Awesome-More">Font Awesome More</a></p>
-
-  </div> <!--end of well -->
-</div> <!--end of container -->
-
-<!--/footer-->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
-
-
-<script>var _gaq=[['_setAccount','UA-54051300-1'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>
-
-</body>
+</footer>        <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+    </body>
 </html>
