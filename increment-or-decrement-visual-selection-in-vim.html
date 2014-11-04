@@ -73,7 +73,7 @@
 <code>&lt;C-X&gt;</code> bindings, respectively.  Go try it out and then come back.</p>
 <p>Now that you are back, let's extend this functionality to visual
 selections.  First let's learn a command you can find in <code>:help submatch</code>.</p>
-<div class="highlight"><pre><span class="p">:</span><span class="k">s</span><span class="sr">/\d+/</span>\<span class="p">=</span>submatch<span class="p">(</span><span class="m">0</span><span class="p">)+</span><span class="m">1</span>/
+<div class="highlight"><pre><span class="p">:</span><span class="k">s</span><span class="sr">/\d\+/</span>\<span class="p">=</span>submatch<span class="p">(</span><span class="m">0</span><span class="p">)+</span><span class="m">1</span>/
 </pre></div>
 
 
@@ -89,14 +89,14 @@ returns the matched text (ie the <code>\d+</code>).  The <code>+1</code> adds on
 <p>Of course, this only operates on the first occurrence of <code>\d+</code> in the current
 line.  We can make this operate on every <code>\d+</code> on a line with the <code>g</code> flag for
 <code>:s</code></p>
-<div class="highlight"><pre><span class="p">:</span><span class="k">s</span><span class="sr">/\d+/</span>\<span class="p">=</span>submatch<span class="p">(</span><span class="m">0</span><span class="p">)+</span><span class="m">1</span>/<span class="k">g</span>
+<div class="highlight"><pre><span class="p">:</span><span class="k">s</span><span class="sr">/\d\+/</span>\<span class="p">=</span>submatch<span class="p">(</span><span class="m">0</span><span class="p">)+</span><span class="m">1</span>/<span class="k">g</span>
 </pre></div>
 
 
 <p>Go ahead and give that a try.</p>
 <p>It feels like we are close now.  This won't work quite right, but at this
 point you might be tempted to add this mapping to your vimrc</p>
-<div class="highlight"><pre><span class="nb">vnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">a</span><span class="p">&gt;</span> :<span class="k">s</span><span class="sr">/\d+/</span>\<span class="p">=</span>submatch<span class="p">(</span><span class="m">0</span><span class="p">)+</span><span class="m">1</span>/<span class="k">g</span>
+<div class="highlight"><pre><span class="nb">vnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">a</span><span class="p">&gt;</span> :<span class="k">s</span><span class="sr">/\d\+/</span>\<span class="p">=</span>submatch<span class="p">(</span><span class="m">0</span><span class="p">)+</span><span class="m">1</span>/<span class="k">g</span>
 </pre></div>
 
 
@@ -109,7 +109,7 @@ so if you select only some of the numbers on a line, the numbers on the line
 that are not selected will also be incremented.  We can fix this by adding
 something to the <code>{pattern}</code>.  We want to match not just digits but digits
 that are in the visual selection.  We can do that with <code>\%V</code></p>
-<div class="highlight"><pre><span class="nb">vnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">a</span><span class="p">&gt;</span> :<span class="k">s</span><span class="sr">/\%V\d+/</span>\<span class="p">=</span>submatch<span class="p">(</span><span class="m">0</span><span class="p">)+</span><span class="m">1</span>/<span class="k">g</span>
+<div class="highlight"><pre><span class="nb">vnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">a</span><span class="p">&gt;</span> :<span class="k">s</span><span class="sr">/\%V\d\+/</span>\<span class="p">=</span>submatch<span class="p">(</span><span class="m">0</span><span class="p">)+</span><span class="m">1</span>/<span class="k">g</span>
 </pre></div>
 
 
@@ -122,7 +122,7 @@ the <code>\d+</code> either 0 or 1 <code>-</code>'s.  To say 0 or 1, we use <cod
 the pattern, <code>\=</code> means 0 or 1.  In the replacement string, <code>\=</code> means
 evaluate an expression.</p>
 <p>So here's our final mapping:</p>
-<div class="highlight"><pre><span class="nb">vnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">a</span><span class="p">&gt;</span> :<span class="k">s</span><span class="sr">/\%V-\=\d+/</span>\<span class="p">=</span>submatch<span class="p">(</span><span class="m">0</span><span class="p">)+</span><span class="m">1</span>/<span class="k">g</span>
+<div class="highlight"><pre><span class="nb">vnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">a</span><span class="p">&gt;</span> :<span class="k">s</span><span class="sr">/\%V-\=\d\+/</span>\<span class="p">=</span>submatch<span class="p">(</span><span class="m">0</span><span class="p">)+</span><span class="m">1</span>/<span class="k">g</span>
 </pre></div>
 
 
