@@ -72,14 +72,14 @@ selections.  First let's learn a command you can find in &lt;code&gt;:help subma
 &lt;p&gt;This is a type of substitution called sub-replace-expression.  A normal
 substitution looks like &lt;code&gt;:s/{pattern}/{string}/&lt;/code&gt; and replaces &lt;code&gt;{pattern}&lt;/code&gt;
 with &lt;code&gt;{string}&lt;/code&gt;.  Here we have the &lt;code&gt;\=&lt;/code&gt; changes the &lt;code&gt;{string}&lt;/code&gt; part to an
-expression to be evaluated.  Our pattern in this case is &lt;code&gt;\d+&lt;/code&gt;.  The &lt;code&gt;\d&lt;/code&gt;
-matches a digit and the &lt;code&gt;+&lt;/code&gt; says to match one or more digit so something like
+expression to be evaluated.  Our pattern in this case is &lt;code&gt;\d\+&lt;/code&gt;.  The &lt;code&gt;\d&lt;/code&gt;
+matches a digit and the &lt;code&gt;\+&lt;/code&gt; says to match one or more digit so something like
 &lt;code&gt;555&lt;/code&gt; is matched once and not 3 times.&lt;/p&gt;
 &lt;p&gt;So what our sub-replace-expression is going to do is find a number and then
 substitute it with the evaluation of &lt;code&gt;submatch(0)+1&lt;/code&gt;.  &lt;code&gt;submatch(0)&lt;/code&gt; simply
-returns the matched text (ie the &lt;code&gt;\d+&lt;/code&gt;).  The &lt;code&gt;+1&lt;/code&gt; adds one to it!&lt;/p&gt;
-&lt;p&gt;Of course, this only operates on the first occurrence of &lt;code&gt;\d+&lt;/code&gt; in the current
-line.  We can make this operate on every &lt;code&gt;\d+&lt;/code&gt; on a line with the &lt;code&gt;g&lt;/code&gt; flag for
+returns the matched text (ie the &lt;code&gt;\d\+&lt;/code&gt;).  The &lt;code&gt;+1&lt;/code&gt; adds one to it!&lt;/p&gt;
+&lt;p&gt;Of course, this only operates on the first occurrence of &lt;code&gt;\d\+&lt;/code&gt; in the current
+line.  We can make this operate on every &lt;code&gt;\d\+&lt;/code&gt; on a line with the &lt;code&gt;g&lt;/code&gt; flag for
 &lt;code&gt;:s&lt;/code&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/\d\+/&lt;/span&gt;\&lt;span class="p"&gt;=&lt;/span&gt;submatch&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)+&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;/&lt;span class="k"&gt;g&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -110,7 +110,7 @@ exact behavior that you want.  What about negative values?  Do you want -6 to
 increment to -5 or to increment to -7?  Personally, I want it to increment to
 -5.  If you do, too, we have to add even more to our &lt;code&gt;{pattern}&lt;/code&gt; to include
 negative signs along with our digit.  What we need to do is add, in front of
-the &lt;code&gt;\d+&lt;/code&gt; either 0 or 1 &lt;code&gt;-&lt;/code&gt;'s.  To say 0 or 1, we use &lt;code&gt;\=&lt;/code&gt; in our pattern.  In
+the &lt;code&gt;\d\+&lt;/code&gt; either 0 or 1 &lt;code&gt;-&lt;/code&gt;'s.  To say 0 or 1, we use &lt;code&gt;\=&lt;/code&gt; in our pattern.  In
 the pattern, &lt;code&gt;\=&lt;/code&gt; means 0 or 1.  In the replacement string, &lt;code&gt;\=&lt;/code&gt; means
 evaluate an expression.&lt;/p&gt;
 &lt;p&gt;So here's our final mapping:&lt;/p&gt;

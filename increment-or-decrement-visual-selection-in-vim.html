@@ -80,14 +80,14 @@ selections.  First let's learn a command you can find in <code>:help submatch</c
 <p>This is a type of substitution called sub-replace-expression.  A normal
 substitution looks like <code>:s/{pattern}/{string}/</code> and replaces <code>{pattern}</code>
 with <code>{string}</code>.  Here we have the <code>\=</code> changes the <code>{string}</code> part to an
-expression to be evaluated.  Our pattern in this case is <code>\d+</code>.  The <code>\d</code>
-matches a digit and the <code>+</code> says to match one or more digit so something like
+expression to be evaluated.  Our pattern in this case is <code>\d\+</code>.  The <code>\d</code>
+matches a digit and the <code>\+</code> says to match one or more digit so something like
 <code>555</code> is matched once and not 3 times.</p>
 <p>So what our sub-replace-expression is going to do is find a number and then
 substitute it with the evaluation of <code>submatch(0)+1</code>.  <code>submatch(0)</code> simply
-returns the matched text (ie the <code>\d+</code>).  The <code>+1</code> adds one to it!</p>
-<p>Of course, this only operates on the first occurrence of <code>\d+</code> in the current
-line.  We can make this operate on every <code>\d+</code> on a line with the <code>g</code> flag for
+returns the matched text (ie the <code>\d\+</code>).  The <code>+1</code> adds one to it!</p>
+<p>Of course, this only operates on the first occurrence of <code>\d\+</code> in the current
+line.  We can make this operate on every <code>\d\+</code> on a line with the <code>g</code> flag for
 <code>:s</code></p>
 <div class="highlight"><pre><span class="p">:</span><span class="k">s</span><span class="sr">/\d\+/</span>\<span class="p">=</span>submatch<span class="p">(</span><span class="m">0</span><span class="p">)+</span><span class="m">1</span>/<span class="k">g</span>
 </pre></div>
@@ -118,7 +118,7 @@ exact behavior that you want.  What about negative values?  Do you want -6 to
 increment to -5 or to increment to -7?  Personally, I want it to increment to
 -5.  If you do, too, we have to add even more to our <code>{pattern}</code> to include
 negative signs along with our digit.  What we need to do is add, in front of
-the <code>\d+</code> either 0 or 1 <code>-</code>'s.  To say 0 or 1, we use <code>\=</code> in our pattern.  In
+the <code>\d\+</code> either 0 or 1 <code>-</code>'s.  To say 0 or 1, we use <code>\=</code> in our pattern.  In
 the pattern, <code>\=</code> means 0 or 1.  In the replacement string, <code>\=</code> means
 evaluate an expression.</p>
 <p>So here's our final mapping:</p>
