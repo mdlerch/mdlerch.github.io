@@ -1,5 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>mdlerch</title><link>http://mdlerch.com/</link><description></description><atom:link href="http://mdlerch.com/feeds/all.rss.xml" rel="self"></atom:link><lastBuildDate>Sun, 31 Aug 2014 00:00:00 -0600</lastBuildDate><item><title>Tutorial for pandoc citations: markdown to latex</title><link>http://mdlerch.com/tutorial-for-pandoc-citations-markdown-to-latex.html</link><description>&lt;p&gt;I am trying to move &lt;em&gt;all&lt;/em&gt; of my writing over to markdown, and then using
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>mdlerch</title><link>http://mdlerch.com/</link><description></description><atom:link href="http://mdlerch.com/feeds/all.rss.xml" rel="self"></atom:link><lastBuildDate>Sun, 09 Nov 2014 00:00:00 -0700</lastBuildDate><item><title>Offlineimap, Gmail, and Mutt tutorial</title><link>http://mdlerch.com/offlineimap-gmail-and-mutt-tutorial.html</link><description>&lt;h3&gt;History&lt;/h3&gt;
+&lt;p&gt;A few years ago, I wrote a series of blog posts on offlineimap, mutt, and gmail
+(&lt;a href="http://www.miggysmith.wordpress.com/gmail1"&gt;Link Here&lt;/a&gt;).  Since then, I spent
+some time using the gmail web interface for email and then went back to mutt
+and used the built in imap.  However, I've realized that neither of these are
+as good as using offlineimap and mutt together, which I am back to using.  It
+is totally worth the 20 minutes or so to get offlineimap and mutt set up.  This
+post will show my offlineimap and mutt configurations.  I will be assuming
+you've already installed offlineimap and mutt.&lt;/p&gt;
+&lt;h3&gt;Offlineimap&lt;/h3&gt;
+&lt;p&gt;First, lets get offlineimap set up.  My use case will be pretty simple.  I have
+a single Gmail account to which I want to connect and I only want to grab the
+INBOX folder.  From this simple scenario, it should be easy to extend to
+slightly more complicated scenarios.  Let's pretend that my Gmail user name is
+gmail_user and the password is gmail_password. Here's a simple configuration
+file (&lt;code&gt;/home/user/.offlineimaprc&lt;/code&gt;), which we will explain line by line.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;[general]&lt;/span&gt;
+&lt;span class="na"&gt;accounts&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;gmail_user&lt;/span&gt;
+&lt;span class="na"&gt;ui&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;ttyui&lt;/span&gt;
+&lt;span class="na"&gt;socktimeout&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;30&lt;/span&gt;
+
+&lt;span class="k"&gt;[Account gmail_user]&lt;/span&gt;
+&lt;span class="na"&gt;localrepository&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;local-gmail_user&lt;/span&gt;
+&lt;span class="na"&gt;remoterepository&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;remote-gmail_user&lt;/span&gt;
+
+&lt;span class="k"&gt;[Repository local-gmail_user]&lt;/span&gt;
+&lt;span class="na"&gt;type&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;Maildir&lt;/span&gt;
+&lt;span class="na"&gt;localfolders&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;/home/user/mail/gmail_user&lt;/span&gt;
+
+&lt;span class="k"&gt;[Repository remote-gmail_user]&lt;/span&gt;
+&lt;span class="na"&gt;type&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;Gmail&lt;/span&gt;
+&lt;span class="na"&gt;remoteuser&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;gmail_user@gmail.com&lt;/span&gt;
+&lt;span class="na"&gt;remotepass&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;gmail_password&lt;/span&gt;
+&lt;span class="na"&gt;sslcacertfile&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;/etc/ssl/certs/ca-certificates.crt&lt;/span&gt;
+&lt;span class="na"&gt;folderfilter&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;lambda folder: folder in [&amp;#39;INBOX&amp;#39;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;&lt;code&gt;[general]&lt;/code&gt;&lt;/h4&gt;
+&lt;p&gt;In this section, we have to define the accounts, which is the internal to
+offlineimap name of accounts that offlineimap should be syncing.  As
+described, I only have one.  If you had more, comma separate them (&lt;code&gt;accounts =
+gmail_user1, gmail_user2&lt;/code&gt;).  I am naming it after my Gmail user name.  The
+next two lines are not necessary.  &lt;code&gt;ui&lt;/code&gt; sets how fancy the output is when you
+run &lt;code&gt;offlineimap&lt;/code&gt; in your terminal.  &lt;code&gt;socktimeout&lt;/code&gt; is the number of seconds
+after which &lt;code&gt;offlineimap&lt;/code&gt; should stop trying to connect if it cannot make a
+connection.&lt;/p&gt;
+&lt;h4&gt;&lt;code&gt;[Account gmail_user]&lt;/code&gt;&lt;/h4&gt;
+&lt;p&gt;Next, we need to name the mail repositories for each account.  Again, I only
+have one account so I only need one &lt;code&gt;[Account ...]&lt;/code&gt; section.  All we need to do
+here is name the local repository (on the computer) and the remote repository
+(Gmail) that hold my mail.  I've just named them &lt;code&gt;local-&lt;/code&gt; and &lt;code&gt;remote-&lt;/code&gt;
+followed by my gmail user name.&lt;/p&gt;
+&lt;h4&gt;&lt;code&gt;[Repository local-gmail_user]&lt;/code&gt;&lt;/h4&gt;
+&lt;p&gt;Now, I specify how my local respository is set up.  I need to tell it the type
+(&lt;code&gt;Maildir&lt;/code&gt;) is pretty standard and where it's located in my filesystem
+(&lt;code&gt;localfolders&lt;/code&gt;).  I'm pretty sure the specified folder must exist before you
+run offlineimap: &lt;code&gt;mkdir -p /home/user/mail/gmail_user&lt;/code&gt;.&lt;/p&gt;
+&lt;h4&gt;&lt;code&gt;[Repository remote-gmail_user]&lt;/code&gt;&lt;/h4&gt;
+&lt;p&gt;Lastly, we specify the Gmail details.  This should be pretty obvious.
+&lt;code&gt;remotepass&lt;/code&gt; is your Gmail password.  &lt;code&gt;folderfilter&lt;/code&gt; is what folders to sync.
+As I said, I only want the INBOX.  If you also want, say your sent mail, you
+might use&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;folderfilter&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;folder&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;folder&lt;/span&gt; &lt;span class="n"&gt;in&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;INBOX&lt;/span&gt;&lt;span class="sc"&gt;&amp;#39; &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;Gmail&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;Sent&lt;/span&gt; &lt;span class="n"&gt;Mail&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;Download your mail&lt;/h4&gt;
+&lt;p&gt;At this point you should be able to download your mail.  Just run
+&lt;code&gt;offlineimap&lt;/code&gt; and it should start going.  If you have lots of mail, this will
+take a long time.  You can refresh with &lt;code&gt;offlineimap&lt;/code&gt; manually whenever you
+want.  You might like to set up a cron job to do this in regular intervals.&lt;/p&gt;
+&lt;h4&gt;Password tips&lt;/h4&gt;
+&lt;p&gt;I have two step verification on for my google account.  If you do, too, you
+might want to set up an "App password" for offlineimap.  To do this, log into
+gmail, click your user in the top right corner.  Click Account.  Click
+Security.  Click App passwords: Settings.  Then generate one for offlineimap.
+Paste the generated code (without spaces) as your &lt;code&gt;remotepass&lt;/code&gt; in offlineimap.&lt;/p&gt;
+&lt;p&gt;If you like to keep your dotfiles on github or some other publicly available
+place, you might not like having your password just written out.  Some people
+get fancy and integrate with keyrings and such.  I just keep my password stored
+in another file (which I don't index on github) and refer to that file in my
+main configuration file.  You can do that with offlineimap by utilizing its
+python evaluation.  I make a file called &lt;code&gt;/home/user/.offlineimap/password.py&lt;/code&gt;
+and in it just a single line&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;gmailpassword&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;gmail_app_password&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now, go back to your &lt;code&gt;/home/user/.offlineimaprc&lt;/code&gt; and add this line to
+&lt;code&gt;[general]&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;pythonfile&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;home&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;offlineimap&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;password&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;And change the &lt;code&gt;remotepass&lt;/code&gt; line to&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;remotepasseval&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;gmailpassword&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The extra eval tells offlineimap to evaluate the value as a python expression.&lt;/p&gt;
+&lt;h3&gt;Mutt&lt;/h3&gt;
+&lt;p&gt;Now onto configuring mutt.  I'm just going to give the basics configuration.
+First, I like to keep my configuration at &lt;code&gt;/home/user/.mutt/muttrc&lt;/code&gt; I also have
+a &lt;code&gt;/home/user/.mutt/colors.muttrc&lt;/code&gt; and some other configuration files all in
+that &lt;code&gt;/home/user/.mutt/&lt;/code&gt; directory.&lt;/p&gt;
+&lt;p&gt;Here's a basic muttrc configuration with comments.  Note that I will be using
+mutt's built-in smtp for sending mail&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;## sending mail&lt;/span&gt;
+&lt;span class="n"&gt;set&lt;/span&gt; &lt;span class="n"&gt;realname&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;Michael Lerch&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;set&lt;/span&gt; &lt;span class="n"&gt;reverse_name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;yes&lt;/span&gt;
+&lt;span class="n"&gt;set&lt;/span&gt; &lt;span class="n"&gt;from&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;  &lt;span class="s"&gt;&amp;quot;gmail_user@gmail.com&amp;quot;&lt;/span&gt;
+&lt;span class="n"&gt;set&lt;/span&gt; &lt;span class="n"&gt;smtp_url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;smtp://gmail_user@smtp.gmail.com:587/&amp;quot;&lt;/span&gt;
+&lt;span class="cp"&gt;# file that contains the password&lt;/span&gt;
+&lt;span class="n"&gt;source&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mutt&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;gmailpass&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;muttrc&lt;/span&gt;
+
+&lt;span class="cp"&gt;## appearance&lt;/span&gt;
+&lt;span class="cp"&gt;# this is the best sorting algorithm&lt;/span&gt;
+&lt;span class="n"&gt;set&lt;/span&gt; &lt;span class="n"&gt;sort&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;threads&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;set&lt;/span&gt; &lt;span class="n"&gt;sort_aux&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;reverse&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;last&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;date&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;received&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;
+
+&lt;span class="cp"&gt;## receiving mail&lt;/span&gt;
+&lt;span class="cp"&gt;# needs to be consistent with offlineimap!&lt;/span&gt;
+&lt;span class="n"&gt;set&lt;/span&gt; &lt;span class="n"&gt;mbox_type&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Maildir&lt;/span&gt;
+&lt;span class="n"&gt;set&lt;/span&gt; &lt;span class="n"&gt;folder&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;home&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;mail&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;gmail_user&lt;/span&gt;
+&lt;span class="cp"&gt;# folder in which to start mutt&lt;/span&gt;
+&lt;span class="n"&gt;set&lt;/span&gt; &lt;span class="n"&gt;spoolfile&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;+/&lt;/span&gt;&lt;span class="n"&gt;INBOX&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;
+&lt;span class="cp"&gt;# cache for even faster&lt;/span&gt;
+&lt;span class="n"&gt;set&lt;/span&gt; &lt;span class="n"&gt;header_cache&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;home&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;user&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;mail&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;cache&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;
+
+&lt;span class="cp"&gt;## writing mail&lt;/span&gt;
+&lt;span class="cp"&gt;# I use vim&lt;/span&gt;
+&lt;span class="n"&gt;set&lt;/span&gt; &lt;span class="n"&gt;editor&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;vim +:silent+/^$ &amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Once again, I have my password stored in a separate file that I source.  That
+file contains a single line which is another App password for my google
+account:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;set&lt;/span&gt; &lt;span class="n"&gt;smtp_pass&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;password&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This should get you started with offlineimap and mutt.  Have you found any
+other tricks?&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Michael Lerch</dc:creator><pubDate>Sun, 09 Nov 2014 00:00:00 -0700</pubDate><guid>tag:mdlerch.com,2014-11-09:offlineimap-gmail-and-mutt-tutorial.html</guid><category>email</category></item><item><title>Tutorial for pandoc citations: markdown to latex</title><link>http://mdlerch.com/tutorial-for-pandoc-citations-markdown-to-latex.html</link><description>&lt;p&gt;I am trying to move &lt;em&gt;all&lt;/em&gt; of my writing over to markdown, and then using
 pandoc to produce the true target format.  Often that is latex, and often
 there are citations involved.  This post will be an example (or two) of
 dealing with citations in markdown so that pandoc can handle things
