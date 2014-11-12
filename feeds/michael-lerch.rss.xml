@@ -1,5 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>mdlerch</title><link>http://mdlerch.com/</link><description></description><atom:link href="http://mdlerch.com/feeds/michael-lerch.rss.xml" rel="self"></atom:link><lastBuildDate>Sun, 09 Nov 2014 00:00:00 -0700</lastBuildDate><item><title>Offlineimap, Gmail, and Mutt tutorial</title><link>http://mdlerch.com/offlineimap-gmail-and-mutt-tutorial.html</link><description>&lt;h3&gt;History&lt;/h3&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>mdlerch</title><link>http://mdlerch.com/</link><description></description><atom:link href="http://mdlerch.com/feeds/michael-lerch.rss.xml" rel="self"></atom:link><lastBuildDate>Mon, 10 Nov 2014 00:00:00 -0700</lastBuildDate><item><title>Fcron examples for every 30 minutes and once a week</title><link>http://mdlerch.com/fcron-examples-for-every-30-minutes-and-once-a-week.html</link><description>&lt;p&gt;This is mostly a note for myself, but maybe other people will also find it
+useful.&lt;/p&gt;
+&lt;p&gt;There are two types of jobs I'm going to talk about here.  They are jobs to be
+run at regular &lt;strong&gt;intervals&lt;/strong&gt; and jobs to be run &lt;strong&gt;periodically&lt;/strong&gt;.  Regular
+intervals means every x unit of time.  Maybe every 4 days.  Maybe every half
+hour.  Periodic means once a week or once a day.&lt;/p&gt;
+&lt;h3&gt;Intervals&lt;/h3&gt;
+&lt;p&gt;Let's say you download your email with the command &lt;code&gt;do_email&lt;/code&gt; and you want to
+do this every 30 minutes.  Fire up &lt;code&gt;fcrontab -e&lt;/code&gt; and put in this entry:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;@ 30 do_email
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The @ sign says this is an interval based command and 30 is the time interval
+in minutes.  You can specify more precisely by using multipliers of m, w, d,
+h, and s for months, weeks, days, hours, and seconds, respectively.  For
+example&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;@ 2h05 do_email
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;will download your email every 2 hours and 5 minutes.&lt;/p&gt;
+&lt;h3&gt;Periodic&lt;/h3&gt;
+&lt;p&gt;Let's say that you want a command to be run in some regular interval.  Maybe
+you want to download podcasts once a week.  If you use the command
+&lt;code&gt;get_podcasts&lt;/code&gt; to download your podcasts you could use this entry:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;%weekly  * 9-17 get_podcasts
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This will run the command get_podcasts once a week at any minute and sometime
+between 9am and 5pm.  A "week" starts on Monday and goes to Sunday so fcron
+will try to do this Monday between 9 and 5.  If your computer is on, it will
+try again on Tuesday.&lt;/p&gt;
+&lt;p&gt;Lot's more good stuff at &lt;a href="http://fcron.free.fr/doc/en/fcrontab.5.html"&gt;http://fcron.free.fr/doc/en/fcrontab.5.html&lt;/a&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Michael Lerch</dc:creator><pubDate>Mon, 10 Nov 2014 00:00:00 -0700</pubDate><guid>tag:mdlerch.com,2014-11-10:fcron-examples-for-every-30-minutes-and-once-a-week.html</guid><category>fcron</category><category>cron</category></item><item><title>Offlineimap, Gmail, and Mutt tutorial</title><link>http://mdlerch.com/offlineimap-gmail-and-mutt-tutorial.html</link><description>&lt;h3&gt;History&lt;/h3&gt;
 &lt;p&gt;A few years ago, I wrote a series of blog posts on offlineimap, mutt, and gmail
 (&lt;a href="http://www.miggysmith.wordpress.com/gmail1"&gt;Link Here&lt;/a&gt;).  Since then, I spent
 some time using the gmail web interface for email and then went back to mutt
