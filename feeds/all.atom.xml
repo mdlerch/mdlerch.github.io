@@ -1,5 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>mdlerch</title><link href="http://mdlerch.com/" rel="alternate"></link><link href="http://mdlerch.com/feeds/all.atom.xml" rel="self"></link><id>http://mdlerch.com/</id><updated>2014-11-10T00:00:00-07:00</updated><entry><title>Fcron examples for every 30 minutes and once a week</title><link href="http://mdlerch.com/fcron-examples-for-every-30-minutes-and-once-a-week.html" rel="alternate"></link><updated>2014-11-10T00:00:00-07:00</updated><author><name>Michael Lerch</name></author><id>tag:mdlerch.com,2014-11-10:fcron-examples-for-every-30-minutes-and-once-a-week.html</id><summary type="html">&lt;p&gt;This is mostly a note for myself, but maybe other people will also find it
+<feed xmlns="http://www.w3.org/2005/Atom"><title>mdlerch</title><link href="http://mdlerch.com/" rel="alternate"></link><link href="http://mdlerch.com/feeds/all.atom.xml" rel="self"></link><id>http://mdlerch.com/</id><updated>2014-12-07T00:00:00-07:00</updated><entry><title>Tutorial to get cmus rockin'</title><link href="http://mdlerch.com/tutorial-to-get-cmus-rockin.html" rel="alternate"></link><updated>2014-12-07T00:00:00-07:00</updated><author><name>Michael Lerch</name></author><id>tag:mdlerch.com,2014-12-07:tutorial-to-get-cmus-rockin.html</id><summary type="html">&lt;p&gt;&lt;code&gt;cmus&lt;/code&gt; is a console based music player.  It's rather feature filled which can
+mean that getting it set up "just right" might require some work.  This post is
+to help you get &lt;code&gt;cmus&lt;/code&gt; set up to rock!  There are a few introductory tutorials
+out there, but they only scratch the surface.  My goal is to skip over the very
+introductory stuff--you've probably already figured that stuff out--and tell
+you &lt;em&gt;my&lt;/em&gt; opinions on how to interact with &lt;code&gt;cmus&lt;/code&gt;.  I am assuming you've found
+the &lt;code&gt;:add&lt;/code&gt; command, you already know how to play music, and are familiar with
+the different views (1-7).&lt;/p&gt;
+&lt;p&gt;Lastly, if you aren't familiar with it, you can set default keybindings and
+commands to be run in a file like &lt;code&gt;~/.config/cmus/rc&lt;/code&gt;:  take a look at the
+FILES part of &lt;code&gt;man cmus&lt;/code&gt;.&lt;/p&gt;
+&lt;h3&gt;Controlling the player&lt;/h3&gt;
+&lt;p&gt;The three main operations you need for a music player are play/pause toggle,
+next track, previous track.  The keybindings for these are &lt;code&gt;c&lt;/code&gt;, &lt;code&gt;b&lt;/code&gt;, and &lt;code&gt;z&lt;/code&gt;,
+respectively.  I can only guess that these are a pneumonic in some language
+that is not English.  Especially &lt;code&gt;b&lt;/code&gt; meaning &lt;em&gt;next&lt;/em&gt; is bizarre for me.
+However, you &lt;em&gt;should not&lt;/em&gt; use these commands anyway.  For these operations, you
+&lt;em&gt;should not&lt;/em&gt; have to browse back to your music player.  You should just hit a
+keybinding wherever you are and your window manager should take care of the
+rest.&lt;/p&gt;
+&lt;p&gt;To do this with &lt;code&gt;cmus&lt;/code&gt;, we use the &lt;code&gt;cmus-remote&lt;/code&gt; which comes with &lt;code&gt;cmus&lt;/code&gt;.  For
+play/pause toggle: &lt;code&gt;cmus-remote -u&lt;/code&gt;.  For next track: &lt;code&gt;cmus-remote -n&lt;/code&gt;.  For
+previous track: &lt;code&gt;cmus-remote -r&lt;/code&gt;.  Note that the previous track command
+performs &lt;em&gt;correctly&lt;/em&gt; without any hacking.  If you near the beginning of the
+track, go back to the previous; if you are past the beginning of the track, go
+back to the start of this track.&lt;/p&gt;
+&lt;p&gt;Set up your window manager to recognize a keybinding for each of the
+&lt;code&gt;cmus-remote&lt;/code&gt; commands and forget about &lt;code&gt;c&lt;/code&gt;, &lt;code&gt;b&lt;/code&gt;, and &lt;code&gt;z&lt;/code&gt;.&lt;/p&gt;
+&lt;h3&gt;The playback Modes&lt;/h3&gt;
+&lt;p&gt;Now that we have the basics down, we need to understand the way &lt;code&gt;cmus&lt;/code&gt; thinks
+about your music.  There are two sources, or playback Modes: the &lt;em&gt;library&lt;/em&gt; and
+the &lt;em&gt;playlist&lt;/em&gt;.  This might sound backwards, but this is how you should think
+of these sources: the &lt;em&gt;library&lt;/em&gt; is a dynamic subset of all of your tracks; the
+&lt;em&gt;playlist&lt;/em&gt; is a fixed list of tracks (or files) to be played.  You might like
+to think about &lt;em&gt;library&lt;/em&gt; or &lt;em&gt;playlist&lt;/em&gt; as the Major Mode.  The default
+keybinding in &lt;code&gt;cmus&lt;/code&gt; to switch between these Modes is &lt;code&gt;M&lt;/code&gt;.  I'll keep using the
+capital M in Mode in reference to the default keybinding.&lt;/p&gt;
+&lt;p&gt;You can read about playlists in &lt;code&gt;man cmus&lt;/code&gt;.  Here's a couple quick tips:
+if you already have playlists saved to files, you can add the contents of the
+playlist file with the &lt;code&gt;win-add-p&lt;/code&gt;.  The default key for this is &lt;code&gt;y&lt;/code&gt;.  I
+prefer &lt;code&gt;p&lt;/code&gt; for playlist so I have&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;unbind&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="n"&gt;common&lt;/span&gt;
+&lt;span class="n"&gt;unbind&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="n"&gt;library&lt;/span&gt; &lt;span class="n"&gt;win&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;add&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;
+&lt;span class="n"&gt;unbind&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="n"&gt;browser&lt;/span&gt; &lt;span class="n"&gt;win&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;add&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;in my &lt;code&gt;rc&lt;/code&gt; file.  If you have a single folder where all the playlists live,
+you might want to add this to your &lt;code&gt;rc&lt;/code&gt; file:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;cd&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;to&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;playlists&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This way you have access to the playlists right away in the browser (5) view.&lt;/p&gt;
+&lt;p&gt;Now, let's talk about &lt;em&gt;library&lt;/em&gt; Mode.  Library Mode has 3 minor modes.  I'm
+using a lower case &lt;em&gt;m&lt;/em&gt; here since the default keybinding to switch between the
+minor modes is &lt;code&gt;m&lt;/code&gt;.  The minor modes are &lt;em&gt;all&lt;/em&gt;, &lt;em&gt;artist&lt;/em&gt;, and &lt;em&gt;album&lt;/em&gt;.  Pretty
+self explanatory.  If you like to listen to one artist or album at a time, then
+that's all you need to know.  Just play what you want in view 1 or 2, make sure
+you are in &lt;em&gt;library&lt;/em&gt; Mode, and then set the minor mode to &lt;em&gt;artist&lt;/em&gt; or &lt;em&gt;album&lt;/em&gt;
+as you wish.&lt;/p&gt;
+&lt;p&gt;If you like to listen to a variety of tracks, most likely with shuffle, you
+will want the minor mode to be &lt;em&gt;all&lt;/em&gt;.  You still might not want to listen to
+literally all of your files.  Maybe you have podcasts and music in your library
+and you only want to listen to music.  This is what filters are for.  You don't
+want to do this with playlists because &lt;em&gt;library&lt;/em&gt; Mode can be more dynamic and
+you can take advantage of the library views (1 and 2) while in &lt;em&gt;library&lt;/em&gt; Mode.
+There are a few filters defined by default in the filters view (6).  You might
+add some filters to filter by music or podcast.  Maybe: &lt;code&gt;:fset
+music=filename="/path/to/music/*"&lt;/code&gt; and &lt;code&gt;:fset
+podcast=filename"/path/to/podcasts/*&lt;/code&gt;.  You are probably now tempted to hit
+&lt;em&gt;enter&lt;/em&gt; on the designated filter on filters view.  It doesn't do what you
+want.  How you really do it is you hit &lt;em&gt;space&amp;gt;&lt;/em&gt;.  &lt;code&gt;[*]&lt;/code&gt; indicates the filter
+will be applied, &lt;code&gt;[!]&lt;/code&gt; indicates the filtered tracks will be &lt;em&gt;removed&lt;/em&gt; from
+the library, and &lt;code&gt;[ ]&lt;/code&gt; indicates the filter will not be active.  Hit &lt;em&gt;space&lt;/em&gt;
+until you have the right setting and then hit &lt;em&gt;enter&lt;/em&gt;.  Or, for filters you
+may use often, set some bindings in your &lt;code&gt;rc&lt;/code&gt; file:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;bind&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt; &lt;span class="n"&gt;common&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt; &lt;span class="n"&gt;factivate&lt;/span&gt; &lt;span class="n"&gt;music&lt;/span&gt;
+&lt;span class="n"&gt;bind&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt; &lt;span class="n"&gt;common&lt;/span&gt; &lt;span class="n"&gt;P&lt;/span&gt; &lt;span class="n"&gt;factivate&lt;/span&gt; &lt;span class="n"&gt;podcast&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This is how I think about &lt;code&gt;cmus&lt;/code&gt;.  The queue is pretty neat, too, but I find I
+rarely use it.&lt;/p&gt;</summary><category term="tutorial"></category><category term="cmus"></category><category term="linux"></category></entry><entry><title>Fcron examples for every 30 minutes and once a week</title><link href="http://mdlerch.com/fcron-examples-for-every-30-minutes-and-once-a-week.html" rel="alternate"></link><updated>2014-11-10T00:00:00-07:00</updated><author><name>Michael Lerch</name></author><id>tag:mdlerch.com,2014-11-10:fcron-examples-for-every-30-minutes-and-once-a-week.html</id><summary type="html">&lt;p&gt;This is mostly a note for myself, but maybe other people will also find it
 useful.&lt;/p&gt;
 &lt;p&gt;There are two types of jobs I'm going to talk about here.  They are jobs to be
 run at regular &lt;strong&gt;intervals&lt;/strong&gt; and jobs to be run &lt;strong&gt;periodically&lt;/strong&gt;.  Regular

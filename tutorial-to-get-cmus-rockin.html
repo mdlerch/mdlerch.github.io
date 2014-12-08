@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Michael Lerch" />
+        <meta name="copyright" content="Michael Lerch" />
+
+<meta name="keywords" content="tutorial, cmus, linux, linux, " />
+        <title>Tutorial to get cmus rockin' - mdlerch
+</title>
+        <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://mdlerch.com/theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://mdlerch.com/theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="http://mdlerch.com/theme/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="http://mdlerch.com/theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="http://mdlerch.com/theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="http://mdlerch.com/theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="http://mdlerch.com/theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="http://mdlerch.com/theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="http://mdlerch.com/theme/images/apple-touch-icon-144x144.png" />
+    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-54051300-1']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+    </script>
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://mdlerch.com/"><span class=site-name>mdlerch</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="http://mdlerch.com">Home</a></li>
+                            <li ><a href="http://mdlerch.com/pages/about.html">About</a></li>
+                            <li ><a href="http://mdlerch.com/pages/projects.html">Projects</a></li>
+                            <li ><a href="http://mdlerch.com/categories.html">Categories</a></li>
+                            <li ><a href="http://mdlerch.com/tags.html">Tags</a></li>
+                            <li ><a href="http://mdlerch.com/archives.html">Archives</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://mdlerch.com/tutorial-to-get-cmus-rockin.html"> Tutorial to get cmus rockin'  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <p><code>cmus</code> is a console based music player.  It's rather feature filled which can
+mean that getting it set up "just right" might require some work.  This post is
+to help you get <code>cmus</code> set up to rock!  There are a few introductory tutorials
+out there, but they only scratch the surface.  My goal is to skip over the very
+introductory stuff--you've probably already figured that stuff out--and tell
+you <em>my</em> opinions on how to interact with <code>cmus</code>.  I am assuming you've found
+the <code>:add</code> command, you already know how to play music, and are familiar with
+the different views (1-7).</p>
+<p>Lastly, if you aren't familiar with it, you can set default keybindings and
+commands to be run in a file like <code>~/.config/cmus/rc</code>:  take a look at the
+FILES part of <code>man cmus</code>.</p>
+<h3>Controlling the player</h3>
+<p>The three main operations you need for a music player are play/pause toggle,
+next track, previous track.  The keybindings for these are <code>c</code>, <code>b</code>, and <code>z</code>,
+respectively.  I can only guess that these are a pneumonic in some language
+that is not English.  Especially <code>b</code> meaning <em>next</em> is bizarre for me.
+However, you <em>should not</em> use these commands anyway.  For these operations, you
+<em>should not</em> have to browse back to your music player.  You should just hit a
+keybinding wherever you are and your window manager should take care of the
+rest.</p>
+<p>To do this with <code>cmus</code>, we use the <code>cmus-remote</code> which comes with <code>cmus</code>.  For
+play/pause toggle: <code>cmus-remote -u</code>.  For next track: <code>cmus-remote -n</code>.  For
+previous track: <code>cmus-remote -r</code>.  Note that the previous track command
+performs <em>correctly</em> without any hacking.  If you near the beginning of the
+track, go back to the previous; if you are past the beginning of the track, go
+back to the start of this track.</p>
+<p>Set up your window manager to recognize a keybinding for each of the
+<code>cmus-remote</code> commands and forget about <code>c</code>, <code>b</code>, and <code>z</code>.</p>
+<h3>The playback Modes</h3>
+<p>Now that we have the basics down, we need to understand the way <code>cmus</code> thinks
+about your music.  There are two sources, or playback Modes: the <em>library</em> and
+the <em>playlist</em>.  This might sound backwards, but this is how you should think
+of these sources: the <em>library</em> is a dynamic subset of all of your tracks; the
+<em>playlist</em> is a fixed list of tracks (or files) to be played.  You might like
+to think about <em>library</em> or <em>playlist</em> as the Major Mode.  The default
+keybinding in <code>cmus</code> to switch between these Modes is <code>M</code>.  I'll keep using the
+capital M in Mode in reference to the default keybinding.</p>
+<p>You can read about playlists in <code>man cmus</code>.  Here's a couple quick tips:
+if you already have playlists saved to files, you can add the contents of the
+playlist file with the <code>win-add-p</code>.  The default key for this is <code>y</code>.  I
+prefer <code>p</code> for playlist so I have</p>
+<div class="highlight"><pre><span class="n">unbind</span> <span class="o">-</span><span class="n">f</span> <span class="n">p</span> <span class="n">common</span>
+<span class="n">unbind</span> <span class="o">-</span><span class="n">f</span> <span class="n">p</span> <span class="n">library</span> <span class="n">win</span><span class="o">-</span><span class="n">add</span><span class="o">-</span><span class="n">p</span>
+<span class="n">unbind</span> <span class="o">-</span><span class="n">f</span> <span class="n">p</span> <span class="n">browser</span> <span class="n">win</span><span class="o">-</span><span class="n">add</span><span class="o">-</span><span class="n">p</span>
+</pre></div>
+
+
+<p>in my <code>rc</code> file.  If you have a single folder where all the playlists live,
+you might want to add this to your <code>rc</code> file:</p>
+<div class="highlight"><pre><span class="n">cd</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">playlists</span><span class="o">/</span>
+</pre></div>
+
+
+<p>This way you have access to the playlists right away in the browser (5) view.</p>
+<p>Now, let's talk about <em>library</em> Mode.  Library Mode has 3 minor modes.  I'm
+using a lower case <em>m</em> here since the default keybinding to switch between the
+minor modes is <code>m</code>.  The minor modes are <em>all</em>, <em>artist</em>, and <em>album</em>.  Pretty
+self explanatory.  If you like to listen to one artist or album at a time, then
+that's all you need to know.  Just play what you want in view 1 or 2, make sure
+you are in <em>library</em> Mode, and then set the minor mode to <em>artist</em> or <em>album</em>
+as you wish.</p>
+<p>If you like to listen to a variety of tracks, most likely with shuffle, you
+will want the minor mode to be <em>all</em>.  You still might not want to listen to
+literally all of your files.  Maybe you have podcasts and music in your library
+and you only want to listen to music.  This is what filters are for.  You don't
+want to do this with playlists because <em>library</em> Mode can be more dynamic and
+you can take advantage of the library views (1 and 2) while in <em>library</em> Mode.
+There are a few filters defined by default in the filters view (6).  You might
+add some filters to filter by music or podcast.  Maybe: <code>:fset
+music=filename="/path/to/music/*"</code> and <code>:fset
+podcast=filename"/path/to/podcasts/*</code>.  You are probably now tempted to hit
+<em>enter</em> on the designated filter on filters view.  It doesn't do what you
+want.  How you really do it is you hit <em>space&gt;</em>.  <code>[*]</code> indicates the filter
+will be applied, <code>[!]</code> indicates the filtered tracks will be <em>removed</em> from
+the library, and <code>[ ]</code> indicates the filter will not be active.  Hit <em>space</em>
+until you have the right setting and then hit <em>enter</em>.  Or, for filters you
+may use often, set some bindings in your <code>rc</code> file:</p>
+<div class="highlight"><pre><span class="n">bind</span> <span class="o">-</span><span class="n">f</span> <span class="n">common</span> <span class="n">A</span> <span class="n">factivate</span> <span class="n">music</span>
+<span class="n">bind</span> <span class="o">-</span><span class="n">f</span> <span class="n">common</span> <span class="n">P</span> <span class="n">factivate</span> <span class="n">podcast</span>
+</pre></div>
+
+
+<p>This is how I think about <code>cmus</code>.  The queue is pretty neat, too, but I find I
+rarely use it.</p>
+            <aside>
+            <nav>
+            <ul class="articles_timeline">
+ 
+                <li class="previous_article">« <a href="http://mdlerch.com/fcron-examples-for-every-30-minutes-and-once-a-week.html" title="Previous: Fcron examples for every 30 minutes and once a week">Fcron examples for every 30 minutes and once a week</a></li>
+            </ul>
+            </nav>
+            </aside>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
+                href="http://mdlerch.com/tutorial-to-get-cmus-rockin.html/#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body in">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'mdlerch';
+        var disqus_identifier = 'http://mdlerch.com/tutorial-to-get-cmus-rockin.html';
+    var disqus_url = 'http://mdlerch.com/tutorial-to-get-cmus-rockin.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+            <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="mdlerch">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2014-12-07T00:00:00">Dec 7, 2014</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#linux-ref">linux</a> 
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article"> 
+                <li><a href="/tags.html#cmus-ref">cmus
+                    <span>1</span>
+</a></li>
+                <li><a href="/tags.html#linux-ref">linux
+                    <span>1</span>
+</a></li>
+                <li><a href="/tags.html#tutorial-ref">tutorial
+                    <span>2</span>
+</a></li>
+            </ul>
+
+        </div>
+        </section>
+    </div>
+    </article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'mdlerch';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+    </body>
+</html>
