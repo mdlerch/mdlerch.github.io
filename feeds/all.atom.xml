@@ -1,5 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>mdlerch</title><link href="http://mdlerch.com/" rel="alternate"></link><link href="http://mdlerch.com/feeds/all.atom.xml" rel="self"></link><id>http://mdlerch.com/</id><updated>2014-12-07T00:00:00-07:00</updated><entry><title>Tutorial to get cmus rockin'</title><link href="http://mdlerch.com/tutorial-to-get-cmus-rockin.html" rel="alternate"></link><updated>2014-12-07T00:00:00-07:00</updated><author><name>Michael Lerch</name></author><id>tag:mdlerch.com,2014-12-07:tutorial-to-get-cmus-rockin.html</id><summary type="html">&lt;p&gt;&lt;code&gt;cmus&lt;/code&gt; is a console based music player.  It's rather feature filled which can
+<feed xmlns="http://www.w3.org/2005/Atom"><title>mdlerch</title><link href="http://mdlerch.com/" rel="alternate"></link><link href="http://mdlerch.com/feeds/all.atom.xml" rel="self"></link><id>http://mdlerch.com/</id><updated>2014-12-29T00:00:00-07:00</updated><entry><title>Mutt and Vim advanced config</title><link href="http://mdlerch.com/mutt-and-vim-advanced-config.html" rel="alternate"></link><updated>2014-12-29T00:00:00-07:00</updated><author><name>Michael Lerch</name></author><id>tag:mdlerch.com,2014-12-29:mutt-and-vim-advanced-config.html</id><summary type="html">&lt;p&gt;Here are some tips you might like for advanced emailing with vim.  I use mutt
+as my email client, but these tips should be mostly applicable to any other
+email client you might use.&lt;/p&gt;
+&lt;p&gt;First, let's talk about format flowed text.  Perhaps you believe so strongly in
+72 character width emails that you tend to enforce this philosophy on everyone
+you email.  If you are a more reasonable person, you prefer 72 characters for
+writing and in some circumstances reading, but certainly not while reading on a
+phone, for example.  The solution to this is format flow text.&lt;/p&gt;
+&lt;p&gt;Essentially, any line that ends in white space is continued on the next line
+and any line that ends not on white space terminates a paragraph.  Hence,
+email clients that respect format flow treat any newlines preceded by a space
+a soft return and any preceded by a non-space a hard return.&lt;/p&gt;
+&lt;p&gt;To use this in mutt and vim, we first have to turn on format flow in mutt so
+that it puts a flag in the email header.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;# muttrc&lt;/span&gt;
+&lt;span class="n"&gt;set&lt;/span&gt; &lt;span class="n"&gt;text_flowed&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now, we need to make sure that vim is on board.  I now add the following to
+&lt;code&gt;.vim/ftplugin/mail.vim&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;&amp;quot; ftplugin/mail.vim&lt;/span&gt;
+&lt;span class="k"&gt;setl&lt;/span&gt; &lt;span class="nb"&gt;tw&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;72&lt;/span&gt;
+&lt;span class="k"&gt;setl&lt;/span&gt; &lt;span class="k"&gt;fo&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;aw&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The first line sets the textwidth for the current buffer to be 72 characters.
+The second line turns on formatting options 'a' and 'w'.  The 'a' option is
+not necessary, but it is nice.  'w' denotes that paragraphs are terminated by
+lines that end in non-white space.  'a' automatically reformats a paragraph so
+if you edit the interior of paragraph, vim will automatically apply the 72
+character width across the whole paragraph.  For slightly more, see
+&lt;code&gt;:help fo-table&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Great, we now have format flow text working.  We can write emails and the
+reader no longer has to read jagged edge emails on their phone!  In fact, now
+that the emails are no longer so ugly, we might have email conversations with
+people!  But now we have a new annoyance.  In mutt (at least this is the case
+without setting &lt;code&gt;edit_headers&lt;/code&gt;) what I observe is that on a reply, I am given
+a file to edit where the first line says "On Mon Dec, 29, Someone wrote:".
+That's pretty annoying.  I'd like there to be a blank line between my new email
+and that line.  Sure I can press "O" in vim and open a new line and then make
+sure I hit return twice, but if I'm going to do that every time, it should be
+automatic.&lt;/p&gt;
+&lt;p&gt;So I set up an &lt;code&gt;autocmd&lt;/code&gt; to insert two blank lines at the top of the email if
+the email already contains content.  First, let's write a function that does
+this and then call it in an autocmd.  Here's the function:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;&amp;quot; add two blank lines if already content&lt;/span&gt;
+&lt;span class="k"&gt;function&lt;/span&gt; IsReply&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; line&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;$&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;&amp;gt;&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+        :&lt;span class="m"&gt;1&lt;/span&gt;
+        :&lt;span class="k"&gt;let&lt;/span&gt; @&lt;span class="k"&gt;n&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;\n\n&amp;quot;&lt;/span&gt;
+        :exe &lt;span class="s1"&gt;&amp;#39;normal &amp;quot;nP&amp;#39;&lt;/span&gt;
+    &lt;span class="k"&gt;endif&lt;/span&gt;
+&lt;span class="k"&gt;endfunction&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;What this does is checks the line number of the last line, if it is greater
+than 1 (ie there already is content) it goes to the first line, stores two
+returns in the "n" register, and then pastes those returns.&lt;/p&gt;
+&lt;p&gt;Now, we call that function in an autocmd and our ftplugin/mail.vim file now
+looks like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;&amp;quot; ftplugin/mail.vim&lt;/span&gt;
+&lt;span class="k"&gt;function&lt;/span&gt; IsReply&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; line&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;$&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;&amp;gt;&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+        :&lt;span class="m"&gt;1&lt;/span&gt;
+        :&lt;span class="k"&gt;let&lt;/span&gt; @&lt;span class="k"&gt;n&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;\n\n&amp;quot;&lt;/span&gt;
+        :exe &lt;span class="s1"&gt;&amp;#39;normal &amp;quot;nP&amp;#39;&lt;/span&gt;
+    &lt;span class="k"&gt;endif&lt;/span&gt;
+&lt;span class="k"&gt;endfunction&lt;/span&gt;
+
+augroup mail_filetype
+    autocmd&lt;span class="p"&gt;!&lt;/span&gt;
+    autocmd&lt;span class="p"&gt;!&lt;/span&gt; &lt;span class="nb"&gt;VimEnter&lt;/span&gt; * :&lt;span class="k"&gt;call&lt;/span&gt; IsReply&lt;span class="p"&gt;()&lt;/span&gt;
+augroup END
+
+&lt;span class="k"&gt;setl&lt;/span&gt; &lt;span class="nb"&gt;tw&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;72&lt;/span&gt;
+&lt;span class="k"&gt;setl&lt;/span&gt; &lt;span class="k"&gt;fo&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;aw&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This is pretty nice, but how should we handle the formatting of the quoted text
+from the reply?  Surely, we'd like to apply format flow to that as well.
+Indeed, we can using the external program &lt;code&gt;par&lt;/code&gt; which is a text formatter and
+adding some spaces at the ends of lines.  If you have &lt;code&gt;par&lt;/code&gt; installed, you can
+add to the &lt;code&gt;IsReply()&lt;/code&gt; function:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;function&lt;/span&gt; IsReply&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; line&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;$&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;&amp;gt;&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+        :%&lt;span class="p"&gt;!&lt;/span&gt;par w72q
+        :%&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/^&amp;gt;.\+$/&lt;/span&gt;\&lt;span class="m"&gt;0&lt;/span&gt; /&lt;span class="k"&gt;e&lt;/span&gt;
+        :&lt;span class="m"&gt;1&lt;/span&gt;
+        :&lt;span class="k"&gt;let&lt;/span&gt; @&lt;span class="k"&gt;n&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;\n\n&amp;quot;&lt;/span&gt;
+        :exe &lt;span class="s1"&gt;&amp;#39;normal &amp;quot;nP&amp;#39;&lt;/span&gt;
+    &lt;span class="k"&gt;endif&lt;/span&gt;
+&lt;span class="k"&gt;endfunction&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;These two new lines do the following.  First, they let &lt;code&gt;par&lt;/code&gt; reformat the file.
+The argument w72q sets the width to 72 and supports quotes, meaning it will
+not make a mess of the '&amp;gt;' characters indicating quote level.  The next line
+adds a space to the end of any line that starts with a quote indicator (&amp;gt;)
+except lines that are just the quote character.  I haven't had an issue yet,
+but I do wonder if something can go wrong with adding these spaces and the vim
+format option of 'a' possibly messing things up.  I think most potential
+issues are are avoided by making sure we only add spaces to lines that have
+content (&lt;code&gt;.\+&lt;/code&gt; vs &lt;code&gt;.*&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;Ah, now writing email is so much nicer.  Another thing we can do is start in
+insert mode.  Very rarely do I not want to immediately insert text when writing
+an email.  Let's add that to the augroup and now we have:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;&amp;quot; ftplugin/mail.vim&lt;/span&gt;
+&lt;span class="k"&gt;function&lt;/span&gt; IsReply&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; line&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;$&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;&amp;gt;&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+        :%&lt;span class="p"&gt;!&lt;/span&gt;par w72q
+        :%&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/^&amp;gt;.\+$/&lt;/span&gt;\&lt;span class="m"&gt;0&lt;/span&gt; /&lt;span class="k"&gt;e&lt;/span&gt;
+        :&lt;span class="m"&gt;1&lt;/span&gt;
+        :&lt;span class="k"&gt;let&lt;/span&gt; @&lt;span class="k"&gt;n&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;\n\n&amp;quot;&lt;/span&gt;
+        :exe &lt;span class="s1"&gt;&amp;#39;normal &amp;quot;nP&amp;#39;&lt;/span&gt;
+    &lt;span class="k"&gt;endif&lt;/span&gt;
+&lt;span class="k"&gt;endfunction&lt;/span&gt;
+
+augroup mail_filetype
+    autocmd&lt;span class="p"&gt;!&lt;/span&gt;
+    autocmd &lt;span class="nb"&gt;VimEnter&lt;/span&gt; * :&lt;span class="k"&gt;call&lt;/span&gt; IsReply&lt;span class="p"&gt;()&lt;/span&gt;
+    autocmd &lt;span class="nb"&gt;VimEnter&lt;/span&gt; * :exe &lt;span class="s1"&gt;&amp;#39;startinsert&amp;#39;&lt;/span&gt;
+augroup END
+
+&lt;span class="k"&gt;setl&lt;/span&gt; &lt;span class="nb"&gt;tw&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;72&lt;/span&gt;
+&lt;span class="k"&gt;setl&lt;/span&gt; &lt;span class="k"&gt;fo&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;aw&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="vim"></category><category term="mutt"></category><category term="email"></category><category term="linux"></category><category term="unix"></category></entry><entry><title>Tutorial to get cmus rockin'</title><link href="http://mdlerch.com/tutorial-to-get-cmus-rockin.html" rel="alternate"></link><updated>2014-12-07T00:00:00-07:00</updated><author><name>Michael Lerch</name></author><id>tag:mdlerch.com,2014-12-07:tutorial-to-get-cmus-rockin.html</id><summary type="html">&lt;p&gt;&lt;code&gt;cmus&lt;/code&gt; is a console based music player.  It's rather feature filled which can
 mean that getting it set up "just right" might require some work.  This post is
 to help you get &lt;code&gt;cmus&lt;/code&gt; set up to rock!  There are a few introductory tutorials
 out there, but they only scratch the surface.  My goal is to skip over the very
