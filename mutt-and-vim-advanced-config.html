@@ -186,6 +186,7 @@ an email.  Let's add that to the augroup and now we have:</p>
     <span class="k">if</span> line<span class="p">(</span><span class="s1">&#39;$&#39;</span><span class="p">)</span> <span class="p">&gt;</span> <span class="m">1</span>
         :%<span class="p">!</span>par w72q
         :%<span class="k">s</span><span class="sr">/^&gt;\+.\+$/</span>\<span class="m">0</span> /<span class="k">e</span>
+        :%<span class="k">s</span><span class="sr">/\(^&gt;\+\)\@&lt;=\s$/</span>/<span class="k">e</span>
         :<span class="m">1</span>
         :<span class="k">let</span> @<span class="k">n</span><span class="p">=</span><span class="s2">&quot;\n\n&quot;</span>
         :exe <span class="s1">&#39;normal &quot;nP&#39;</span>
