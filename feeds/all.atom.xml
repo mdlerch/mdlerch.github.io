@@ -89,7 +89,8 @@ add to the &lt;code&gt;IsReply()&lt;/code&gt; function:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;function&lt;/span&gt; IsReply&lt;span class="p"&gt;()&lt;/span&gt;
     &lt;span class="k"&gt;if&lt;/span&gt; line&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;$&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;&amp;gt;&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
         :%&lt;span class="p"&gt;!&lt;/span&gt;par w72q
-        :%&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/^&amp;gt;.\+$/&lt;/span&gt;\&lt;span class="m"&gt;0&lt;/span&gt; /&lt;span class="k"&gt;e&lt;/span&gt;
+        :%&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/^&amp;gt;\+.\+$/&lt;/span&gt;\&lt;span class="m"&gt;0&lt;/span&gt; /&lt;span class="k"&gt;e&lt;/span&gt;
+        :%&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/\(^&amp;gt;\+\)\@&amp;lt;=\s$/&lt;/span&gt;/&lt;span class="k"&gt;e&lt;/span&gt;
         :&lt;span class="m"&gt;1&lt;/span&gt;
         :&lt;span class="k"&gt;let&lt;/span&gt; @&lt;span class="k"&gt;n&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;\n\n&amp;quot;&lt;/span&gt;
         :exe &lt;span class="s1"&gt;&amp;#39;normal &amp;quot;nP&amp;#39;&lt;/span&gt;
@@ -98,15 +99,15 @@ add to the &lt;code&gt;IsReply()&lt;/code&gt; function:&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;These two new lines do the following.  First, they let &lt;code&gt;par&lt;/code&gt; reformat the file.
-The argument w72q sets the width to 72 and supports quotes, meaning it will
-not make a mess of the '&amp;gt;' characters indicating quote level.  The next line
-adds a space to the end of any line that starts with a quote indicator (&amp;gt;)
-except lines that are just the quote character.  I haven't had an issue yet,
-but I do wonder if something can go wrong with adding these spaces and the vim
-format option of 'a' possibly messing things up.  I think most potential
-issues are are avoided by making sure we only add spaces to lines that have
-content (&lt;code&gt;.\+&lt;/code&gt; vs &lt;code&gt;.*&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;These three new lines do the following.  First, they let &lt;code&gt;par&lt;/code&gt; reformat the
+file.  The argument w72q sets the width to 72 and supports quotes, meaning it
+will not make a mess of the '&amp;gt;' characters indicating quote level.  The next
+line adds a space to the end of any line that starts with a quote indicator (&amp;gt;)
+except lines that are just the quote character.  Next, any line that is just a
+series of quote indicators and then ends with a space and then a new line is
+changed to end with just the quote indicators.  I haven't figured out how to
+combine those two &lt;code&gt;:%s&lt;/code&gt; substitutions to a single line, though I feel like
+there should be a way.&lt;/p&gt;
 &lt;p&gt;Ah, now writing email is so much nicer.  Another thing we can do is start in
 insert mode.  Very rarely do I not want to immediately insert text when writing
 an email.  Let's add that to the augroup and now we have:&lt;/p&gt;
@@ -114,7 +115,7 @@ an email.  Let's add that to the augroup and now we have:&lt;/p&gt;
 &lt;span class="k"&gt;function&lt;/span&gt; IsReply&lt;span class="p"&gt;()&lt;/span&gt;
     &lt;span class="k"&gt;if&lt;/span&gt; line&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;$&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;&amp;gt;&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
         :%&lt;span class="p"&gt;!&lt;/span&gt;par w72q
-        :%&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/^&amp;gt;.\+$/&lt;/span&gt;\&lt;span class="m"&gt;0&lt;/span&gt; /&lt;span class="k"&gt;e&lt;/span&gt;
+        :%&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/^&amp;gt;\+.\+$/&lt;/span&gt;\&lt;span class="m"&gt;0&lt;/span&gt; /&lt;span class="k"&gt;e&lt;/span&gt;
         :&lt;span class="m"&gt;1&lt;/span&gt;
         :&lt;span class="k"&gt;let&lt;/span&gt; @&lt;span class="k"&gt;n&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;\n\n&amp;quot;&lt;/span&gt;
         :exe &lt;span class="s1"&gt;&amp;#39;normal &amp;quot;nP&amp;#39;&lt;/span&gt;

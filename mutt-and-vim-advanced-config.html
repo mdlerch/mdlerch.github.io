@@ -159,7 +159,8 @@ add to the <code>IsReply()</code> function:</p>
 <div class="highlight"><pre><span class="k">function</span> IsReply<span class="p">()</span>
     <span class="k">if</span> line<span class="p">(</span><span class="s1">&#39;$&#39;</span><span class="p">)</span> <span class="p">&gt;</span> <span class="m">1</span>
         :%<span class="p">!</span>par w72q
-        :%<span class="k">s</span><span class="sr">/^&gt;.\+$/</span>\<span class="m">0</span> /<span class="k">e</span>
+        :%<span class="k">s</span><span class="sr">/^&gt;\+.\+$/</span>\<span class="m">0</span> /<span class="k">e</span>
+        :%<span class="k">s</span><span class="sr">/\(^&gt;\+\)\@&lt;=\s$/</span>/<span class="k">e</span>
         :<span class="m">1</span>
         :<span class="k">let</span> @<span class="k">n</span><span class="p">=</span><span class="s2">&quot;\n\n&quot;</span>
         :exe <span class="s1">&#39;normal &quot;nP&#39;</span>
@@ -168,15 +169,15 @@ add to the <code>IsReply()</code> function:</p>
 </pre></div>
 
 
-<p>These two new lines do the following.  First, they let <code>par</code> reformat the file.
-The argument w72q sets the width to 72 and supports quotes, meaning it will
-not make a mess of the '&gt;' characters indicating quote level.  The next line
-adds a space to the end of any line that starts with a quote indicator (&gt;)
-except lines that are just the quote character.  I haven't had an issue yet,
-but I do wonder if something can go wrong with adding these spaces and the vim
-format option of 'a' possibly messing things up.  I think most potential
-issues are are avoided by making sure we only add spaces to lines that have
-content (<code>.\+</code> vs <code>.*</code>).</p>
+<p>These three new lines do the following.  First, they let <code>par</code> reformat the
+file.  The argument w72q sets the width to 72 and supports quotes, meaning it
+will not make a mess of the '&gt;' characters indicating quote level.  The next
+line adds a space to the end of any line that starts with a quote indicator (&gt;)
+except lines that are just the quote character.  Next, any line that is just a
+series of quote indicators and then ends with a space and then a new line is
+changed to end with just the quote indicators.  I haven't figured out how to
+combine those two <code>:%s</code> substitutions to a single line, though I feel like
+there should be a way.</p>
 <p>Ah, now writing email is so much nicer.  Another thing we can do is start in
 insert mode.  Very rarely do I not want to immediately insert text when writing
 an email.  Let's add that to the augroup and now we have:</p>
@@ -184,7 +185,7 @@ an email.  Let's add that to the augroup and now we have:</p>
 <span class="k">function</span> IsReply<span class="p">()</span>
     <span class="k">if</span> line<span class="p">(</span><span class="s1">&#39;$&#39;</span><span class="p">)</span> <span class="p">&gt;</span> <span class="m">1</span>
         :%<span class="p">!</span>par w72q
-        :%<span class="k">s</span><span class="sr">/^&gt;.\+$/</span>\<span class="m">0</span> /<span class="k">e</span>
+        :%<span class="k">s</span><span class="sr">/^&gt;\+.\+$/</span>\<span class="m">0</span> /<span class="k">e</span>
         :<span class="m">1</span>
         :<span class="k">let</span> @<span class="k">n</span><span class="p">=</span><span class="s2">&quot;\n\n&quot;</span>
         :exe <span class="s1">&#39;normal &quot;nP&#39;</span>
