@@ -195,8 +195,8 @@ an email.  Let's add that to the augroup and now we have:</p>
 
 augroup mail_filetype
     autocmd<span class="p">!</span>
-    autocmd <span class="nb">VimEnter</span> * :<span class="k">call</span> IsReply<span class="p">()</span>
-    autocmd <span class="nb">VimEnter</span> * :exe <span class="s1">&#39;startinsert&#39;</span>
+    autocmd <span class="nb">VimEnter</span> <span class="sr">/tmp/</span>mutt* :<span class="k">call</span> IsReply<span class="p">()</span>
+    autocmd <span class="nb">VimEnter</span> <span class="sr">/tmp/</span>mutt* :exe <span class="s1">&#39;startinsert&#39;</span>
 augroup END
 
 <span class="k">setl</span> <span class="nb">tw</span><span class="p">=</span><span class="m">72</span>
