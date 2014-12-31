@@ -120,24 +120,24 @@ this and then call it in an autocmd.  Here's the function:</p>
 <span class="k">function</span> IsReply<span class="p">()</span>
     <span class="k">if</span> line<span class="p">(</span><span class="s1">&#39;$&#39;</span><span class="p">)</span> <span class="p">&gt;</span> <span class="m">1</span>
         :<span class="m">1</span>
-        :<span class="k">let</span> @<span class="k">n</span><span class="p">=</span><span class="s2">&quot;\n\n&quot;</span>
-        :exe <span class="s1">&#39;normal &quot;nP&#39;</span>
+        :<span class="k">put</span><span class="p">!</span> <span class="p">=</span>\<span class="s2">&quot;\n\n\&quot;</span>
+        :<span class="m">1</span>
     <span class="k">endif</span>
 <span class="k">endfunction</span>
 </pre></div>
 
 
 <p>What this does is checks the line number of the last line, if it is greater
-than 1 (ie there already is content) it goes to the first line, stores two
-returns in the "n" register, and then pastes those returns.</p>
+than 1 (ie there already is content) it goes to the first line and pastes two
+returns and then returns to the first line.</p>
 <p>Now, we call that function in an autocmd and our ftplugin/mail.vim file now
 looks like this:</p>
 <div class="highlight"><pre><span class="c">&quot; ftplugin/mail.vim</span>
 <span class="k">function</span> IsReply<span class="p">()</span>
     <span class="k">if</span> line<span class="p">(</span><span class="s1">&#39;$&#39;</span><span class="p">)</span> <span class="p">&gt;</span> <span class="m">1</span>
         :<span class="m">1</span>
-        :<span class="k">let</span> @<span class="k">n</span><span class="p">=</span><span class="s2">&quot;\n\n&quot;</span>
-        :exe <span class="s1">&#39;normal &quot;nP&#39;</span>
+        :<span class="k">put</span><span class="p">!</span> <span class="p">=</span>\<span class="s2">&quot;\n\n\&quot;</span>
+        :<span class="m">1</span>
     <span class="k">endif</span>
 <span class="k">endfunction</span>
 
@@ -162,8 +162,8 @@ add to the <code>IsReply()</code> function:</p>
         :%<span class="k">s</span><span class="sr">/^&gt;\+.\+$/</span>\<span class="m">0</span> /<span class="k">e</span>
         :%<span class="k">s</span><span class="sr">/\(^&gt;\+\)\@&lt;=\s$/</span>/<span class="k">e</span>
         :<span class="m">1</span>
-        :<span class="k">let</span> @<span class="k">n</span><span class="p">=</span><span class="s2">&quot;\n\n&quot;</span>
-        :exe <span class="s1">&#39;normal &quot;nP&#39;</span>
+        :<span class="k">put</span><span class="p">!</span> <span class="p">=</span>\<span class="s2">&quot;\n\n\&quot;</span>
+        :<span class="m">1</span>
     <span class="k">endif</span>
 <span class="k">endfunction</span>
 </pre></div>
@@ -188,8 +188,8 @@ an email.  Let's add that to the augroup and now we have:</p>
         :%<span class="k">s</span><span class="sr">/^&gt;\+.\+$/</span>\<span class="m">0</span> /<span class="k">e</span>
         :%<span class="k">s</span><span class="sr">/\(^&gt;\+\)\@&lt;=\s$/</span>/<span class="k">e</span>
         :<span class="m">1</span>
-        :<span class="k">let</span> @<span class="k">n</span><span class="p">=</span><span class="s2">&quot;\n\n&quot;</span>
-        :exe <span class="s1">&#39;normal &quot;nP&#39;</span>
+        :<span class="k">put</span><span class="p">!</span> <span class="p">=</span>\<span class="s2">&quot;\n\n\&quot;</span>
+        :<span class="m">1</span>
     <span class="k">endif</span>
 <span class="k">endfunction</span>
 
