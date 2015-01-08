@@ -161,6 +161,7 @@ add to the <code>IsReply()</code> function:</p>
         :%<span class="p">!</span>par w72q
         :%<span class="k">s</span><span class="sr">/^&gt;\+.\+$/</span>\<span class="m">0</span> /<span class="k">e</span>
         :%<span class="k">s</span><span class="sr">/\(^&gt;\+\)\@&lt;=\s$/</span>/<span class="k">e</span>
+        :%<span class="k">s</span><span class="sr">/\s\+\(\n&gt;\+$\)\@=/</span>/<span class="k">e</span>
         :<span class="m">1</span>
         :<span class="k">put</span><span class="p">!</span> <span class="p">=</span>\<span class="s2">&quot;\n\n\&quot;</span>
         :<span class="m">1</span>
@@ -169,15 +170,16 @@ add to the <code>IsReply()</code> function:</p>
 </pre></div>
 
 
-<p>These three new lines do the following.  First, they let <code>par</code> reformat the
+<p>These four new lines do the following.  First, they let <code>par</code> reformat the
 file.  The argument w72q sets the width to 72 and supports quotes, meaning it
 will not make a mess of the '&gt;' characters indicating quote level.  The next
 line adds a space to the end of any line that starts with a quote indicator (&gt;)
 except lines that are just the quote character.  Next, any line that is just a
 series of quote indicators and then ends with a space and then a new line is
-changed to end with just the quote indicators.  I haven't figured out how to
-combine those two <code>:%s</code> substitutions to a single line, though I feel like
-there should be a way.</p>
+changed to end with just the quote indicators.  I feel like this substitution
+shouldn't be necessary, but maybe my first substitution is not quite right.
+Lastly, I remove the trailing whitespace of on any line that precedes a line
+that contains only the '&gt;' characters.</p>
 <p>Ah, now writing email is so much nicer.  Another thing we can do is start in
 insert mode.  Very rarely do I not want to immediately insert text when writing
 an email.  Let's add that to the augroup and now we have:</p>
@@ -187,6 +189,7 @@ an email.  Let's add that to the augroup and now we have:</p>
         :%<span class="p">!</span>par w72q
         :%<span class="k">s</span><span class="sr">/^&gt;\+.\+$/</span>\<span class="m">0</span> /<span class="k">e</span>
         :%<span class="k">s</span><span class="sr">/\(^&gt;\+\)\@&lt;=\s$/</span>/<span class="k">e</span>
+        :%<span class="k">s</span><span class="sr">/\s\+\(\n&gt;\+$\)\@=/</span>/<span class="k">e</span>
         :<span class="m">1</span>
         :<span class="k">put</span><span class="p">!</span> <span class="p">=</span>\<span class="s2">&quot;\n\n\&quot;</span>
         :<span class="m">1</span>
