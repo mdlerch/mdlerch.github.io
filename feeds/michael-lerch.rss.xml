@@ -90,8 +90,8 @@ add to the &lt;code&gt;IsReply()&lt;/code&gt; function:&lt;/p&gt;
     &lt;span class="k"&gt;if&lt;/span&gt; line&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;$&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;&amp;gt;&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
         :%&lt;span class="p"&gt;!&lt;/span&gt;par w72q
         :%&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/^&amp;gt;\+.\+$/&lt;/span&gt;\&lt;span class="m"&gt;0&lt;/span&gt; /&lt;span class="k"&gt;e&lt;/span&gt;
-        :%&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/\(^&amp;gt;\+\)\@&amp;lt;=\s$/&lt;/span&gt;/&lt;span class="k"&gt;e&lt;/span&gt;
-        :%&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/\s\+\(\n&amp;gt;\+$\)\@=/&lt;/span&gt;/&lt;span class="k"&gt;e&lt;/span&gt;
+        :%&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/^&amp;gt;\+\zs\s$/&lt;/span&gt;/&lt;span class="k"&gt;e&lt;/span&gt;
+        :%&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/\s\+\ze\n&amp;gt;\+$/&lt;/span&gt;/&lt;span class="k"&gt;e&lt;/span&gt;
         :&lt;span class="m"&gt;1&lt;/span&gt;
         :&lt;span class="k"&gt;put&lt;/span&gt;&lt;span class="p"&gt;!&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt;\&lt;span class="s2"&gt;&amp;quot;\n\n\&amp;quot;&lt;/span&gt;
         :&lt;span class="m"&gt;1&lt;/span&gt;
@@ -118,8 +118,8 @@ an email.  Let's add that to the augroup and now we have:&lt;/p&gt;
     &lt;span class="k"&gt;if&lt;/span&gt; line&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;$&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;&amp;gt;&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
         :%&lt;span class="p"&gt;!&lt;/span&gt;par w72q
         :%&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/^&amp;gt;\+.\+$/&lt;/span&gt;\&lt;span class="m"&gt;0&lt;/span&gt; /&lt;span class="k"&gt;e&lt;/span&gt;
-        :%&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/\(^&amp;gt;\+\)\@&amp;lt;=\s$/&lt;/span&gt;/&lt;span class="k"&gt;e&lt;/span&gt;
-        :%&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/\s\+\(\n&amp;gt;\+$\)\@=/&lt;/span&gt;/&lt;span class="k"&gt;e&lt;/span&gt;
+        :%&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/^&amp;gt;\+\zs\s$/&lt;/span&gt;/&lt;span class="k"&gt;e&lt;/span&gt;
+        :%&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/\s\+\ze\n&amp;gt;\+$/&lt;/span&gt;/&lt;span class="k"&gt;e&lt;/span&gt;
         :&lt;span class="m"&gt;1&lt;/span&gt;
         :&lt;span class="k"&gt;put&lt;/span&gt;&lt;span class="p"&gt;!&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt;\&lt;span class="s2"&gt;&amp;quot;\n\n\&amp;quot;&lt;/span&gt;
         :&lt;span class="m"&gt;1&lt;/span&gt;
