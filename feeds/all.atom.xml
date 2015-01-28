@@ -23,7 +23,7 @@ the "joe"'s in you contact list.&lt;/p&gt;
 
 &lt;p&gt;That is, no quotes around the &lt;code&gt;%s&lt;/code&gt;.  Mutt adds them automatically (see &lt;code&gt;man
 muttrc&lt;/code&gt;).&lt;/p&gt;
-&lt;p&gt;Finally, you can type a first &lt;em&gt;and&lt;/em&gt; last name to query!&lt;/p&gt;</summary><category term="mutt"></category></entry><entry><title>Mutt and Vim advanced config</title><link href="http://mdlerch.com/mutt-and-vim-advanced-config.html" rel="alternate"></link><updated>2014-12-29T00:00:00-07:00</updated><author><name>Michael Lerch</name></author><id>tag:mdlerch.com,2014-12-29:mutt-and-vim-advanced-config.html</id><summary type="html">&lt;p&gt;Here are some tips you might like for advanced emailing with vim.  I use mutt
+&lt;p&gt;Finally, you can type a first &lt;em&gt;and&lt;/em&gt; last name to query!&lt;/p&gt;</summary><category term="mutt"></category></entry><entry><title>Emailing (mutt) and vim advanced config</title><link href="http://mdlerch.com/emailing-mutt-and-vim-advanced-config.html" rel="alternate"></link><updated>2014-12-29T00:00:00-07:00</updated><author><name>Michael Lerch</name></author><id>tag:mdlerch.com,2014-12-29:emailing-mutt-and-vim-advanced-config.html</id><summary type="html">&lt;p&gt;Here are some tips you might like for advanced emailing with vim.  I use mutt
 as my email client, but these tips should be mostly applicable to any other
 email client you might use.&lt;/p&gt;
 &lt;p&gt;First, let's talk about format flowed text.  Perhaps you believe so strongly in
@@ -113,9 +113,8 @@ add to the &lt;code&gt;IsReply()&lt;/code&gt; function:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;function&lt;/span&gt; IsReply&lt;span class="p"&gt;()&lt;/span&gt;
     &lt;span class="k"&gt;if&lt;/span&gt; line&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;$&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;&amp;gt;&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
         :%&lt;span class="p"&gt;!&lt;/span&gt;par w72q
-        :%&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/^&amp;gt;\+.\+$/&lt;/span&gt;\&lt;span class="m"&gt;0&lt;/span&gt; /&lt;span class="k"&gt;e&lt;/span&gt;
-        :%&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/^&amp;gt;\+\zs\s$/&lt;/span&gt;/&lt;span class="k"&gt;e&lt;/span&gt;
-        :%&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/\s\+\ze\n&amp;gt;\+$/&lt;/span&gt;/&lt;span class="k"&gt;e&lt;/span&gt;
+        :%&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/^.\+\ze\n\(&amp;gt;*$\)\@!/&lt;/span&gt;\&lt;span class="m"&gt;0&lt;/span&gt; /&lt;span class="k"&gt;e&lt;/span&gt;
+        :%&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/^&amp;gt;*\zs\s\+$/&lt;/span&gt;/&lt;span class="k"&gt;e&lt;/span&gt;
         :&lt;span class="m"&gt;1&lt;/span&gt;
         :&lt;span class="k"&gt;put&lt;/span&gt;&lt;span class="p"&gt;!&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt;\&lt;span class="s2"&gt;&amp;quot;\n\n\&amp;quot;&lt;/span&gt;
         :&lt;span class="m"&gt;1&lt;/span&gt;
@@ -124,26 +123,31 @@ add to the &lt;code&gt;IsReply()&lt;/code&gt; function:&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;These four new lines do the following.  First, they let &lt;code&gt;par&lt;/code&gt; reformat the
-file.  The argument w72q sets the width to 72 and supports quotes, meaning it
-will not make a mess of the '&amp;gt;' characters indicating quote level.  The next
-line adds a space to the end of any line that starts with a quote indicator (&amp;gt;)
-except lines that are just the quote character.  Next, any line that is just a
-series of quote indicators and then ends with a space and then a new line is
-changed to end with just the quote indicators.  I feel like this substitution
-shouldn't be necessary, but maybe my first substitution is not quite right.
-Lastly, I remove the trailing whitespace on any line that precedes a line
-that contains only the '&amp;gt;' characters.&lt;/p&gt;
-&lt;p&gt;Ah, now writing email is so much nicer.  Another thing we can do is start in
-insert mode.  Very rarely do I not want to immediately insert text when writing
-an email.  Let's add that to the augroup and now we have:&lt;/p&gt;
+&lt;p&gt;These three new lines do the following.  First, they let &lt;code&gt;par&lt;/code&gt; reformat the
+file (make sure you have &lt;code&gt;par&lt;/code&gt; installed!).  The argument w72q sets the width
+to 72 and supports quotes, meaning it will not make a mess of the '&amp;gt;'
+characters indicating quote level.&lt;/p&gt;
+&lt;p&gt;The next line &lt;code&gt;:%s/^.\+\ze\n\(&amp;gt;*$\)\@!/\0 /e&lt;/code&gt; is a search and replace across
+the whole buffer.  It searches for any lines that contains one or more
+characters followed by a line that is not 0 characters or only '&amp;gt;' characters.
+The actual matched bit is the original line.  The substitution is that same
+line with a space at the end.&lt;/p&gt;
+&lt;p&gt;The next line &lt;code&gt;:%s/^&amp;gt;*\zs\s\+$//e&lt;/code&gt; is another search and replace across the
+whole buffer.  I suspect it is possible to combine these two search and
+replaces, but I haven't bothered to figure it out yet.  What this one does it
+looks for any lines that are the '&amp;gt;' followed by whitespace.  Such lines are
+replaced by just the string of '&amp;gt;'.&lt;/p&gt;
+&lt;p&gt;Thus, blank lines are not swallowed up by flowed text!&lt;/p&gt;
+&lt;p&gt;Ah, now writing email is so much nicer.  It's not totally perfect, but it's
+pretty good. Another thing we can do is start in insert mode.  Very rarely do I
+not want to immediately insert text when writing an email.  Let's add that to
+the augroup and now we have:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;&amp;quot; ftplugin/mail.vim&lt;/span&gt;
 &lt;span class="k"&gt;function&lt;/span&gt; IsReply&lt;span class="p"&gt;()&lt;/span&gt;
     &lt;span class="k"&gt;if&lt;/span&gt; line&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;$&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;&amp;gt;&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
         :%&lt;span class="p"&gt;!&lt;/span&gt;par w72q
-        :%&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/^&amp;gt;\+.\+$/&lt;/span&gt;\&lt;span class="m"&gt;0&lt;/span&gt; /&lt;span class="k"&gt;e&lt;/span&gt;
-        :%&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/^&amp;gt;\+\zs\s$/&lt;/span&gt;/&lt;span class="k"&gt;e&lt;/span&gt;
-        :%&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/\s\+\ze\n&amp;gt;\+$/&lt;/span&gt;/&lt;span class="k"&gt;e&lt;/span&gt;
+        :%&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/^.\+\ze\n\(&amp;gt;*$\)\@!/&lt;/span&gt;\&lt;span class="m"&gt;0&lt;/span&gt; /&lt;span class="k"&gt;e&lt;/span&gt;
+        :%&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/^&amp;gt;*\zs\s\+$/&lt;/span&gt;/&lt;span class="k"&gt;e&lt;/span&gt;
         :&lt;span class="m"&gt;1&lt;/span&gt;
         :&lt;span class="k"&gt;put&lt;/span&gt;&lt;span class="p"&gt;!&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt;\&lt;span class="s2"&gt;&amp;quot;\n\n\&amp;quot;&lt;/span&gt;
         :&lt;span class="m"&gt;1&lt;/span&gt;
