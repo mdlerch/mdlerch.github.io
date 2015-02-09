@@ -22,7 +22,7 @@ will be set to &lt;code&gt;vim&lt;/code&gt; by default.  You can change that wit
 
 
 &lt;p&gt;All done.  The difftool uses the mergetool by default so that's all you need
-to set!&lt;/p&gt;</summary><category term="vim neovim"></category></entry><entry><title>Fixing mutt and goobook</title><link href="http://mdlerch.com/fixing-mutt-and-goobook.html" rel="alternate"></link><updated>2015-01-27T00:00:00-07:00</updated><author><name>Michael Lerch</name></author><id>tag:mdlerch.com,2015-01-27:fixing-mutt-and-goobook.html</id><summary type="html">&lt;p&gt;There are a lot of blog posts out there that show how to combine mutt and
+to set!&lt;/p&gt;</summary><category term="vim"></category><category term="neovim"></category><category term="git"></category></entry><entry><title>Fixing mutt and goobook</title><link href="http://mdlerch.com/fixing-mutt-and-goobook.html" rel="alternate"></link><updated>2015-01-27T00:00:00-07:00</updated><author><name>Michael Lerch</name></author><id>tag:mdlerch.com,2015-01-27:fixing-mutt-and-goobook.html</id><summary type="html">&lt;p&gt;There are a lot of blog posts out there that show how to combine mutt and
 goobook.  However, all of them that I have seen are wrong.  This isn't a long,
 post, I'm not going to tell you &lt;em&gt;about&lt;/em&gt; goobook and mutt, I'm just going to
 tell you the problem and the &lt;em&gt;correct&lt;/em&gt; usage.  I imagine this also goes for
