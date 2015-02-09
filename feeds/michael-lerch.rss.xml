@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>mdlerch</title><link>http://mdlerch.com/</link><description></description><atom:link href="http://mdlerch.com/feeds/michael-lerch.rss.xml" rel="self"></atom:link><lastBuildDate>Tue, 27 Jan 2015 00:00:00 -0700</lastBuildDate><item><title>Fixing mutt and goobook</title><link>http://mdlerch.com/fixing-mutt-and-goobook.html</link><description>&lt;p&gt;There are a lot of blog posts out there that show how to combine mutt and
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>mdlerch</title><link>http://mdlerch.com/</link><description></description><atom:link href="http://mdlerch.com/feeds/michael-lerch.rss.xml" rel="self"></atom:link><lastBuildDate>Sun, 08 Feb 2015 00:00:00 -0700</lastBuildDate><item><title>neovim as git diff and merge tool</title><link>http://mdlerch.com/neovim-as-git-diff-and-merge-tool.html</link><description>&lt;p&gt;You've made the switch.  You are now using neovim for all your text editing,
+and you've hardly even noticed that you aren't using regular old vim.  Except
+one thing.  Your git difftool and mergetool aren't quite right.  One of two
+things is happening.  Either you are using old vim (which is fine, but you
+want to switch &lt;em&gt;completely&lt;/em&gt; to neovim) or things are breaking because you have
+gone so far as to not just install neovim but to also remove vim!&lt;/p&gt;
+&lt;p&gt;So why is this happening?  Your git mergetool is still set to vim even
+though you set your core.editor to nvim.  So, we just tell git to use &lt;code&gt;nvim&lt;/code&gt;
+for your mergetool.&lt;/p&gt;
+&lt;p&gt;First, you probably have or want something like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;git&lt;/span&gt; &lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;global&lt;/span&gt; &lt;span class="n"&gt;merge&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tool&lt;/span&gt; &lt;span class="n"&gt;vimdiff&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;That &lt;code&gt;vimdiff&lt;/code&gt; in there is &lt;em&gt;not&lt;/em&gt; the &lt;code&gt;vimdiff&lt;/code&gt; executable.  It refers to a
+built-in script.  There's also &lt;code&gt;vimdiff2&lt;/code&gt; and &lt;code&gt;vimdiff3&lt;/code&gt;.  (3 is the best by
+the way.)  Those built-in scripts call the &lt;code&gt;merge_tool_path&lt;/code&gt; executable.  Which
+will be set to &lt;code&gt;vim&lt;/code&gt; by default.  You can change that with&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;git&lt;/span&gt; &lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;global&lt;/span&gt; &lt;span class="n"&gt;mergetool&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt; &lt;span class="n"&gt;nvim&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;All done.  The difftool uses the mergetool by default so that's all you need
+to set!&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Michael Lerch</dc:creator><pubDate>Sun, 08 Feb 2015 00:00:00 -0700</pubDate><guid>tag:mdlerch.com,2015-02-08:neovim-as-git-diff-and-merge-tool.html</guid><category>vim neovim</category></item><item><title>Fixing mutt and goobook</title><link>http://mdlerch.com/fixing-mutt-and-goobook.html</link><description>&lt;p&gt;There are a lot of blog posts out there that show how to combine mutt and
 goobook.  However, all of them that I have seen are wrong.  This isn't a long,
 post, I'm not going to tell you &lt;em&gt;about&lt;/em&gt; goobook and mutt, I'm just going to
 tell you the problem and the &lt;em&gt;correct&lt;/em&gt; usage.  I imagine this also goes for
