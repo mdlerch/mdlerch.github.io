@@ -13,7 +13,7 @@ for your mergetool.&lt;/p&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;That &lt;code&gt;vimdiff&lt;/code&gt; in there is &lt;em&gt;not&lt;/em&gt; the &lt;code&gt;vimdiff&lt;/code&gt; executable.  It refers to a
+&lt;p&gt;Note that &lt;code&gt;vimdiff&lt;/code&gt; in there is &lt;em&gt;not&lt;/em&gt; the &lt;code&gt;vimdiff&lt;/code&gt; executable.  It refers to a
 built-in script.  There's also &lt;code&gt;vimdiff2&lt;/code&gt; and &lt;code&gt;vimdiff3&lt;/code&gt;.  (3 is the best by
 the way.)  Those built-in scripts call the &lt;code&gt;merge_tool_path&lt;/code&gt; executable.  Which
 will be set to &lt;code&gt;vim&lt;/code&gt; by default.  You can change that with&lt;/p&gt;
