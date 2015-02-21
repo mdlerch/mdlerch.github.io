@@ -164,10 +164,11 @@ replaced by just the string of '&amp;gt;'.&lt;/p&gt;
 &lt;p&gt;Ah, now writing email is so much nicer.  It's not totally perfect, but it's
 pretty good. Another thing we can do is start in insert mode.  Very rarely do I
 not want to immediately insert text when writing an email.  Let's add that to
-the augroup and now we have:&lt;/p&gt;
+the augroup.  Also, before anything else, get rid of old signatures.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;&amp;quot; ftplugin/mail.vim&lt;/span&gt;
 &lt;span class="k"&gt;function&lt;/span&gt; IsReply&lt;span class="p"&gt;()&lt;/span&gt;
     &lt;span class="k"&gt;if&lt;/span&gt; line&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;$&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;&amp;gt;&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
+        :&lt;span class="k"&gt;g&lt;/span&gt;&lt;span class="sr"&gt;/^&amp;gt;\s\=--\s\=$/&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;$ delete
         :%&lt;span class="p"&gt;!&lt;/span&gt;par w72q
         :%&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/^.\+\ze\n\(&amp;gt;*$\)\@!/&lt;/span&gt;\&lt;span class="m"&gt;0&lt;/span&gt; /&lt;span class="k"&gt;e&lt;/span&gt;
         :%&lt;span class="k"&gt;s&lt;/span&gt;&lt;span class="sr"&gt;/^&amp;gt;*\zs\s\+$/&lt;/span&gt;/&lt;span class="k"&gt;e&lt;/span&gt;
