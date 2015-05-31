@@ -1,5 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>mdlerch</title><link>http://mdlerch.com/</link><description></description><atom:link href="http://mdlerch.com/feeds/michael-lerch.rss.xml" rel="self"></atom:link><lastBuildDate>Sun, 08 Feb 2015 00:00:00 -0700</lastBuildDate><item><title>neovim as git diff and merge tool</title><link>http://mdlerch.com/neovim-as-git-diff-and-merge-tool.html</link><description>&lt;p&gt;You've made the switch.  You are now using neovim for all your text editing,
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>mdlerch</title><link>http://mdlerch.com/</link><description></description><atom:link href="http://mdlerch.com/feeds/michael-lerch.rss.xml" rel="self"></atom:link><lastBuildDate>Sun, 31 May 2015 00:00:00 -0600</lastBuildDate><item><title>Writing tests for R packages without testthat and RUnit</title><link>http://mdlerch.com/writing-tests-for-r-packages-without-testthat-and-runit.html</link><description>&lt;p&gt;As a beginner R package author who wanted to include tests in his package, I turned to Google.
+If you do the same, you will find multiple tutorials for the &lt;code&gt;testthat&lt;/code&gt; package and maybe even a few for the &lt;code&gt;RUnit&lt;/code&gt; package.
+If you look very closely, you will notice there is also a  &lt;code&gt;testit&lt;/code&gt; package.
+If you are reading this, that probably means you, like me, found &lt;code&gt;testthat&lt;/code&gt; annoying and &lt;code&gt;RUnit&lt;/code&gt; hard to decipher.
+So, why are these packages so popular?
+It's a positive feedback loop.
+&lt;code&gt;testthat&lt;/code&gt; will be popular by default since it was written by Hadley Wickham.
+Quickly, &lt;code&gt;testthat&lt;/code&gt; comes to dominate search results which makes new users think that this is the only method which further encourages future package authors to use &lt;code&gt;testthat&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;But guess what, you &lt;strong&gt;don't&lt;/strong&gt; need to use those packages!
+The &lt;code&gt;testit&lt;/code&gt; package looks nice and simple.
+If I were going to use a package, I'd go with &lt;code&gt;testit&lt;/code&gt;, but for this blog, I'd like to show you how to do testing without any specific package.
+It's actually extremely simple.
+Let's do some examples.&lt;/p&gt;
+&lt;p&gt;For our first example, we just want to make sure some R code will run successfully.
+Perhaps you had an issue in a previous version where some R code crashed or returned an error which you didn't want.
+To perform this test, just create an R file in the &lt;code&gt;tests/&lt;/code&gt; folder of your package.
+You can name it whatever you want.
+The contents should just be to load your package and then run whatever R code you want:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;library&lt;span class="p"&gt;(&lt;/span&gt;MyPackage&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c1"&gt;# Make sure x = 12 works for function MyFunction&lt;/span&gt;
+MyFunction&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;12&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;That's all it takes.&lt;/p&gt;
+&lt;p&gt;OK.
+Now maybe &lt;code&gt;MyFunction(12)&lt;/code&gt; ought to return a specific value.
+Well, we can pretty simply just adapt the code to call an error if the right value doesn't come up:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;library&lt;span class="p"&gt;(&lt;/span&gt;MyPackage&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c1"&gt;# Make sure x = 12 works for function MyFunction and gives correct output&lt;/span&gt;
+a &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; MyFunction&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;12&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="kr"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;a &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="m"&gt;13&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    stop&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;MyFunction(12) doesn&amp;#39;t equal 13&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Great!
+Now what if your function returns a big pile of output or a list and you aren't interested in capturing that output and writing the appropriate &lt;code&gt;if&lt;/code&gt; statement to check?
+Well, if you are certain that the function is currently working, then just change your test file to something like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;library&lt;span class="p"&gt;(&lt;/span&gt;MyPackage&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c1"&gt;# Make sure x = 12 works for function MyFunction and gives correct output&lt;/span&gt;
+MyFunction&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;12&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now create an Rout file: &lt;code&gt;R CMD BATCH my_test_file.R&lt;/code&gt;.
+This creates the file &lt;code&gt;my_test_file.Rout&lt;/code&gt;.
+It's probably a good idea to look over that Rout file just to make sure things look as they should.
+Now, rename that Rout file as &lt;code&gt;my_test_file.Rout.save&lt;/code&gt; and make sure it is in the &lt;code&gt;tests/&lt;/code&gt; folder.
+To be clear, the base name should be the same as the .R file, and the extension should be .Rout.save.
+Now, when you run your tests, the output of &lt;code&gt;my_test_file.R&lt;/code&gt; will be compared to the already existing &lt;code&gt;my_test_file.Rout.save&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Pretty simple, eh?&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Michael Lerch</dc:creator><pubDate>Sun, 31 May 2015 00:00:00 -0600</pubDate><guid>tag:mdlerch.com,2015-05-31:writing-tests-for-r-packages-without-testthat-and-runit.html</guid><category>R</category></item><item><title>neovim as git diff and merge tool</title><link>http://mdlerch.com/neovim-as-git-diff-and-merge-tool.html</link><description>&lt;p&gt;You've made the switch.  You are now using neovim for all your text editing,
 and you've hardly even noticed that you aren't using regular old vim.  Except
 one thing.  Your git difftool and mergetool aren't quite right.  One of two
 things is happening.  Either you are using old vim (which is fine, but you

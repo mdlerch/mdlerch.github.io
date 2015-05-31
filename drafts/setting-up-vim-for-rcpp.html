@@ -6,7 +6,9 @@
         <meta name="author" content="Michael Lerch" />
         <meta name="copyright" content="Michael Lerch" />
 
-        <title>mdlerch - Authors</title>
+<meta name="keywords" content="vim, R, Rcpp, vim, " />
+        <title>Setting up vim for Rcpp - mdlerch
+</title>
         <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="http://mdlerch.com/theme/css/style.css" media="screen">
@@ -57,7 +59,90 @@
             <div class="row-fluid">
                 <div class="span1"></div>
                 <div class="span10">
-    <h1>Authors on mdlerch</h1>        <li><a href="http://mdlerch.com/author/michael-lerch.html">Michael Lerch</a> (9)</li>
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="http://mdlerch.com/drafts/setting-up-vim-for-rcpp.html"> Setting up vim for Rcpp  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <h1>Motivation</h1>
+<p>My motivation for writing this post is so to have a reference for myself about
+how I set up vim for Rcpp.  If anyone else finds this useful, that's just
+bonus!  Though the fine details are Rcpp related it should be applicable for
+general .cpp stuff.</p>
+<h1>Plug-ins</h1>
+<p>The three vim plug-ins that I'll need are:</p>
+<ol>
+<li><a href="http://github.com/benekastah/neomake">neomake</a>, to check for syntax
+   errors.  Note that this is a neovim plug-in.</li>
+<li><a href="http://github.com/Valloric/YouCompleteMe">YouCompleteMe</a>, which provides
+   intelligent auto-completion, and</li>
+<li><a href="http://github.com/abudden/taghighlight-automirror">TagHighlight</a>, which
+   provides intelligent syntax highlighting.</li>
+</ol>
+<h1>YouCompleteMe</h1>
+            <aside>
+            </aside>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
+                href="http://mdlerch.com/drafts/setting-up-vim-for-rcpp.html/#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body in">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'mdlerch';
+        var disqus_identifier = 'http://mdlerch.com/drafts/setting-up-vim-for-rcpp.html';
+    var disqus_url = 'http://mdlerch.com/drafts/setting-up-vim-for-rcpp.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+            <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="mdlerch">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2015-03-28T00:00:00">Mar 28, 2015</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#vim-ref">vim</a> 
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article"> 
+                <li><a href="/tags.html#R-ref">R
+                    <span>1</span>
+</a></li>
+                <li><a href="/tags.html#Rcpp-ref">Rcpp
+</a></li>
+                <li><a href="/tags.html#vim-ref">vim
+                    <span>3</span>
+</a></li>
+            </ul>
+
+        </div>
+        </section>
+    </div>
+    </article>
                 </div>
                 <div class="span1"></div>
             </div>
@@ -69,7 +154,7 @@
         <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
     </ul>
 </div>
-</footer>        <script src="http://code.jquery.com/jquery.min.js"></script>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
         <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
         <script>
             function validateForm(query)
@@ -77,5 +162,16 @@
                 return (query.length > 0);
             }
         </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'mdlerch';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
     </body>
 </html>
