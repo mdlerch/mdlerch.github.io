@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>mdlerch</title><link>http://mdlerch.com/</link><description></description><atom:link href="http://mdlerch.com/feeds/michael-lerch.rss.xml" rel="self"></atom:link><lastBuildDate>Sun, 31 May 2015 00:00:00 -0600</lastBuildDate><item><title>Writing tests for R packages without testthat and RUnit</title><link>http://mdlerch.com/writing-tests-for-r-packages-without-testthat-and-runit.html</link><description>&lt;p&gt;As a beginner R package author who wanted to include tests in his package, I turned to Google.
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>mdlerch</title><link>http://mdlerch.com/</link><description></description><atom:link href="http://mdlerch.com/feeds/michael-lerch.rss.xml" rel="self"></atom:link><lastBuildDate>Fri, 19 Jun 2015 00:00:00 -0600</lastBuildDate><item><title>UltiSnip snippets missing from completion menu with YouCompleteMe</title><link>http://mdlerch.com/ultisnip-snippets-missing-from-completion-menu-with-youcompleteme.html</link><description>&lt;p&gt;I was having a problem in neovim where my UltiSnips snippets were working, I
+could expand them, however YouCompleteMe was not displaying their availability
+in the pop-up completion menu.  Actually, a couple of the snippets showed up,
+but not most of them.&lt;/p&gt;
+&lt;p&gt;My problem was that UltiSnips was loading with Python 3 and YouCompleteMe is
+on Python 2.  To fix the problem, I simply told UltiSnips to use Python 2:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;g&lt;/span&gt;:UltiSnipsUsePythonVersion&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now, YouCompleteMe populates the completion menu with &lt;em&gt;all&lt;/em&gt; the matching
+snippets.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Michael Lerch</dc:creator><pubDate>Fri, 19 Jun 2015 00:00:00 -0600</pubDate><guid>tag:mdlerch.com,2015-06-19:ultisnip-snippets-missing-from-completion-menu-with-youcompleteme.html</guid><category>vim</category></item><item><title>Writing tests for R packages without testthat and RUnit</title><link>http://mdlerch.com/writing-tests-for-r-packages-without-testthat-and-runit.html</link><description>&lt;p&gt;As a beginner R package author who wanted to include tests in his package, I turned to Google.
 If you do the same, you will find multiple tutorials for the &lt;code&gt;testthat&lt;/code&gt; package and maybe even a few for the &lt;code&gt;RUnit&lt;/code&gt; package.
 If you look very closely, you will notice there is also a  &lt;code&gt;testit&lt;/code&gt; package.
 If you are reading this, that probably means you, like me, found &lt;code&gt;testthat&lt;/code&gt; annoying and &lt;code&gt;RUnit&lt;/code&gt; hard to decipher.
