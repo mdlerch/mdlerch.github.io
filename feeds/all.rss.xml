@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>mdlerch</title><link>http://mdlerch.com/</link><description></description><atom:link href="http://mdlerch.com/feeds/all.rss.xml" rel="self"></atom:link><lastBuildDate>Fri, 19 Jun 2015 00:00:00 -0600</lastBuildDate><item><title>UltiSnip snippets missing from completion menu with YouCompleteMe</title><link>http://mdlerch.com/ultisnip-snippets-missing-from-completion-menu-with-youcompleteme.html</link><description>&lt;p&gt;I was having a problem in neovim where my UltiSnips snippets were working, I
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>mdlerch</title><link>http://mdlerch.com/</link><description></description><atom:link href="http://mdlerch.com/feeds/all.rss.xml" rel="self"></atom:link><lastBuildDate>Sat, 18 Jul 2015 00:00:00 -0600</lastBuildDate><item><title>turn off cli alias</title><link>http://mdlerch.com/turn-off-cli-alias.html</link><description>&lt;p&gt;tl;dr: &lt;code&gt;\cmd&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;There may be a situation where you have masked a command with a shell alias.
+For example, you may always run a command with certain flags so you might do
+something like&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;alias &lt;/span&gt;&lt;span class="nv"&gt;ls&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;ls --color&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;If, for whatever reason, you'd like to run the default &lt;code&gt;ls&lt;/code&gt; (or any command
+masked by an alias), just prepend with &lt;code&gt;\&lt;/code&gt;: &lt;code&gt;\ls&lt;/code&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Michael Lerch</dc:creator><pubDate>Sat, 18 Jul 2015 00:00:00 -0600</pubDate><guid>tag:mdlerch.com,2015-07-18:turn-off-cli-alias.html</guid><category>linux</category><category>alias</category><category>cli</category></item><item><title>UltiSnip snippets missing from completion menu with YouCompleteMe</title><link>http://mdlerch.com/ultisnip-snippets-missing-from-completion-menu-with-youcompleteme.html</link><description>&lt;p&gt;I was having a problem in neovim where my UltiSnips snippets were working, I
 could expand them, however YouCompleteMe was not displaying their availability
 in the pop-up completion menu.  Actually, a couple of the snippets showed up,
 but not most of them.&lt;/p&gt;

@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>mdlerch</title><link href="http://mdlerch.com/" rel="alternate"></link><link href="http://mdlerch.com/feeds/michael-lerch.atom.xml" rel="self"></link><id>http://mdlerch.com/</id><updated>2015-06-19T00:00:00-06:00</updated><entry><title>UltiSnip snippets missing from completion menu with YouCompleteMe</title><link href="http://mdlerch.com/ultisnip-snippets-missing-from-completion-menu-with-youcompleteme.html" rel="alternate"></link><updated>2015-06-19T00:00:00-06:00</updated><author><name>Michael Lerch</name></author><id>tag:mdlerch.com,2015-06-19:ultisnip-snippets-missing-from-completion-menu-with-youcompleteme.html</id><summary type="html">&lt;p&gt;I was having a problem in neovim where my UltiSnips snippets were working, I
+<feed xmlns="http://www.w3.org/2005/Atom"><title>mdlerch</title><link href="http://mdlerch.com/" rel="alternate"></link><link href="http://mdlerch.com/feeds/michael-lerch.atom.xml" rel="self"></link><id>http://mdlerch.com/</id><updated>2015-07-18T00:00:00-06:00</updated><entry><title>turn off cli alias</title><link href="http://mdlerch.com/turn-off-cli-alias.html" rel="alternate"></link><updated>2015-07-18T00:00:00-06:00</updated><author><name>Michael Lerch</name></author><id>tag:mdlerch.com,2015-07-18:turn-off-cli-alias.html</id><summary type="html">&lt;p&gt;tl;dr: &lt;code&gt;\cmd&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;There may be a situation where you have masked a command with a shell alias.
+For example, you may always run a command with certain flags so you might do
+something like&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;alias &lt;/span&gt;&lt;span class="nv"&gt;ls&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;ls --color&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;If, for whatever reason, you'd like to run the default &lt;code&gt;ls&lt;/code&gt; (or any command
+masked by an alias), just prepend with &lt;code&gt;\&lt;/code&gt;: &lt;code&gt;\ls&lt;/code&gt;&lt;/p&gt;</summary><category term="linux"></category><category term="alias"></category><category term="cli"></category></entry><entry><title>UltiSnip snippets missing from completion menu with YouCompleteMe</title><link href="http://mdlerch.com/ultisnip-snippets-missing-from-completion-menu-with-youcompleteme.html" rel="alternate"></link><updated>2015-06-19T00:00:00-06:00</updated><author><name>Michael Lerch</name></author><id>tag:mdlerch.com,2015-06-19:ultisnip-snippets-missing-from-completion-menu-with-youcompleteme.html</id><summary type="html">&lt;p&gt;I was having a problem in neovim where my UltiSnips snippets were working, I
 could expand them, however YouCompleteMe was not displaying their availability
 in the pop-up completion menu.  Actually, a couple of the snippets showed up,
 but not most of them.&lt;/p&gt;
