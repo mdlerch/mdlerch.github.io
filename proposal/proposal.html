@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Michael Lerch" />
+  <title>Cost-considerate variable selection</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="reveal.js/css/reveal.css"/>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="reveal.js/css/theme/miggy.css" id="theme">
+  <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+  <script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = 'reveal.js/css/print/pdf.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+  </script>
+  <!--[if lt IE 9]>
+  <script src="reveal.js/lib/js/html5shiv.js"></script>
+  <![endif]-->
+
+
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <style type="text/css">
+      .reveal h1 { font-size: 2.5em; }
+      .small p { font-size: .5em; }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+    <h1 class="title">Cost-considerate variable selection</h1>
+    <h2 class="author">Michael Lerch</h2>
+    <h3 class="date"></h3>
+</section>
+
+<section><section id="variable-selection" class="titleslide slide level1"><h1>Variable Selection</h1></section><section id="linear-models" class="slide level2">
+<h1>Linear Models</h1>
+<ul>
+<li><p><span class="math inline">\(y\)</span> - response variable</p></li>
+<li><p><span class="math inline">\(x_j\)</span> - explanatory variable</p></li>
+</ul>
+<p><span class="math display">\[ y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \ldots + \epsilon \]</span></p>
+<p>Variable selection: Which of the <span class="math inline">\(x_j\)</span> should we include in the model?</p>
+</section><section id="why-do-variable-selection" class="slide level2">
+<h1>Why do variable selection?</h1>
+<ul>
+<li>Parsimony</li>
+<li><em>Simple</em> models are preferred to more <em>complicated</em> models</li>
+<li>Regularization</li>
+<li>Prevent overfitting</li>
+</ul>
+<p><span class="math display">\[y = \beta_0 + \beta_1 x + \epsilon\]</span></p>
+<p>vs</p>
+<p><span class="math display">\[y = \beta_0 + \beta_1 x + \beta_2 x^2 + \ldots + \beta_5 x^5 + \epsilon\]</span></p>
+</section><section id="overfitting" class="slide level2">
+<h1>Overfitting</h1>
+<p><img src="figure/overfitting-1.png" alt="plot of chunk overfitting" /></p>
+</section><section id="overfitting-1" class="slide level2">
+<h1>Overfitting</h1>
+<p><img src="figure/overfittingfit-1.png" alt="plot of chunk overfittingfit" /></p>
+</section><section id="overfitting-2" class="slide level2">
+<h1>Overfitting</h1>
+<p><img src="figure/extrapolation-1.png" alt="plot of chunk extrapolation" /></p>
+</section><section id="why-do-variable-selection-1" class="slide level2">
+<h1>Why do variable selection?</h1>
+<ul>
+<li>Parsimony</li>
+<li>Regularization</li>
+<li>Cost of data collection</li>
+</ul>
+</section></section>
+<section><section id="crab-claw-size-and-force" class="titleslide slide level1"><h1>Crab Claw Size and Force</h1></section><section class="slide level2">
+
+<blockquote>
+<p>As part of a study of the effects of predatory intertidal crab species on snail populations, researchers measured the mean closing forces and the propodus heights of the claws on several crabs of three species</p>
+</blockquote>
+<div class="small">
+<p>Statistical Sleuth 2 ex 7.24</p>
+</div>
+</section><section id="mitutoyo-544-116-1a" class="slide level2">
+<h1>Mitutoyo 544-116-1A</h1>
+<!-- http://www.amazon.com/Mitutoyo-544-116-1A-Micrometer-Selectable-Resolution/dp/B007FFT6JO/ref=sr_1_1?ie=UTF8&qid=1438896112&sr=8-1&keywords=laser+micrometer -->
+<!-- 50 nanometer precision -->
+<p><img src="./img/micrometer.jpg" alt="" /></p>
+<div class="fragment">
+<p>$8,000</p>
+</div>
+</section><section id="ruler" class="slide level2">
+<h1>Ruler</h1>
+<p><img src="./img/ruler2.jpg" alt="" /></p>
+<div class="fragment">
+<p>$1.50</p>
+<!-- Free shipping with Amazon prime -->
+<!-- Sugar cane harvest -->
+<!-- ================== -->
+<!-- -->
+<!-- > Sugar cane yields as measured by tonnes per hectare produced by each paddock -->
+<!-- > in North Queensland for the 1997 sugar cane season. Data provided by the -->
+<!-- > Bureau of Sugar Experimental Stations on behalf of the Mulgrave Central Mill. -->
+<!-- Denman, N., and Gregory, D. (1998). Analysis of Sugar Cane Yields in the Mulgrave Area, for the 1997 Sugar Cane Season. -->
+<!-- http://www.statsci.org/data/oz/cane.html -->
+<!--  -->
+<!-- ![](./img/snotel.gif) -->
+<!-- http://www.nrcs.usda.gov/wps/portal/nrcs/detail/id/snow/?cid=nrcs144p2_047776 -->
+<!-- -->
+<!-- ![](./img/ruler2.jpg) -->
+<!-- -->
+<!-- ![](./img/bucket.jpg) -->
+</div>
+</section><section id="variables" class="slide level2">
+<h1>Variables</h1>
+<ul>
+<li><span class="math inline">\(\text{force}\)</span></li>
+<li><span class="math inline">\(\text{ruler}\)</span></li>
+<li><span class="math inline">\(\text{micrometer}\)</span></li>
+<li><span class="math inline">\(\text{species}\)</span></li>
+</ul>
+</section><section id="model" class="slide level2">
+<h1>Model</h1>
+<p><span class="math display">\[
+\text{force}_i = \beta_0 + \beta_1\text{ruler}_i + 
+\\ \beta_2 \text{Species1}_i + \beta_3 \text{Species2}_i + \epsilon_i
+\]</span></p>
+<p><br /> <br /></p>
+<div class="fragment">
+<p><span class="math display">\[
+\text{force}_i = \beta_0 + \beta_1\text{micrometer}_i +
+\\ \beta_2 \text{Species1}_i + \beta_3 \text{Species2}_i + \epsilon_i
+\]</span></p>
+<p><br /> <br /></p>
+</div>
+</section><section id="heights" class="slide level2">
+<h1>Heights</h1>
+<pre><code>##  [1]  5.0  6.0  6.4  6.5  6.6  7.0  7.9  7.9  8.0  8.2  8.3  8.8 12.1 12.2
+## [15]  5.1  5.9  6.6  7.2  8.6  7.9  8.1  9.6 10.2 10.5  8.2 11.0  6.7  7.1
+## [29] 11.2 11.4  9.4 10.7 13.1  9.4 11.6 10.2 12.5 11.8</code></pre>
+<p><img src="figure/crabdata-1.png" alt="plot of chunk crabdata" /></p>
+</section><section id="ruler-1" class="slide level2">
+<h1>Ruler</h1>
+<pre><code>##  [1]  5  6  6  6  7  7  9  8  8  8  8  9 11 12  5  6  6  8  8  8  8 10 10
+## [24] 11  8 11  7  7 11 11  9 10 13  9 11 10 12 13</code></pre>
+<p><img src="figure/ruler-1.png" alt="plot of chunk ruler" /></p>
+</section><section id="how-much-better-is-the-expensive-measure" class="slide level2">
+<h1>How much better is the <em>expensive</em> measure?</h1>
+<div class="fragment">
+<p><span class="math inline">\(R^2\)</span></p>
+<ul>
+<li>Expensive measure: 0.669</li>
+<li>Cheap measure: 0.687</li>
+</ul>
+</div>
+<div class="fragment">
+<p>Prediction error</p>
+<ul>
+<li>Expensive measure: 32.204</li>
+<li>Cheap measure: 32.35</li>
+</ul>
+</div>
+</section></section>
+<section><section id="larger-problems" class="titleslide slide level1"><h1>Larger problems</h1></section><section id="our-solution" class="slide level2">
+<h1>Our solution</h1>
+<ul>
+<li>Define an evaluation criterion
+<ul>
+<li><span class="math inline">\(R^2\)</span> or SSerror</li>
+<li>Predictive error</li>
+<li>Plus cost</li>
+</ul></li>
+<li>List all possible variable subsets</li>
+<li>Fit model with each variable subset</li>
+<li>Calculate evaluation criterion of each model</li>
+<li>Select the best</li>
+</ul>
+</section><section id="well" class="slide level2">
+<h1>Well…</h1>
+<ul>
+<li><span class="math inline">\(10\)</span> variables: <span class="math inline">\(2^{10} = 1024\)</span> subsets</li>
+<li><span class="math inline">\(20\)</span> variables: <span class="math inline">\(2^{20} = 1\,048\,576\)</span> subsets</li>
+<li><span class="math inline">\(50\)</span> variables: <span class="math inline">\(2^{50} = 10^{15}\)</span> subsets</li>
+</ul>
+<div class="fragment">
+<p><br /> <br /> <br /></p>
+<ul>
+<li>1 Gigabyte = <span class="math inline">\(10^9\)</span> bytes</li>
+<li>1 Terabyte = <span class="math inline">\(10^{12}\)</span> bytes</li>
+</ul>
+</div>
+</section><section id="can-we-be-smarter-than-exhaustive-search" class="slide level2">
+<h1>Can we be smarter than exhaustive search?</h1>
+<ul>
+<li>Cost-efficient variable selection using Branching LARS (Yue, 2010)</li>
+<li>Avoid searching all models with branching and bounding</li>
+</ul>
+</section><section id="model-subsets-as-a-tree" class="slide level2">
+<h1>Model subsets as a tree</h1>
+<p><img src="./figs/blars.png" alt="" /></p>
+</section><section id="model-subsets-as-a-tree-1" class="slide level2">
+<h1>Model subsets as a tree</h1>
+<p><img src="./figs/blarspoint.png" alt="" /></p>
+</section><section id="model-subsets-as-a-tree-2" class="slide level2">
+<h1>Model subsets as a tree</h1>
+<p><img src="./figs/blarsbranch.png" alt="" /></p>
+</section><section id="performance" class="slide level2">
+<h1>Performance</h1>
+<p><img src="../../img/blars-iterations-top.png" alt="" /></p>
+<p>Yue (2010)</p>
+</section><section id="my-diagnosis" class="slide level2">
+<h1>My diagnosis</h1>
+<p>There ought to be a more efficient strategy.</p>
+</section></section>
+<section><section id="how-do-we-evaluate-performance-without-incurring-cost" class="titleslide slide level1"><h1>How do we evaluate performance without incurring cost?</h1></section><section id="pilot-study" class="slide level2">
+<h1>Pilot study</h1>
+<ul>
+<li>Pilot study
+<ul>
+<li>Observations on a large number of variables</li>
+<li>Small number of samples</li>
+</ul></li>
+<li>Final study
+<ul>
+<li>Observations on an efficient subset of variables</li>
+<li>Large number of samples</li>
+</ul></li>
+</ul>
+</section><section id="historic-data" class="slide level2">
+<h1>Historic data</h1>
+<ul>
+<li>A large pool of data is already available</li>
+<li>A model is needed to make predictions based on new observations</li>
+<li>Measuring <em>all</em> predictor variables of new observations is too expensive</li>
+</ul>
+</section></section>
+<section><section id="what-exists-now" class="titleslide slide level1"><h1>What exists now?</h1></section><section id="bayesian-multiple-regression" class="slide level2">
+<h1>Bayesian multiple regression</h1>
+<ul>
+<li>Dennis Lindley (1968)</li>
+<li>Cost efficient variable selection to predict a new observation</li>
+<li>Minimize <span class="math inline">\(E\left(\left\{y - f(x_I)\right\}^2|x_I\right) + c_I\)</span></li>
+<li><span class="math inline">\(f(x_I) = E(y|x_I)\)</span></li>
+<li><span class="math inline">\(c_I = \sum c_i\)</span></li>
+</ul>
+<p><br /> <br /></p>
+<p><span class="math display">\[ E(\theta_i)^2 var(x_i) &gt; c_i \]</span></p>
+</section><section id="bayesian-multiple-regression-1" class="slide level2">
+<h1>Bayesian multiple regression</h1>
+<p>Missing value problem</p>
+<p><span class="math display">\[ f(x) = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \ldots \]</span></p>
+<p><span class="math display">\[ f(x_I) = \beta_0 + \beta_1 x_1 + \beta_2 ? + \beta_3 x_3 + \ldots \]</span></p>
+</section><section id="since-1968" class="slide level2">
+<h1>Since 1968</h1>
+<ul>
+<li>Bayesian multivariate regression</li>
+<li>Brown et al. (1999)</li>
+<li>Extend Lindley’s method to multivariate</li>
+</ul>
+</section><section id="where-is-statistical-work-on-this-topic" class="slide level2">
+<h1>Where is statistical work on this topic?</h1>
+<blockquote>
+<p>We omit variables not because we believe their coefficients to be zero, but because they cost too much relative to their predictive benefit.</p>
+</blockquote>
+<p>Brown et al. (1999)</p>
+</section><section id="machine-learning" class="slide level2">
+<h1>Machine Learning</h1>
+<ul>
+<li>Peter Turney is the cost guy</li>
+</ul>
+<blockquote>
+<p>The majority of machine learning literature ignores all types of cost (unless accuracy is interpreted as a type of cost measure).</p>
+</blockquote>
+<p>Turney (2000)</p>
+</section><section id="what-do-problems-these-look-like-in-machine-learning" class="slide level2">
+<h1>What do problems these look like in machine learning?</h1>
+<ul>
+<li><em>Raw</em> data source
+<ul>
+<li>Large database</li>
+<li>Images that need to be processed</li>
+</ul></li>
+<li>Process the raw data source for <em>features</em></li>
+<li>Build model</li>
+<li>Data source exists electronically</li>
+</ul>
+</section><section id="where-is-cost" class="slide level2">
+<h1>Where is cost?</h1>
+<ul>
+<li>Cost = computer time to engineer features</li>
+<li>Model fitting is insignificant</li>
+</ul>
+</section><section id="procedure" class="slide level2">
+<h1>Procedure</h1>
+<ul>
+<li>Create a set of features</li>
+<li>Fit model</li>
+<li>Evaluate performance</li>
+<li>If not satisfied “purchase” additional features</li>
+<li>Figure out a smart order to purchase these features</li>
+</ul>
+</section><section id="examples" class="slide level2">
+<h1>Examples</h1>
+<ul>
+<li>He et al. (2012)</li>
+<li>Weiss et al. (2013)</li>
+<li>Classification problems</li>
+</ul>
+</section><section id="grouping" class="slide level2">
+<h1>Grouping</h1>
+<ul>
+<li>Paclíck et al. (2002)</li>
+<li>Image processing problems</li>
+<li>Some features are naturally grouped</li>
+<li>Once one feature is created additional features are available for negligible cost</li>
+<li><span class="math inline">\(c_I \ne \sum c_i\)</span></li>
+<li>Purchase a group of features at a time</li>
+</ul>
+</section><section id="review" class="slide level2">
+<h1>Review</h1>
+<ul>
+<li>Exhaustive search is not realistic when there are lots of variables</li>
+<li>Adding variables one-at-a-time may improve efficiency</li>
+<li>Cost might not be additive function of component costs</li>
+</ul>
+</section></section>
+<section><section id="regularization" class="titleslide slide level1"><h1>Regularization</h1></section><section id="coefficient-shrinkage" class="slide level2">
+<h1>Coefficient shrinkage</h1>
+<p><span class="math display">\[ \hat{y} = \hat{\beta}_0 + \hat{\beta}_1 x_1 + \hat{\beta}_2 x_2 + \ldots \]</span></p>
+<p><br /></p>
+<ul>
+<li>Compare to coefficient estimates from OLS</li>
+<li><em>Shrink</em> the <span class="math inline">\(\hat{\beta}\)</span> towards zero</li>
+<li>Out performs variable selection for out-of-sample prediction (Brieman, 1995; Hoerl et al., 1986)</li>
+</ul>
+</section><section id="methods" class="slide level2">
+<h1>Methods</h1>
+<ul>
+<li>Ridge regression</li>
+<li>Non-negative garrote (Brieman, 1995)</li>
+<li>Lasso (Tibsharani, 1996)</li>
+</ul>
+</section><section id="penalized-regression" class="slide level2">
+<h1>Penalized regression</h1>
+<p>Minimize</p>
+<p><span class="math display">\[
+\displaystyle\sum_i \left(y_i - \sum_j x_{ij} \beta_j\right)^2
+\]</span></p>
+<p>Subject to a constraint on the coefficients</p>
+<ul>
+<li>Ridge regression: <span class="math inline">\(\sum {\beta_j}^2 \leq t\)</span></li>
+<li>Lasso: <span class="math inline">\(\sum \left|\beta_j\right| \leq t\)</span></li>
+</ul>
+</section><section id="pictorially" class="slide level2">
+<h1>Pictorially</h1>
+<p><img src="./figs/ridge.png" alt="" /></p>
+</section><section id="variable-selection-and-regularization" class="slide level2">
+<h1>Variable selection and regularization</h1>
+<ul>
+<li>I want to do variable selection to reduce costs in the problem space of large number of variables</li>
+<li>When there are a large number of variables, performing regularization is typically important</li>
+<li>Doing cost-based variable selection may help with regularization, but if so, that will be incidental</li>
+<li>I want to explicitly regularization via coefficient shrinkage</li>
+<li>I want to do this in a computationally efficient algorithm</li>
+</ul>
+</section></section>
+<section><section id="the-lasso" class="titleslide slide level1"><h1>The Lasso</h1></section><section id="lasso" class="slide level2">
+<h1>Lasso</h1>
+<ul>
+<li>Least Absolute Shrinkage and Selection Operator</li>
+<li>Simultaneous shrinkage and selection</li>
+</ul>
+</section><section id="lasso-vs-ridge" class="slide level2">
+<h1>Lasso vs Ridge</h1>
+<p><img src="./figs/lasso.png" alt="" /></p>
+</section><section id="fitting-lasso" class="slide level2">
+<h1>Fitting Lasso</h1>
+<ul>
+<li>Gradient descent</li>
+<li>Bayesian Lasso (Park and Casella, 2008)</li>
+</ul>
+</section><section id="lars" class="slide level2">
+<h1>LARS</h1>
+<ul>
+<li>Efron et al. (2004)</li>
+<li>Least Angle Regression</li>
+<li>Algorithm to produce a sequence of model fits</li>
+<li>Each step adds another variable to preceding model</li>
+</ul>
+</section><section id="lars-1" class="slide level2">
+<h1>LARS</h1>
+<p><img src="../../img/lars.png" alt="" /></p>
+<p>Efron et al. (2004)</p>
+</section><section id="lars-and-lasso" class="slide level2">
+<h1>LARS and Lasso</h1>
+<ul>
+<li>The LARS algorithm can be tweaked to produce Lasso fits</li>
+</ul>
+</section><section id="adaptive-lasso" class="slide level2">
+<h1>Adaptive Lasso</h1>
+<p>Zou (2006)</p>
+<p><span class="math display">\[
+\hat{\beta}_{lasso} = \underset{\beta}{\text{argmin}}\left\{
+\displaystyle \sum_i \left(y_i - \sum_j x_{ij} \beta_j\right)^2 + \lambda \sum_j \left|\beta_j\right|\right\}
+\]</span></p>
+<div class="fragment">
+<p><span class="math display">\[
+\hat{\beta}_{alasso} = \underset{\beta}{\text{argmin}}\left\{
+\displaystyle \sum_i \left(y_i - \sum_j x_{ij} \beta_j\right)^2 + \sum_j \left|\lambda_j\beta_j\right|\right\}
+\]</span></p>
+</div>
+</section><section id="the-pieces" class="slide level2">
+<h1>The pieces</h1>
+<ul>
+<li>Lasso - simultaneous shrinkage and selection</li>
+<li>LARS - one-at-a-time efficient fitting</li>
+<li>Adaptive Lasso - different weighting for different variables</li>
+</ul>
+<div class="fragment">
+<p><br /></p>
+<ul>
+<li>If a variable is included, the cost is paid</li>
+<li>We want cost to influence selection, not shrinkage</li>
+</ul>
+</div>
+</section></section>
+<section><section id="plan" class="titleslide slide level1"><h1>Plan</h1></section><section class="slide level2">
+
+<ol type="1">
+<li><p>Extend the LARS algorithm to incorporate cost at the next variable decision step.</p></li>
+<li><p>Generalize the above to incorporate non-additive cost</p></li>
+<li><p>Clarify the scaling of cost</p></li>
+<li><p>Provide examples of complex cost functions</p></li>
+<li><p>Specify an objective function used in fitting</p></li>
+</ol>
+</section><section class="slide level2">
+
+<div class="small">
+<p>L Breiman. Better subset regression using the nonnegative garrote. Technometrics, 37(4):373-384, 1995.</p>
+<p>B Efron, T Hastie, I Johnstone, and R Tibsharani. Least angle regression. The Annals of statistics. 32(2):407-499, 2004.</p>
+<p>H He, H Daumé Iii, and J Eisner. Cost-sensitive dynamic feature selection. ICML Workshop on Inferning, 2012.</p>
+<p>R Hoerl, J Shuenemeyer, A Hoerl. A simulation of biased estimation and subset selection regression techniques. Technometrics, 28(4)369-380, 1986.</p>
+<p>D Lindley. The choice of variables in multiple regression. Journal of the Royal Statistical Society. Series B (Methodological), 30(1):31-66, 1968.</p>
+<p>P Paclìk, R Duin, G van Kempen, and R Kholus. On feature selection with measurement cost and grouped features. Structural, Syntactic, and …. 2002.</p>
+<p>T Park and G Cassella. The Bayesian Lasso. Journal of the American Statistical Association, 103(482):681-686, 2008.</p>
+<p>R Tibsharani. Regression shrinkage and selection via the lasso. Journal of the Royal Statistical Society. Series B (Methodological), 58(1):267-288, 1996.</p>
+<p>P Turney. Types of cost in inductive concept learning. 2000.</p>
+<p>Y Weiss, Y Elovici, L Rokach. The CASH algorithm: cost-sensitive attribute selection using histograms. Information Sciences, 222:247-268, 2013.</p>
+<p>L Yue. Cost-efficient Variable Selection Using Branching LARS. PhD thesis, University of Western Ontario, 2010.</p>
+<p>H Zou. The adaptive lasso and its oracle properties. Journal of the American Statistical Association, 101(476):1418-1429, 2006.</p>
+</div>
+</section></section>
+<section><section id="bonus-objective-functions" class="titleslide slide level1"><h1>Bonus: objective functions</h1></section><section id="lasso-1" class="slide level2">
+<h1>Lasso</h1>
+<p><span class="math display">\[
+\hat{\beta}_{lasso} =
+\underset{\beta}{\text{argmin}}\left\{
+\displaystyle \sum_i \left(y_i - \sum_j x_{ij} \beta_j\right)^2\right\}\;
+\text{subject to } \sum_j\left| \beta_j\right| \leq t \; .
+\]</span></p>
+<p>OR</p>
+<p><span class="math display">\[
+\hat{\beta}_{lasso} = \underset{\beta}{\text{argmin}}\left\{
+\displaystyle \sum_i \left(y_i - \sum_j x_{ij} \beta_j\right)^2 + \lambda \sum_j \left|\beta_j\right|\right\}
+\]</span></p>
+</section><section id="non-negative-garrote" class="slide level2">
+<h1>Non-negative garrote</h1>
+<p><span class="math inline">\(\hat{\beta}\)</span> is OLS estimate. Garrote estimate of <span class="math inline">\(\beta_j\)</span> is <span class="math inline">\(c_j\hat{\beta_j}\)</span> with <span class="math inline">\(c_j\)</span> minimizing</p>
+<p><span class="math display">\[
+\sum_i \left(y_i - \sum_j x_{ij} c_j \hat{\beta}_{j}\right)^2\;.
+\]</span></p>
+<p>subject to <span class="math inline">\(c_j \geq 0\)</span> and <span class="math inline">\(\sum c_j \leq s\)</span>.</p>
+</section><section id="ridge-regression" class="slide level2">
+<h1>Ridge regression</h1>
+<p><span class="math display">\[
+\hat{\beta}_{ridge} =
+\underset{\beta}{\text{argmin}}\left\{
+\displaystyle\sum_i \left(y_i - \sum_j x_{ij} \beta_j\right)^2\right\}\;
+\text{subject to } \sum_j \beta_j^2 \leq t \; .
+\]</span></p>
+</section><section id="blars" class="slide level2">
+<h1>BLARS</h1>
+<p><span class="math display">\[
+\underset{{\alpha},{\beta}}{\text{argmin}}\left\{
+    \sum_i\left(y_i - \sum_j x_{ij}\beta_j\right)^2 +
+    \lambda\sum_j\left|\beta_j\right| + n\gamma\sum_j\alpha_jc_j\right\} \; .
+\]</span></p>
+</section><section id="lars-2" class="slide level2">
+<h1>LARS</h1>
+<ol type="1">
+<li>Standardize</li>
+<li>Find most correlated <span class="math inline">\(x_j\)</span> with <span class="math inline">\(y\)</span> (call it <span class="math inline">\(x_1\)</span>)</li>
+<li>Set <span class="math inline">\(\hat{\mu}^1 = \beta^1_1 x_1\)</span> with <span class="math inline">\(\beta^1\)</span> large enough such that <span class="math inline">\(y-\hat{\mu}^1\)</span> is now equally correlated with <span class="math inline">\(x_1\)</span> and next most correlated variable.</li>
+<li>This is first model in series.</li>
+<li>Graphically, we now move in the angle that bisects <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span> to get <span class="math inline">\(\hat{\mu}^2 = \beta^2_1 x_1 + \beta^2_2 x_2\)</span> such that <span class="math inline">\(y-\hat{\mu}^2\)</span> is now equally correlated with <span class="math inline">\(x_3\)</span> and the standardized combination of <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span>.</li>
+<li>Continue until all variables are added (at which point it is just OLS)</li>
+</ol>
+<!-- modelines
+==============
+
+vim: foldlevel=1
+-->
+</section></section>
+    </div>
+  </div>
+
+
+  <script src="reveal.js/lib/js/head.min.js"></script>
+  <script src="reveal.js/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,         // Display controls in the bottom right corner
+        progress: true,         // Display a presentation progress bar
+        history: true,          // Push each slide change to the browser history
+        center: true,                       // Vertical centering of slides
+        maxScale: 1.5,                  // Bounds for smallest/largest possible content scale
+        slideNumber: false,                // Display the page number of the current slide
+        theme: 'miggy', // available themes are in /css/theme
+        transition: 'fade', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+
+//          { src: 'reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; }, }
+//          { src: 'reveal.js/plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+]});
+    </script>
+    </body>
+</html>

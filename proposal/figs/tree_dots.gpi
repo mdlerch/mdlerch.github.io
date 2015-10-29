@@ -1,0 +1,121 @@
+reset
+clear
+
+set terminal png
+set output "blarspoint.png"
+
+set style fill solid
+
+dx = .05
+dy = .1
+xi = .5
+yi = .9
+
+t = 0
+
+
+do for [t = 0:3] {
+    yy = yi - t*dy
+    xl = xi - (t+3)*dx
+    set label "Variable ".(t+1) at screen xl, yy
+    do for [s = 0:t] {
+        xx = xi + 2*s*dx - t*dx
+        set object circle at screen xx, yy fc rgb "black"
+        set arrow nohead from screen xx, yy to screen xx - dx, yy - dy
+        set arrow nohead from screen xx, yy to screen xx + dx, yy - dy
+        set label "1" at screen xx + 0.5*dx, yy - 0.4*dy
+        set label "0" at screen xx - 0.72*dx, yy - 0.4*dy
+    }
+}
+
+t = 4
+
+
+yy = yi - t*dy
+xl = xi - (t+3)*dx
+set label "Variable ".(t+1) at screen xl, yy
+do for [s = 0:t] {
+    xx = xi + 2*s*dx - t*dx
+    set object circle at screen xx, yy fc rgb "black"
+}
+
+t = 7
+
+yy = yi - t*dy
+do for [s = 0:t] {
+    xx = xi + 2*s*dx - t*dx
+    set object circle at screen xx, yy fc rgb "black"
+}
+
+t = 5
+
+yy = yi - (t)*dy
+do for [s = 1:4] {
+    xx = xi + 2*s*dx - (t)*dx
+    set arrow nohead from screen xx, yy to screen xx - dx, yy - dy dt 7
+    set arrow nohead from screen xx, yy to screen xx + dx, yy - dy dt 7
+}
+
+s = 0
+xx = xi + 2*s*dx - (t)*dx
+set arrow nohead from screen xx, yy to screen xx - dx, yy - dy dt 7
+
+s = 5
+xx = xi + 2*s*dx - (t)*dx
+set arrow nohead from screen xx, yy to screen xx + dx, yy - dy dt 7
+
+# green
+
+t = 0
+s = 0
+yy = yi - t*dy
+xx = xi + 2*s*dx - t*dx
+set object circle at screen xx, yy fc rgb "green"
+set arrow nohead from screen xx, yy to screen xx - dx, yy - dy lw 8 lc rgb "green"
+
+t = 1
+s = 0
+yy = yi - t*dy
+xx = xi + 2*s*dx - t*dx
+set object circle at screen xx, yy fc rgb "green"
+set arrow nohead from screen xx, yy to screen xx - dx, yy - dy lw 8 lc rgb "green"
+
+t = 2
+s = 0
+yy = yi - t*dy
+xx = xi + 2*s*dx - t*dx
+set object circle at screen xx, yy fc rgb "green"
+set arrow nohead from screen xx, yy to screen xx + dx, yy - dy lw 8 lc rgb "green"
+
+t = 3
+s = 1
+yy = yi - t*dy
+xx = xi + 2*s*dx - t*dx
+set object circle at screen xx, yy fc rgb "green" size .06
+
+
+t = 7
+s = 3
+yy = yi - t*dy
+xx = xi + 2*s*dx - t*dx
+
+set style fill empty
+set object ellipse at screen xx, yy size screen .5, .1 fc rgb "green" lw 4
+
+# set label "Variable ".(t+1) at screen xl, yy
+# do for [s = 0:t] {
+#     xx = xi + 2*s*dx - t*dx
+#     set object circle at screen xx, yy fc rgb "black"
+#     set arrow nohead from screen xx, yy to screen xx - dx, yy - dy
+#     set arrow nohead from screen xx, yy to screen xx + dx, yy - dy
+#     set label "1" at screen xx + 0.5*dx, yy - 0.4*dy
+#     set label "0" at screen xx - 0.72*dx, yy - 0.4*dy
+
+unset border
+unset tics
+unset key
+
+set xrange [-1:1]
+set yrange [-1:1]
+
+plot 10000 w lines

@@ -1,0 +1,36 @@
+reset
+clear
+
+set terminal png
+set output "ridge.png"
+
+set xzeroaxis
+set xtics axis
+set xrange [-10:10]
+
+set yzeroaxis
+set ytics axis
+set yrange [-1:1]
+
+set xrange [-10:10]
+set yrange [-10:10]
+unset key
+unset title
+
+a = 3
+set style fill solid
+set size square
+set object circle at 0,0 size first 3 fc rgb "black" front
+# set object polygon from -a,0 to 0,-a to a,0 to 0,a to -a,0 front
+
+set style fill empty
+# set object ellipse at 6,6 angle 21 size 13.9,4.6 back
+set object ellipse at first 6,6 angle 21 size first 13.4,4.4 back
+set object ellipse at first 6,6 angle 21 size first 9,3
+set object ellipse at first 6,6 angle 21 size first 6,2
+set object ellipse at first 6,6 angle 21 size first 3,1
+
+set style fill solid
+set object circle at 6,6 size .1 fc rgb "black"
+
+plot 1000
