@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Michael Lerch" />
+        <meta name="copyright" content="Michael Lerch" />
+
+<meta name="keywords" content="vim, linux, " />
+        <title>vim different format in different regions - mdlerch
+</title>
+        <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="../theme/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="../theme/css/solarizedlight.css" media="screen">
+        <link rel="shortcut icon" href="../theme/images/favicon.ico" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="../theme/images/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="../theme/images/apple-touch-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="../theme/images/apple-touch-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="../theme/images/apple-touch-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="../theme/images/apple-touch-icon-144x144.png" />
+        <link rel="icon" href="../theme/images/apple-touch-icon-144x144.png" />
+    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-54051300-1']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+    </script>
+    </head>
+    <body>
+        <div id="content-sans-footer">
+        <div class="navbar navbar-static-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="../"><span class=site-name>mdlerch</span></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav pull-right top-menu">
+                            <li ><a href="..">Home</a></li>
+                            <li ><a href="../pages/about.html">About</a></li>
+                            <li ><a href="../pages/projects.html">Projects</a></li>
+                            <li ><a href="../categories.html">Categories</a></li>
+                            <li ><a href="../tags.html">Tags</a></li>
+                            <li ><a href="../archives.html">Archives</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span1"></div>
+                <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page_header span10 offset2">
+    <h1><a href="../drafts/vim-different-format-in-different-regions.html"> vim different format in different regions  </a></h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <p>vim allows you to have different syntax highlighting in different regions (see
+[http://vim.wikia.com/wiki/Different_syntax_highlighting_within_regions_of_a_file]
+for example.</p>
+<p>What I would like to do is to have different format options, in particular,
+different wrap line settings in different regions.  My specific file type is R
+Markdown (Rmd) files.  For prose, I like to have automatic linewrap (fo+=t)
+and in code, I don't (though I do like to see the 80th column).  In an Rmd
+file, there are code regions and prose regions.  Using the above link, we can
+highlight R in the code chunk and Markdown in the prose chunk but it would be
+awesome if we could change format options in the different regions.</p>
+<p>I don't have a perfect way of doing it, but I do have a way of doing it pretty
+well.  My strategy will be to check, every time I enter insert mode, whether I
+am in a code region or a prose region.  Depending on which region I am in, I
+will set linewrap or turn it off.  Here's how I do it in vimscript.</p>
+<p>First, I need to define a function to check whether I am in a code or prose
+region.  For Rmd, a code region begins with </p>
+<div class="highlight"><pre><span class="o">~~~~~~~</span>
+<span class="err">```</span><span class="p">{</span><span class="n">r</span> <span class="p">...</span>
+<span class="o">~~~~~~~</span>
+</pre></div>
+
+
+<p>(possibly with preceding whitespace) and ends with</p>
+<div class="highlight"><pre><span class="o">~~~~~~</span>
+<span class="err">```</span>
+<span class="o">~~~~~~</span>
+</pre></div>
+
+
+<p>(also possibly with preceding whitespace).  I will check for the most recent
+previous code region beginning and the most recent previous code region ending.
+If the most recent beginning occurred more closely to the current line than the
+most recent ending (or if there is no ending) that means I am in a code chunk
+and I should turn off my line wrap.  Otherwise, I should turn it off.  Here's a
+function to do that:</p>
+<div class="highlight"><pre><span class="o">~~~~~~~</span><span class="p">{</span><span class="nx">vim</span><span class="p">}</span>
+<span class="kd">function</span> <span class="nx">InCodeRegion</span><span class="p">()</span>
+    <span class="kd">let</span> <span class="nx">codestart</span> <span class="o">=</span> <span class="nx">search</span><span class="p">(</span><span class="s2">&quot;^</span><span class="cp">[</span> <span class="o">\</span><span class="nb">t</span><span class="cp">]</span><span class="s2">*```</span><span class="cp">[</span> <span class="cp">]</span><span class="s2">*r&quot;</span><span class="p">,</span> <span class="s2">&quot;bncW&quot;</span><span class="p">)</span>
+    <span class="kd">let</span> <span class="nx">codeend</span> <span class="o">=</span> <span class="nx">search</span><span class="p">(</span><span class="s2">&quot;^</span><span class="cp">[</span> <span class="o">\</span><span class="nb">t</span><span class="cp">]</span><span class="s2">*```$&quot;</span><span class="p">,</span> <span class="s2">&quot;bncW&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">codestart</span> <span class="o">&gt;</span> <span class="nx">codeend</span>
+        <span class="nx">set</span> <span class="nx">fo</span><span class="o">-=</span><span class="nx">t</span>
+    <span class="k">else</span>
+        <span class="nx">set</span> <span class="nx">fo</span><span class="o">+=</span><span class="nx">t</span>
+    <span class="nx">endif</span>
+<span class="nx">endfunction</span>
+<span class="o">~~~~~~~</span>
+</pre></div>
+
+
+<p>Now, I just need to call this function whenever I enter insert mode.</p>
+<div class="highlight"><pre>autocmd <span class="nb">InsertEnter</span> * <span class="k">call</span> InCodeRegion
+</pre></div>
+
+
+<p>I put these in my file <code>.vim/after/ftplugin/rmd.vim</code>.</p>
+<p>This works pretty well, but it does not turn on automatically as I write the
+code region opener.  That is, as I go from prose to code by typing</p>
+<div class="highlight"><pre>```{<span class="k">r</span>}
+</pre></div>
+
+
+<p>I do not automatically change my format options.  Can you improve this?</p>
+            <aside>
+            </aside>
+<section>
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
+                href="../drafts/vim-different-format-in-different-regions.html/#disqus_thread">
+                Comments
+            </a>
+        </div>
+        <div id="disqus_thread" class="accordion-body in">
+            <div class="accordion-inner">
+                <div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'mdlerch';
+        var disqus_identifier = '../drafts/vim-different-format-in-different-regions.html';
+    var disqus_url = '../drafts/vim-different-format-in-different-regions.html';
+
+    (function() {
+         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+        </div>
+        <section>
+        <div class="span2" style="float:right;font-size:0.9em;">
+            <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="mdlerch">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+ 
+            <h4>Published</h4>
+            <time pubdate="pubdate" datetime="2014-11-09T19:47:00.286160">Nov 9, 2014</time>
+            <h4>Category</h4>
+            <a class="category-link" href="/categories.html#linux-ref">linux</a> 
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article"> 
+                <li><a href="/tags.html#vim-ref">vim
+                    <span>1</span>
+</a></li>
+            </ul>
+
+        </div>
+        </section>
+    </div>
+    </article>
+                </div>
+                <div class="span1"></div>
+            </div>
+        </div>
+    </div>
+<footer>
+<div id="footer">
+    <ul class="footer-content">
+        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
+    </ul>
+</div>
+</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+<script type="text/javascript">
+    var disqus_shortname = 'mdlerch';
+
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
+    </body>
+</html>

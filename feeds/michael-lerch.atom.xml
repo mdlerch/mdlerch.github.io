@@ -1,5 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>mdlerch</title><link href="http://mdlerch.com/" rel="alternate"></link><link href="http://mdlerch.com/feeds/michael-lerch.atom.xml" rel="self"></link><id>http://mdlerch.com/</id><updated>2015-07-18T00:00:00-06:00</updated><entry><title>turn off cli alias</title><link href="http://mdlerch.com/turn-off-cli-alias.html" rel="alternate"></link><updated>2015-07-18T00:00:00-06:00</updated><author><name>Michael Lerch</name></author><id>tag:mdlerch.com,2015-07-18:turn-off-cli-alias.html</id><summary type="html">&lt;p&gt;tl;dr: &lt;code&gt;\cmd&lt;/code&gt;&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>mdlerch</title><link href="http://mdlerch.com/" rel="alternate"></link><link href="http://mdlerch.com/feeds/michael-lerch.atom.xml" rel="self"></link><id>http://mdlerch.com/</id><updated>2015-11-14T00:00:00-07:00</updated><entry><title>Multiple accounts github ssh-keys</title><link href="http://mdlerch.com/multiple-accounts-github-ssh-keys.html" rel="alternate"></link><updated>2015-11-14T00:00:00-07:00</updated><author><name>Michael Lerch</name></author><id>tag:mdlerch.com,2015-11-14:multiple-accounts-github-ssh-keys.html</id><summary type="html">&lt;p&gt;If you have multiple github accounts and you would like to push to repositories under each of the accounts on a single computer, then you will probably need to define multiple ssh keys.&lt;/p&gt;
+&lt;p&gt;I will assume that you already have one ssh-key working.
+To get our second account going, the first step is to generate a new ssh key.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; ssh-keygen -t rsa -C &lt;span class="s2"&gt;&amp;quot;email_for_github_account2@email.com&amp;quot;&lt;/span&gt;
+&lt;span class="c"&gt;# request for file name (I input id_rsa_work)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now, you should find multiple files in &lt;code&gt;~/.ssh/&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; ls ~/.ssh
+authorized_keys  id_rsa  id_rsa.pub  id_rsa_workiva  id_rsa_workiva.pub  known_hosts
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now, we ought to make a configuration file so that &lt;code&gt;git&lt;/code&gt; knows when to use each of the keys.
+The best way, that I know how, to do this is to use the different keys based on what host you are connecting to.
+Here's how I set up my config file (&lt;code&gt;~/.ssh/config&lt;/code&gt;)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;# ~/.ssh/config&lt;/span&gt;
+&lt;span class="n"&gt;Host&lt;/span&gt; &lt;span class="n"&gt;github&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;
+    &lt;span class="n"&gt;Hostname&lt;/span&gt; &lt;span class="n"&gt;github&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;
+    &lt;span class="n"&gt;User&lt;/span&gt; &lt;span class="n"&gt;git&lt;/span&gt;
+    &lt;span class="n"&gt;IdentifyFile&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ssh&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;id_rsa&lt;/span&gt;
+
+&lt;span class="n"&gt;Host&lt;/span&gt; &lt;span class="n"&gt;github&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;work&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;
+    &lt;span class="n"&gt;Hostname&lt;/span&gt; &lt;span class="n"&gt;github&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;com&lt;/span&gt;
+    &lt;span class="n"&gt;User&lt;/span&gt; &lt;span class="n"&gt;git&lt;/span&gt;
+    &lt;span class="n"&gt;IdentifyFile&lt;/span&gt; &lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ssh&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;id_rsa_work&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;So now, when I try to ssh to github.com or github-work.com, a different key will be used, but each will connect to the true github.com.  You can call the Host whatever you want, I like this setup.&lt;/p&gt;
+&lt;p&gt;Now let's make sure it works.
+Log into your second account on github and add the newly generated ssh key.&lt;/p&gt;
+&lt;p&gt;Add your new ssh-key to the agent&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; ssh-add ~/.ssh/id_rsa_work
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;And finally, test the connection&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; ssh -T github.com
+&lt;span class="c"&gt;# Hi personal-account! You&amp;#39;ve successfully authenticated, but GitHub does not provide shell access.&lt;/span&gt;
+&amp;gt; ssh -T github-work.com
+&lt;span class="c"&gt;# Hi work-account! You&amp;#39;ve successfully authenticated, but GitHub does not provide shell access.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Beauty.  Our new ssh key works and we can select between the two by specifying a different host name.
+So, in order to put this in practice, what we have to do is specify the custom host name when we define the remote.
+For example do this type of thing for a personal project:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; git clone git@github.com:personal/project.git
+&lt;span class="c"&gt;# or&lt;/span&gt;
+&amp;gt; git remote add origin git@github.com:personal/project.git
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;And this type of thing for a work project:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; git clone git@github-work.com:work/project.git
+&lt;span class="c"&gt;# or&lt;/span&gt;
+&amp;gt; git remote add git@github-work.com:work/project.git
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;In case you are reading to fast, the difference is that we change &lt;code&gt;git@github.com...&lt;/code&gt; to &lt;code&gt;git@github-work.com...&lt;/code&gt; for work projects so that the correct ssh key is automatically used.&lt;/p&gt;</summary><category term="ssh"></category><category term="linux"></category><category term="github"></category><category term="git"></category><category term="keys"></category><category term="ssh-keys"></category></entry><entry><title>turn off cli alias</title><link href="http://mdlerch.com/turn-off-cli-alias.html" rel="alternate"></link><updated>2015-07-18T00:00:00-06:00</updated><author><name>Michael Lerch</name></author><id>tag:mdlerch.com,2015-07-18:turn-off-cli-alias.html</id><summary type="html">&lt;p&gt;tl;dr: &lt;code&gt;\cmd&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;There may be a situation where you have masked a command with a shell alias.
 For example, you may always run a command with certain flags so you might do
 something like&lt;/p&gt;

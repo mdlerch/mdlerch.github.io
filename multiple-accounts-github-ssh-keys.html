@@ -6,8 +6,8 @@
         <meta name="author" content="Michael Lerch" />
         <meta name="copyright" content="Michael Lerch" />
 
-<meta name="keywords" content="vim, neovim, git, vim, " />
-        <title>neovim as git diff and merge tool - mdlerch
+<meta name="keywords" content="ssh, linux, github, git, keys, ssh-keys, linux, " />
+        <title>Multiple accounts github ssh-keys - mdlerch
 </title>
         <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
@@ -62,44 +62,81 @@
 <article>
 <div class="row-fluid">
     <header class="page_header span10 offset2">
-    <h1><a href="http://mdlerch.com/neovim-as-git-diff-and-merge-tool.html"> neovim as git diff and merge tool  </a></h1>
+    <h1><a href="http://mdlerch.com/multiple-accounts-github-ssh-keys.html"> Multiple accounts github ssh-keys  </a></h1>
     </header>
 </div>
 
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
 
-            <p>You've made the switch.  You are now using neovim for all your text editing,
-and you've hardly even noticed that you aren't using regular old vim.  Except
-one thing.  Your git difftool and mergetool aren't quite right.  One of two
-things is happening.  Either you are using old vim (which is fine, but you
-want to switch <em>completely</em> to neovim) or things are breaking because you have
-gone so far as to not just install neovim but to also remove vim!</p>
-<p>So why is this happening?  Your git mergetool is still set to vim even
-though you set your core.editor to nvim.  So, we just tell git to use <code>nvim</code>
-for your mergetool.</p>
-<p>First, you probably have or want something like this:</p>
-<div class="highlight"><pre><span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="n">global</span> <span class="n">merge</span><span class="p">.</span><span class="n">tool</span> <span class="n">vimdiff</span>
+            <p>If you have multiple github accounts and you would like to push to repositories under each of the accounts on a single computer, then you will probably need to define multiple ssh keys.</p>
+<p>I will assume that you already have one ssh-key working.
+To get our second account going, the first step is to generate a new ssh key.</p>
+<div class="highlight"><pre>&gt; ssh-keygen -t rsa -C <span class="s2">&quot;email_for_github_account2@email.com&quot;</span>
+<span class="c"># request for file name (I input id_rsa_work)</span>
 </pre></div>
 
 
-<p>Note that <code>vimdiff</code> in there is <em>not</em> the <code>vimdiff</code> executable.  It refers to a
-built-in script.  There's also <code>vimdiff2</code> and <code>vimdiff3</code>.  (3 is the best by
-the way.)  Those built-in scripts call the <code>merge_tool_path</code> executable.  Which
-will be set to <code>vim</code> by default.  You can change that with</p>
-<div class="highlight"><pre><span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="n">global</span> <span class="n">mergetool</span><span class="p">.</span><span class="n">path</span> <span class="n">nvim</span>
+<p>Now, you should find multiple files in <code>~/.ssh/</code></p>
+<div class="highlight"><pre>&gt; ls ~/.ssh
+authorized_keys  id_rsa  id_rsa.pub  id_rsa_workiva  id_rsa_workiva.pub  known_hosts
 </pre></div>
 
 
-<p>All done.  The difftool uses the mergetool by default so that's all you need
-to set!</p>
+<p>Now, we ought to make a configuration file so that <code>git</code> knows when to use each of the keys.
+The best way, that I know how, to do this is to use the different keys based on what host you are connecting to.
+Here's how I set up my config file (<code>~/.ssh/config</code>)</p>
+<div class="highlight"><pre><span class="cp"># ~/.ssh/config</span>
+<span class="n">Host</span> <span class="n">github</span><span class="p">.</span><span class="n">com</span>
+    <span class="n">Hostname</span> <span class="n">github</span><span class="p">.</span><span class="n">com</span>
+    <span class="n">User</span> <span class="n">git</span>
+    <span class="n">IdentifyFile</span> <span class="o">~/</span><span class="p">.</span><span class="n">ssh</span><span class="o">/</span><span class="n">id_rsa</span>
+
+<span class="n">Host</span> <span class="n">github</span><span class="o">-</span><span class="n">work</span><span class="p">.</span><span class="n">com</span>
+    <span class="n">Hostname</span> <span class="n">github</span><span class="p">.</span><span class="n">com</span>
+    <span class="n">User</span> <span class="n">git</span>
+    <span class="n">IdentifyFile</span> <span class="o">~/</span><span class="p">.</span><span class="n">ssh</span><span class="o">/</span><span class="n">id_rsa_work</span>
+</pre></div>
+
+
+<p>So now, when I try to ssh to github.com or github-work.com, a different key will be used, but each will connect to the true github.com.  You can call the Host whatever you want, I like this setup.</p>
+<p>Now let's make sure it works.
+Log into your second account on github and add the newly generated ssh key.</p>
+<p>Add your new ssh-key to the agent</p>
+<div class="highlight"><pre>&gt; ssh-add ~/.ssh/id_rsa_work
+</pre></div>
+
+
+<p>And finally, test the connection</p>
+<div class="highlight"><pre>&gt; ssh -T github.com
+<span class="c"># Hi personal-account! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</span>
+&gt; ssh -T github-work.com
+<span class="c"># Hi work-account! You&#39;ve successfully authenticated, but GitHub does not provide shell access.</span>
+</pre></div>
+
+
+<p>Beauty.  Our new ssh key works and we can select between the two by specifying a different host name.
+So, in order to put this in practice, what we have to do is specify the custom host name when we define the remote.
+For example do this type of thing for a personal project:</p>
+<div class="highlight"><pre>&gt; git clone git@github.com:personal/project.git
+<span class="c"># or</span>
+&gt; git remote add origin git@github.com:personal/project.git
+</pre></div>
+
+
+<p>And this type of thing for a work project:</p>
+<div class="highlight"><pre>&gt; git clone git@github-work.com:work/project.git
+<span class="c"># or</span>
+&gt; git remote add git@github-work.com:work/project.git
+</pre></div>
+
+
+<p>In case you are reading to fast, the difference is that we change <code>git@github.com...</code> to <code>git@github-work.com...</code> for work projects so that the correct ssh key is automatically used.</p>
             <aside>
             <nav>
             <ul class="articles_timeline">
  
-                <li class="previous_article">« <a href="http://mdlerch.com/fixing-mutt-and-goobook.html" title="Previous: Fixing mutt and goobook">Fixing mutt and goobook</a></li>
- 
-                <li class="next_article"><a href="http://mdlerch.com/writing-tests-for-r-packages-without-testthat-and-runit.html" title="Next: Writing tests for R packages without testthat and RUnit">Writing tests for R packages without testthat and RUnit</a> »</li>
+                <li class="previous_article">« <a href="http://mdlerch.com/turn-off-cli-alias.html" title="Previous: turn off cli alias">turn off cli alias</a></li>
             </ul>
             </nav>
             </aside>
@@ -108,7 +145,7 @@ to set!</p>
     <div class="accordion-group">
         <div class="accordion-heading">
             <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
-                href="http://mdlerch.com/neovim-as-git-diff-and-merge-tool.html/#disqus_thread">
+                href="http://mdlerch.com/multiple-accounts-github-ssh-keys.html/#disqus_thread">
                 Comments
             </a>
         </div>
@@ -118,8 +155,8 @@ to set!</p>
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'mdlerch';
-        var disqus_identifier = 'http://mdlerch.com/neovim-as-git-diff-and-merge-tool.html';
-    var disqus_url = 'http://mdlerch.com/neovim-as-git-diff-and-merge-tool.html';
+        var disqus_identifier = 'http://mdlerch.com/multiple-accounts-github-ssh-keys.html';
+    var disqus_url = 'http://mdlerch.com/multiple-accounts-github-ssh-keys.html';
 
     (function() {
          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -140,19 +177,28 @@ to set!</p>
             <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="mdlerch">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
  
             <h4>Published</h4>
-            <time pubdate="pubdate" datetime="2015-02-08T00:00:00">Feb 8, 2015</time>
+            <time pubdate="pubdate" datetime="2015-11-14T00:00:00">Nov 14, 2015</time>
             <h4>Category</h4>
-            <a class="category-link" href="/categories.html#vim-ref">vim</a> 
+            <a class="category-link" href="/categories.html#linux-ref">linux</a> 
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article"> 
                 <li><a href="/tags.html#git-ref">git
                     <span>2</span>
 </a></li>
-                <li><a href="/tags.html#neovim-ref">neovim
+                <li><a href="/tags.html#github-ref">github
                     <span>1</span>
 </a></li>
-                <li><a href="/tags.html#vim-ref">vim
+                <li><a href="/tags.html#keys-ref">keys
+                    <span>1</span>
+</a></li>
+                <li><a href="/tags.html#linux-ref">linux
                     <span>4</span>
+</a></li>
+                <li><a href="/tags.html#ssh-ref">ssh
+                    <span>1</span>
+</a></li>
+                <li><a href="/tags.html#ssh-keys-ref">ssh-keys
+                    <span>1</span>
 </a></li>
             </ul>
 
