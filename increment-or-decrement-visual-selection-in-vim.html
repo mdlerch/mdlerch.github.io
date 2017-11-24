@@ -1,79 +1,93 @@
+
 <!DOCTYPE html>
-<html lang="en-US">
-    <head>
-        <meta charset="utf-8"> 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="author" content="Michael Lerch" />
-        <meta name="copyright" content="Michael Lerch" />
+<html lang="en">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
 
-<meta name="keywords" content="vim, misc, " />
-        <title>Increment or decrement visual selection in vim - mdlerch
-</title>
-        <link href="http://cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
-        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="./theme/css/style.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="./theme/css/solarizedlight.css" media="screen">
-        <link rel="shortcut icon" href="./theme/images/favicon.ico" type="image/x-icon" />
-        <link rel="apple-touch-icon" href="./theme/images/apple-touch-icon.png" />
-        <link rel="apple-touch-icon" sizes="57x57" href="./theme/images/apple-touch-icon-57x57.png" />
-        <link rel="apple-touch-icon" sizes="72x72" href="./theme/images/apple-touch-icon-72x72.png" />
-        <link rel="apple-touch-icon" sizes="114x114" href="./theme/images/apple-touch-icon-114x114.png" />
-        <link rel="apple-touch-icon" sizes="144x144" href="./theme/images/apple-touch-icon-144x144.png" />
-        <link rel="icon" href="./theme/images/apple-touch-icon-144x144.png" />
-    <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-54051300-1']);
-    _gaq.push(['_trackPageview']);
-    (function() {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-    </script>
-    </head>
-    <body>
-        <div id="content-sans-footer">
-        <div class="navbar navbar-static-top">
-            <div class="navbar-inner">
-                <div class="container">
-                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </a>
-                    <a class="brand" href="./"><span class=site-name>mdlerch</span></a>
-                    <div class="nav-collapse collapse">
-                        <ul class="nav pull-right top-menu">
-                            <li ><a href=".">Home</a></li>
-                            <li ><a href="./pages/about.html">About</a></li>
-                            <li ><a href="./pages/projects.html">Projects</a></li>
-                            <li ><a href="./categories.html">Categories</a></li>
-                            <li ><a href="./tags.html">Tags</a></li>
-                            <li ><a href="./archives.html">Archives</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container-fluid">
-            <div class="row-fluid">
-                <div class="span1"></div>
-                <div class="span10">
-<article>
-<div class="row-fluid">
-    <header class="page_header span10 offset2">
-    <h1><a href="./increment-or-decrement-visual-selection-in-vim.html"> Increment or decrement visual selection in vim  </a></h1>
-    </header>
-</div>
+    <link rel="stylesheet" type="text/css" href="http://mdlerch.com/theme/stylesheet/style.min.css">
 
-<div class="row-fluid">
-        <div class="span8 offset2 article-content">
+  <link rel="stylesheet" type="text/css" href="http://mdlerch.com/theme/pygments/github.min.css">
+  <link rel="stylesheet" type="text/css" href="http://mdlerch.com/theme/font-awesome/css/font-awesome.min.css">
 
-            <p>vim can increment and decrement digits under the cursor with the <code>&lt;C-A&gt;</code>
+
+
+
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="" />
+
+
+<meta name="author" content="Michael Lerch" />
+<meta name="description" content="vim can increment and decrement digits under the cursor with the <C-A> <C-X> bindings, respectively. Go try it out and then come back. Now that you are back, let's extend this functionality to visual selections. First let's learn a command you can find in :help submatch. :s/\d\+/\=submatch(0 …" />
+<meta name="keywords" content="vim">
+<meta property="og:site_name" content="mdlerch"/>
+<meta property="og:title" content="Increment or decrement visual selection in vim"/>
+<meta property="og:description" content="vim can increment and decrement digits under the cursor with the <C-A> <C-X> bindings, respectively. Go try it out and then come back. Now that you are back, let's extend this functionality to visual selections. First let's learn a command you can find in :help submatch. :s/\d\+/\=submatch(0 …"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="http://mdlerch.com/increment-or-decrement-visual-selection-in-vim.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2014-08-25 00:00:00-06:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="http://mdlerch.com/author/michael-lerch.html">
+<meta property="article:section" content="misc"/>
+<meta property="article:tag" content="vim"/>
+<meta property="og:image" content="">
+
+  <title>mdlerch &ndash; Increment or decrement visual selection in vim</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="http://mdlerch.com">
+        <!-- <img src="http://mdlerch.com/theme/img/profile.png" alt="" title=""> -->
+      </a>
+      <h1><a href="http://mdlerch.com"></a></h1>
+
+
+      <nav>
+        <ul class="list">
+          <li><a href="http://mdlerch.com/pages/about.html#about">About</a></li>
+          <li><a href="http://mdlerch.com/pages/projects.html#projects">Projects</a></li>
+          <li><a href="http://mdlerch.com/categories.html">Categories</a></li>
+          <li><a href="http://mdlerch.com/tags.html">Tags</a></li>
+
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-github" href="https://www.github.com/mdlerch" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-twitter" href="http://www.twitter.com/mdlerch" target="_blank"><i class="fa fa-twitter"></i></a></li>
+        <li><a class="sc-linkedin" href="http://www.linkedin.com/in/mdlerch" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+        <li><a class="sc-google" href="http://plus.google.com/115559038551588800365?rel=author" target="_blank"><i class="fa fa-google"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+
+<article class="single">
+  <header>
+    <h1 id="increment-or-decrement-visual-selection-in-vim">Increment or decrement visual selection in vim</h1>
+    <p>
+          Posted on 25 August 2014 in <a href="http://mdlerch.com/category/misc.html">misc</a>
+
+
+    </p>
+  </header>
+
+
+  <div>
+    <p>vim can increment and decrement digits under the cursor with the <code>&lt;C-A&gt;</code>
 <code>&lt;C-X&gt;</code> bindings, respectively.  Go try it out and then come back.</p>
 <p>Now that you are back, let's extend this functionality to visual
 selections.  First let's learn a command you can find in <code>:help submatch</code>.</p>
-<div class="highlight"><pre><span class="p">:</span><span class="k">s</span><span class="sr">/\d\+/</span>\<span class="p">=</span>submatch<span class="p">(</span><span class="m">0</span><span class="p">)+</span><span class="m">1</span>/
+<div class="highlight"><pre><span></span><span class="p">:</span>s<span class="sr">/\d\+/</span>\<span class="p">=</span>submatch<span class="p">(</span><span class="m">0</span><span class="p">)+</span><span class="m">1</span>/
 </pre></div>
 
 
@@ -89,14 +103,14 @@ returns the matched text (ie the <code>\d\+</code>).  The <code>+1</code> adds o
 <p>Of course, this only operates on the first occurrence of <code>\d\+</code> in the current
 line.  We can make this operate on every <code>\d\+</code> on a line with the <code>g</code> flag for
 <code>:s</code></p>
-<div class="highlight"><pre><span class="p">:</span><span class="k">s</span><span class="sr">/\d\+/</span>\<span class="p">=</span>submatch<span class="p">(</span><span class="m">0</span><span class="p">)+</span><span class="m">1</span>/<span class="k">g</span>
+<div class="highlight"><pre><span></span><span class="p">:</span>s<span class="sr">/\d\+/</span>\<span class="p">=</span>submatch<span class="p">(</span><span class="m">0</span><span class="p">)+</span><span class="m">1</span>/<span class="k">g</span>
 </pre></div>
 
 
 <p>Go ahead and give that a try.</p>
 <p>It feels like we are close now.  This won't work quite right, but at this
 point you might be tempted to add this mapping to your vimrc</p>
-<div class="highlight"><pre><span class="nb">vnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">a</span><span class="p">&gt;</span> :<span class="k">s</span><span class="sr">/\d\+/</span>\<span class="p">=</span>submatch<span class="p">(</span><span class="m">0</span><span class="p">)+</span><span class="m">1</span>/<span class="k">g</span>
+<div class="highlight"><pre><span></span><span class="nb">vnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">a</span><span class="p">&gt;</span> :s<span class="sr">/\d\+/</span>\<span class="p">=</span>submatch<span class="p">(</span><span class="m">0</span><span class="p">)+</span><span class="m">1</span>/<span class="k">g</span>
 </pre></div>
 
 
@@ -109,7 +123,7 @@ so if you select only some of the numbers on a line, the numbers on the line
 that are not selected will also be incremented.  We can fix this by adding
 something to the <code>{pattern}</code>.  We want to match not just digits but digits
 that are in the visual selection.  We can do that with <code>\%V</code></p>
-<div class="highlight"><pre><span class="nb">vnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">a</span><span class="p">&gt;</span> :<span class="k">s</span><span class="sr">/\%V\d\+/</span>\<span class="p">=</span>submatch<span class="p">(</span><span class="m">0</span><span class="p">)+</span><span class="m">1</span>/<span class="k">g</span>
+<div class="highlight"><pre><span></span><span class="nb">vnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">a</span><span class="p">&gt;</span> :s<span class="sr">/\%V\d\+/</span>\<span class="p">=</span>submatch<span class="p">(</span><span class="m">0</span><span class="p">)+</span><span class="m">1</span>/<span class="k">g</span>
 </pre></div>
 
 
@@ -122,100 +136,66 @@ the <code>\d\+</code> either 0 or 1 <code>-</code>'s.  To say 0 or 1, we use <co
 the pattern, <code>\=</code> means 0 or 1.  In the replacement string, <code>\=</code> means
 evaluate an expression.</p>
 <p>So here's our final mapping:</p>
-<div class="highlight"><pre><span class="nb">vnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">a</span><span class="p">&gt;</span> :<span class="k">s</span><span class="sr">/\%V-\=\d\+/</span>\<span class="p">=</span>submatch<span class="p">(</span><span class="m">0</span><span class="p">)+</span><span class="m">1</span>/<span class="k">g</span>
+<div class="highlight"><pre><span></span><span class="nb">vnoremap</span> <span class="p">&lt;</span>C<span class="p">-</span><span class="k">a</span><span class="p">&gt;</span> :s<span class="sr">/\%V-\=\d\+/</span>\<span class="p">=</span>submatch<span class="p">(</span><span class="m">0</span><span class="p">)+</span><span class="m">1</span>/<span class="k">g</span>
 </pre></div>
 
 
 <p>To decrement, just subtract 1 instead of adding.  Have you added this mapping
 to your vimrc?  Have you made it better?</p>
-            <aside>
-            <nav>
-            <ul class="articles_timeline">
- 
-                <li class="next_article"><a href="./tutorial-for-pandoc-citations-markdown-to-latex.html" title="Next: Tutorial for pandoc citations: markdown to latex">Tutorial for pandoc citations: markdown to latex</a> »</li>
-            </ul>
-            </nav>
-            </aside>
-<section>
-<div class="accordion" id="accordion2">
-    <div class="accordion-group">
-        <div class="accordion-heading">
-            <a class="accordion-toggle disqus-comment-count" data-toggle="collapse" data-parent="#accordion2" 
-                href="./increment-or-decrement-visual-selection-in-vim.html/#disqus_thread">
-                Comments
-            </a>
-        </div>
-        <div id="disqus_thread" class="accordion-body in">
-            <div class="accordion-inner">
-                <div class="comments">
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="http://mdlerch.com/tag/vim.html">vim</a>
+    </p>
+  </div>
+
+
+
+
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'mdlerch';
-        var disqus_identifier = './increment-or-decrement-visual-selection-in-vim.html';
-    var disqus_url = './increment-or-decrement-visual-selection-in-vim.html';
-
     (function() {
-         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-     })();
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>                </div>
-            </div>
-        </div>
-    </div>
-</div>
-</section>
-        </div>
-        <section>
-        <div class="span2" style="float:right;font-size:0.9em;">
-            <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="mdlerch">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
- 
-            <h4>Published</h4>
-            <time pubdate="pubdate" datetime="2014-08-25T00:00:00">Aug 25, 2014</time>
-            <h4>Category</h4>
-            <a class="category-link" href="/categories.html#misc-ref">misc</a> 
-            <h4>Tags</h4>
-            <ul class="list-of-tags tags-in-article"> 
-                <li><a href="/tags.html#vim-ref">vim
-                    <span>4</span>
-</a></li>
-            </ul>
+<noscript>
+        Please enable JavaScript to view comments.
 
-        </div>
-        </section>
-    </div>
-    </article>
-                </div>
-                <div class="span1"></div>
-            </div>
-        </div>
-    </div>
-<footer>
-<div id="footer">
-    <ul class="footer-content">
-        <li class="elegant-power">Powered by <a href="http://getpelican.com/" title="Pelican Home Page">Pelican</a>. Theme: <a href="http://oncrashreboot.com/pelican-elegant" title="Theme Elegant Home Page">Elegant</a> by <a href="http://oncrashreboot.com" title="Talha Mansoor Home Page">Talha Mansoor</a></li>
-    </ul>
-</div>
-</footer>            <script src="http://code.jquery.com/jquery.min.js"></script>
-        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
-        <script>
-            function validateForm(query)
-            {
-                return (query.length > 0);
-            }
-        </script>
+</noscript>
+</article>
 
+    <footer>
+<p>&copy; Michael Lerch </p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p>    </footer>
+  </main>
+
+<!-- Google Analytics -->
 <script type="text/javascript">
-    var disqus_shortname = 'mdlerch';
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-    (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-    }());
-    </script>
-    </body>
+  ga('create', 'UA-54051300-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " mdlerch ",
+  "url" : "http://mdlerch.com",
+  "image": "",
+  "description": ""
+}
+</script>
+</body>
 </html>
